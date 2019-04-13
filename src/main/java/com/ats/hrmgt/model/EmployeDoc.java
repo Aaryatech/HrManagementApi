@@ -47,7 +47,7 @@ public class EmployeDoc {
 	@Column(name="ex_int2")
 	private int exInt2;
 	
-	@Column(name="ex_int2")
+	@Column(name="ex_int3")
 	private int exInt3;
 	
 	@Column(name="ex_var1")
