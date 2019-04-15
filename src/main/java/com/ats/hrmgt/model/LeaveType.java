@@ -15,7 +15,7 @@ public class LeaveType {
 	@Column(name="lv_type_id")
 	private int lvTypeId ;
 	
-	@Column(name=" 	company_id")
+	@Column(name="company_id")
 	private int companyId ;
 	
 	@Column(name="lv_title")
