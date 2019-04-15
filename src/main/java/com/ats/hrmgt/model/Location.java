@@ -15,6 +15,9 @@ public class Location {
 	@Column(name="loc_id")
 	private int locId;
 	
+	@Column(name="comp_id")
+	private int compId;
+	
 	@Column(name="loc_name")
 	private String locName;
 	
@@ -210,10 +213,18 @@ public class Location {
 		this.exVar3 = exVar3;
 	}
 
+	public int getCompId() {
+		return compId;
+	}
+
+	public void setCompId(int compId) {
+		this.compId = compId;
+	}
+
 	@Override
 	public String toString() {
-		return "Location [locId=" + locId + ", locName=" + locName + ", locNameShort=" + locNameShort
-				+ ", locShortAddress=" + locShortAddress + ", locHrContactPerson=" + locHrContactPerson
+		return "Location [locId=" + locId + ", compId=" + compId + ", locName=" + locName + ", locNameShort="
+				+ locNameShort + ", locShortAddress=" + locShortAddress + ", locHrContactPerson=" + locHrContactPerson
 				+ ", locHrContactNumber=" + locHrContactNumber + ", locHrContactEmail=" + locHrContactEmail
 				+ ", locRemarks=" + locRemarks + ", delStatus=" + delStatus + ", isActive=" + isActive
 				+ ", makerUserId=" + makerUserId + ", makerEnterDatetime=" + makerEnterDatetime + ", exInt1=" + exInt1

@@ -196,14 +196,19 @@ public class MasterRestController {
 
 	}
 	
-	@RequestMapping(value = { "/getLocationList" }, method = RequestMethod.GET)
-	public @ResponseBody List<Location> getLocationList() {
+	@RequestMapping(value = { "/getLocationList" }, method = RequestMethod.POST)
+	public @ResponseBody List<Location> getLocationList(@RequestParam("companyId") int companyId) {
 
 		 
 		List<Location> list = new ArrayList<Location>();
 		try {
 			 
-			list = locationRepository.findByDelStatus(1);
+			if(companyId!=0) {
+				list = locationRepository.findByDelStatusAndCompId(1,companyId);
+			}else {
+				list = locationRepository.findByDelStatus(1);
+			}
+			
   
 
 		} catch (Exception e) {
