@@ -18,7 +18,7 @@ public interface LeaveTypeRepository extends JpaRepository<LeaveType, Integer>{
 	
 	@Transactional
 	@Modifying
-	@Query("update LeaveType set del_status=0  WHERE doctype_id=:doctypeId")
+	@Query("update LeaveType set del_status=0  WHERE lv_type_id=:lvTypeId")
 	int deleteLeaveType(int lvTypeId);
 
 

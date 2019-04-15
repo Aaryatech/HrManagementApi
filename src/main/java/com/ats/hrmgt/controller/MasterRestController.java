@@ -606,7 +606,7 @@ public class MasterRestController {
 		return company;
 
 	}
-	@RequestMapping(value = { "/saveEmpInfo" }, method = RequestMethod.POST)
+	/*@RequestMapping(value = { "/saveEmpInfo" }, method = RequestMethod.POST)
 	public @ResponseBody EmpDocType saveEmpInfo(@RequestBody EmpDocType employeeDepartment) {
 
 		 
@@ -623,7 +623,7 @@ public class MasterRestController {
 
 		return save;
 
-	}
+	}*/
 	
 	@RequestMapping(value = { "/getEmpDocTypeList" }, method = RequestMethod.GET)
 	public @ResponseBody List<EmpDocType> getEmpDocTypeList() {
@@ -730,7 +730,7 @@ public class MasterRestController {
 
 	}
 	
-	@RequestMapping(value = { "/deleteEmpDocType" }, method = RequestMethod.POST)
+	/*@RequestMapping(value = { "/deleteEmpDocType" }, method = RequestMethod.POST)
 	public @ResponseBody Info deleteEmpDoc(@RequestParam("docId") int docId) {
 
 		 
@@ -757,7 +757,7 @@ public class MasterRestController {
 
 		return info;
 
-	}
+	}*/
 	
 	@RequestMapping(value = { "/getEmpDocById" }, method = RequestMethod.POST)
 	public @ResponseBody EmployeDoc getEmpDocById(@RequestParam("docId") int docId) {
@@ -1140,7 +1140,7 @@ public class MasterRestController {
 
 	}
 	
-	@RequestMapping(value = { "/getLeaveApplyList" }, method = RequestMethod.GET)
+	/*@RequestMapping(value = { "/getLeaveApplyList" }, method = RequestMethod.GET)
 	public @ResponseBody List<LeavesAllotment> getLeaveAllotmentList() {
 
 		 
@@ -1157,9 +1157,9 @@ public class MasterRestController {
 
 		return list;
 
-	}
+	}*/
 	
-	@RequestMapping(value = { "/deleteLeaveApply" }, method = RequestMethod.POST)
+	/*@RequestMapping(value = { "/deleteLeaveApply" }, method = RequestMethod.POST)
 	public @ResponseBody Info deleteLeaveAllotment(@RequestParam("lvsaPkey") int lvsaPkey) {
 
 		 
@@ -1186,7 +1186,7 @@ public class MasterRestController {
 
 		return info;
 
-	}
+	}*/
 	
 	@RequestMapping(value = { "getLeaveAllotmentById" }, method = RequestMethod.POST)
 	public @ResponseBody LeavesAllotment getLeaveAllotmentById(@RequestParam("lvsaPkey") int lvsaPkey) {
