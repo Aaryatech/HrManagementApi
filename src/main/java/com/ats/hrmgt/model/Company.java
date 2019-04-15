@@ -23,7 +23,7 @@ public class Company {
 	private String companyLogo;
 	
 	@Column(name="company_remarks")
-	private int companyRemarks;
+	private String companyRemarks;
 	
 	@Column(name="del_status")
 	private int delStatus;
@@ -77,13 +77,12 @@ public class Company {
 
 	public void setCompanyLogo(String companyLogo) {
 		this.companyLogo = companyLogo;
-	}
-
-	public int getCompanyRemarks() {
+	} 
+	public String getCompanyRemarks() {
 		return companyRemarks;
 	}
 
-	public void setCompanyRemarks(int companyRemarks) {
+	public void setCompanyRemarks(String companyRemarks) {
 		this.companyRemarks = companyRemarks;
 	}
 

@@ -9,17 +9,18 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.ats.hrmgt.model.Company;
+import com.ats.hrmgt.model.Location;
 
-public interface CompanyRepository extends JpaRepository<Company, Integer>{
+public interface LocationRepository extends JpaRepository<Location, Integer>{
 
-	List<Company> findByDelStatus(int i);
+	List<Location> findByDelStatus(int i);
 
 	@Transactional
 	@Modifying
-	@Query("update Company set del_status=0  WHERE company_id=:compId")
-	int deleteCompany(@Param("compId") int compId);
+	@Query("update Location set del_status=0  WHERE loc_id=:locId")
+	int deleteLocation(@Param("locId") int locId);
 
-	Company findByCompanyIdAndDelStatus(int i, int j);
+	Location findByLocIdAndDelStatus(int locId, int i);
+ 
 
 }
