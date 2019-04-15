@@ -13,8 +13,8 @@ import com.ats.hrmgt.model.Company;
 
 public interface CompanyRepository extends JpaRepository<Company, Integer>{
 
-	List<Company> findByDelStatus(int i);
-
+	List<Company> findByDelStatusOrderByCompanyIdDesc(int i);
+	 
 	@Transactional
 	@Modifying
 	@Query("update Company set del_status=0  WHERE company_id=:compId")
