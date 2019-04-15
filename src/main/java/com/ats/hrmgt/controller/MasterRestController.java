@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.hrmgt.model.CalculateYear;
 import com.ats.hrmgt.model.Company;
 import com.ats.hrmgt.model.EmpDocType;
 import com.ats.hrmgt.model.EmpType;
@@ -26,6 +27,7 @@ import com.ats.hrmgt.model.LeaveTrail;
 import com.ats.hrmgt.model.LeaveType;
 import com.ats.hrmgt.model.LeavesAllotment;
 import com.ats.hrmgt.model.Location;
+import com.ats.hrmgt.repository.CalculateYearRepository;
 import com.ats.hrmgt.repository.CompanyRepository;
 import com.ats.hrmgt.repository.EmpTypeRepository;
 import com.ats.hrmgt.repository.EmployeeCategoryRepository;
@@ -85,6 +87,9 @@ public class MasterRestController {
 	
 	@Autowired
 	LeaveAuthorityRepository leaveAuthorityRepository;
+	
+	@Autowired
+	CalculateYearRepository calculateYearRepository;
 	
 	@RequestMapping(value = { "/saveCompany" }, method = RequestMethod.POST)
 	public @ResponseBody Company saveLoginLogs(@RequestBody Company company) {
@@ -1277,6 +1282,92 @@ public class MasterRestController {
 		try {
 			 
 			leaveAuthority = leaveAuthorityRepository.findByLaPkeyAndDelStatus(laPkey,1);
+  
+
+		} catch (Exception e) {
+ 
+			e.printStackTrace();
+		}
+
+		return leaveAuthority;
+
+	}
+	
+	@RequestMapping(value = { "/saveCalculateYear" }, method = RequestMethod.POST)
+	public @ResponseBody CalculateYear saveCalculateYear(@RequestBody CalculateYear leavesAllotment) {
+
+		 
+		CalculateYear save = new CalculateYear();
+		try {
+			 
+			save = calculateYearRepository.saveAndFlush(leavesAllotment);
+  
+
+		} catch (Exception e) {
+ 
+			e.printStackTrace();
+		}
+
+		return save;
+
+	}
+	
+	@RequestMapping(value = { "/getCalculateYearList" }, method = RequestMethod.GET)
+	public @ResponseBody List<CalculateYear> getCalculateYearList() {
+
+		 
+		List<CalculateYear> list = new ArrayList<CalculateYear>();
+		try {
+			 
+			list = calculateYearRepository.findAll();
+  
+
+		} catch (Exception e) {
+ 
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
+	
+	@RequestMapping(value = { "/deleteCalculateYear" }, method = RequestMethod.POST)
+	public @ResponseBody Info deleteCalculateYear(@RequestParam("calYrId") int calYrId) {
+
+		 
+		Info info = new Info();
+		
+		try {
+			 
+			int delete = calculateYearRepository.deleteCalculateYear(calYrId);
+  
+			if(delete>0) {
+				info.setError(false); 
+				info.setMsg("deleted");
+			}else {
+				info.setError(true); 
+				info.setMsg("failed");
+			}
+
+		} catch (Exception e) {
+ 
+			e.printStackTrace();
+			info.setError(true); 
+			info.setMsg("failed");
+		}
+
+		return info;
+
+	}
+	
+	@RequestMapping(value = { "geCalculateYearById" }, method = RequestMethod.POST)
+	public @ResponseBody CalculateYear getCalculateYearById(@RequestParam("calYrId") int calYrId) {
+
+		 
+		CalculateYear leaveAuthority = new CalculateYear();
+		try {
+			 
+			leaveAuthority = calculateYearRepository.findByCalYrId(calYrId);
   
 
 		} catch (Exception e) {
