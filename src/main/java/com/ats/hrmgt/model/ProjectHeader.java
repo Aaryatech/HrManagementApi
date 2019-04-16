@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "project_id")
+@Table(name = "project_header")
 public class ProjectHeader {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)	
@@ -48,7 +48,7 @@ public class ProjectHeader {
 	@Column(name="project_act_startdt")
 	private String projectActStartdt ;
 	
-	@Column(name="project_est_enddt")
+	@Column(name="project_act_enddt")
 	private String projectActenddt ;
 	
 	@Column(name="project_status")

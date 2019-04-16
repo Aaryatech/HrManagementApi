@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.ats.hrmgt.model.Info;
 import com.ats.hrmgt.model.Location;
 
 public interface LocationRepository extends JpaRepository<Location, Integer>{
@@ -23,6 +24,10 @@ public interface LocationRepository extends JpaRepository<Location, Integer>{
 	Location findByLocIdAndDelStatus(int locId, int i);
 
 	List<Location> findByDelStatusAndCompId(int i, int companyId);
- 
+
+	Location findByLocHrContactEmailAndDelStatus(String email, int i);
+
+	
+	Location findByLocHrContactNumberAndDelStatus(String mobileNo, int i);	
 
 }
