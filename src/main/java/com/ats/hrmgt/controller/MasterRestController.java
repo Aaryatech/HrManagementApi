@@ -117,7 +117,7 @@ public class MasterRestController {
 		List<Company> list = new ArrayList<Company>();
 		try {
 			 
-			list = companyRepository.findByDelStatus(1);
+			list = companyRepository.findByDelStatusOrderByCompanyIdDesc(1);
   
 
 		} catch (Exception e) {
@@ -196,14 +196,19 @@ public class MasterRestController {
 
 	}
 	
-	@RequestMapping(value = { "/getLocationList" }, method = RequestMethod.GET)
-	public @ResponseBody List<Location> getLocationList() {
+	@RequestMapping(value = { "/getLocationList" }, method = RequestMethod.POST)
+	public @ResponseBody List<Location> getLocationList(@RequestParam("companyId") int companyId) {
 
 		 
 		List<Location> list = new ArrayList<Location>();
 		try {
 			 
-			list = locationRepository.findByDelStatus(1);
+			if(companyId!=0) {
+				list = locationRepository.findByDelStatusAndCompId(1,companyId);
+			}else {
+				list = locationRepository.findByDelStatus(1);
+			}
+			
   
 
 		} catch (Exception e) {
@@ -272,25 +277,39 @@ public class MasterRestController {
 		try {
 			 
 			save = empTypeRepository.saveAndFlush(empType);
-  
+
+			if(save==null) {
+				
+				save = new EmpType();
+				save.setError(true);
+				
+			}else {
+				save.setError(false);
+			}
 
 		} catch (Exception e) {
  
 			e.printStackTrace();
+			save.setError(true);
 		}
 
 		return save;
 
 	}
 	
-	@RequestMapping(value = { "/getEmpTypeList" }, method = RequestMethod.GET)
-	public @ResponseBody List<EmpType> getEmpTypeList() {
+	@RequestMapping(value = { "/getEmpTypeList" }, method = RequestMethod.POST)
+	public @ResponseBody List<EmpType> getEmpTypeList(@RequestParam("compId") int compId) {
 
 		 
 		List<EmpType> list = new ArrayList<EmpType>();
 		try {
 			 
-			list = empTypeRepository.findByDelStatus(1);
+			if(compId!=0) {
+				list = empTypeRepository.findByDelStatusAndCompanyId(1,compId);
+			}else {
+				list = empTypeRepository.findByDelStatus(1);
+			}
+			
   
 
 		} catch (Exception e) {
@@ -332,10 +351,10 @@ public class MasterRestController {
 	}
 	
 	@RequestMapping(value = { "/getEmpTypeById" }, method = RequestMethod.POST)
-	public @ResponseBody Location getEmpTypeById(@RequestParam("empTypeId") int empTypeId) {
+	public @ResponseBody EmpType getEmpTypeById(@RequestParam("empTypeId") int empTypeId) {
 
 		 
-		Location location = new Location();
+		EmpType location = new EmpType();
 		try {
 			 
 			location = empTypeRepository.findByEmpTypeIdAndDelStatus(empTypeId,1);

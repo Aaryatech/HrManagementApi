@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "m_emp_type")
@@ -68,6 +69,9 @@ public class EmpType {
 	
 	@Column(name="ex_var3")
 	private String exVar3;
+	
+	@Transient
+	private boolean isError; 
 
 	public int getEmpTypeId() {
 		return empTypeId;
@@ -221,6 +225,16 @@ public class EmpType {
 		this.exVar3 = exVar3;
 	}
 
+	 
+
+	public boolean isError() {
+		return isError;
+	}
+
+	public void setError(boolean isError) {
+		this.isError = isError;
+	}
+
 	@Override
 	public String toString() {
 		return "EmpType [empTypeId=" + empTypeId + ", companyId=" + companyId + ", empTypeName=" + empTypeName
@@ -229,7 +243,7 @@ public class EmpType {
 				+ ", empTypeAccess=" + empTypeAccess + ", delStatus=" + delStatus + ", isActive=" + isActive
 				+ ", makerUserId=" + makerUserId + ", makerEnterDatetime=" + makerEnterDatetime + ", exInt1=" + exInt1
 				+ ", exInt2=" + exInt2 + ", exInt3=" + exInt3 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2
-				+ ", exVar3=" + exVar3 + "]";
+				+ ", exVar3=" + exVar3 + ", isError=" + isError + "]";
 	}
 	
 	

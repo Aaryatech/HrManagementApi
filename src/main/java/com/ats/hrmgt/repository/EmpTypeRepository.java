@@ -22,6 +22,8 @@ public interface EmpTypeRepository extends JpaRepository<EmpType, Integer>{
 	@Query("update EmpType set del_status=0  WHERE emp_type_id=:empTypeId")
 	int deleteEmpType(@Param("empTypeId") int empTypeId);
 
-	Location findByEmpTypeIdAndDelStatus(int empTypeId, int i);
+	EmpType findByEmpTypeIdAndDelStatus(int empTypeId, int i);
+
+	List<EmpType> findByDelStatusAndCompanyId(int i, int compId);
 
 }

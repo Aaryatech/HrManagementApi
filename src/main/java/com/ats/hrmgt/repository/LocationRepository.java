@@ -21,6 +21,8 @@ public interface LocationRepository extends JpaRepository<Location, Integer>{
 	int deleteLocation(@Param("locId") int locId);
 
 	Location findByLocIdAndDelStatus(int locId, int i);
+
+	List<Location> findByDelStatusAndCompId(int i, int companyId);
  
 
 }
