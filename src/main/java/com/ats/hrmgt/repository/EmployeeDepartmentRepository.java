@@ -22,4 +22,6 @@ public interface EmployeeDepartmentRepository extends JpaRepository<EmployeeDepa
 
 	EmployeeDepartment findByEmpDeptIdAndDelStatus(int empDeptId, int i);
 
+	List<EmployeeDepartment> findByDelStatusAndCompanyId(int i, int compId);
+
 }

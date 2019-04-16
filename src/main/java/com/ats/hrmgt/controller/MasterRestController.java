@@ -388,7 +388,8 @@ public class MasterRestController {
   
 
 		} catch (Exception e) {
- 
+			save = new EmployeeCategory();
+			save.setError(true);
 			e.printStackTrace();
 		}
 
@@ -480,6 +481,13 @@ public class MasterRestController {
 		try {
 			 
 			save = employeeDepartmentRepository.saveAndFlush(employeeDepartment);
+			
+			if(save!=null) {
+				save.setError(false);
+			}else {
+				save = new EmployeeDepartment();
+				save.setError(true);
+			}
   
 
 		} catch (Exception e) {
@@ -491,14 +499,18 @@ public class MasterRestController {
 
 	}
 	
-	@RequestMapping(value = { "/getEmpDeptList" }, method = RequestMethod.GET)
-	public @ResponseBody List<EmployeeDepartment> getEmpDeptList() {
+	@RequestMapping(value = { "/getEmpDeptList" }, method = RequestMethod.POST)
+	public @ResponseBody List<EmployeeDepartment> getEmpDeptList(@RequestParam("compId") int compId) {
 
 		 
 		List<EmployeeDepartment> list = new ArrayList<EmployeeDepartment>();
 		try {
-			 
-			list = employeeDepartmentRepository.findByDelStatus(1);
+			 if(compId!=0) {
+				 list = employeeDepartmentRepository.findByDelStatusAndCompanyId(1,compId);
+			 }else {
+				 list = employeeDepartmentRepository.findByDelStatus(1);
+			 }
+			
   
 
 		} catch (Exception e) {
