@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "leave_summary")
@@ -20,10 +21,10 @@ public class LeaveSummary {
 	private int companyId;
 	
 	@Column(name="lv_sumup_title")
-	private int lvSumupTitle;
+	private String lvSumupTitle;
 	
 	@Column(name="lv_sumup_title_short")
-	private int lvSumupTitleShort;
+	private String lvSumupTitleShort;
 		
 	@Column(name="del_status")
 	private int delStatus;
@@ -54,6 +55,9 @@ public class LeaveSummary {
 	
 	@Column(name="ex_var3")
 	private String exVar3;
+	
+	@Transient
+	private boolean isError;
 
 	public int getLvSumupId() {
 		return lvSumupId;
@@ -71,19 +75,20 @@ public class LeaveSummary {
 		this.companyId = companyId;
 	}
 
-	public int getLvSumupTitle() {
+	
+	public String getLvSumupTitle() {
 		return lvSumupTitle;
 	}
 
-	public void setLvSumupTitle(int lvSumupTitle) {
+	public void setLvSumupTitle(String lvSumupTitle) {
 		this.lvSumupTitle = lvSumupTitle;
 	}
 
-	public int getLvSumupTitleShort() {
+	public String getLvSumupTitleShort() {
 		return lvSumupTitleShort;
 	}
 
-	public void setLvSumupTitleShort(int lvSumupTitleShort) {
+	public void setLvSumupTitleShort(String lvSumupTitleShort) {
 		this.lvSumupTitleShort = lvSumupTitleShort;
 	}
 
@@ -167,14 +172,22 @@ public class LeaveSummary {
 		this.exVar3 = exVar3;
 	}
 
+	public boolean isError() {
+		return isError;
+	}
+
+	public void setError(boolean isError) {
+		this.isError = isError;
+	}
+
 	@Override
 	public String toString() {
 		return "LeaveSummary [lvSumupId=" + lvSumupId + ", companyId=" + companyId + ", lvSumupTitle=" + lvSumupTitle
 				+ ", lvSumupTitleShort=" + lvSumupTitleShort + ", delStatus=" + delStatus + ", isActive=" + isActive
 				+ ", makerUserId=" + makerUserId + ", makerEnterDatetime=" + makerEnterDatetime + ", exInt1=" + exInt1
 				+ ", exInt2=" + exInt2 + ", exInt3=" + exInt3 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2
-				+ ", exVar3=" + exVar3 + "]";
+				+ ", exVar3=" + exVar3 + ", isError=" + isError + "]";
 	}
-	
+
 	
 }
