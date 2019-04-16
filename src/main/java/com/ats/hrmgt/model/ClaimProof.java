@@ -15,7 +15,7 @@ public class ClaimProof {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="cp_id")
 	private int cpId;
-	
+	  
 	@Column(name="claim_id")
 	private int claimId;
 	
