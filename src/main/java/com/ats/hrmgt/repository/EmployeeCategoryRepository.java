@@ -22,4 +22,6 @@ public interface EmployeeCategoryRepository extends JpaRepository<EmployeeCatego
 
 	EmployeeCategory findByEmpCatIdAndDelStatus(int empCatId, int i);
 
+	List<EmployeeCategory> findByDelStatusAndCompanyId(int i, int compId);
+
 }
