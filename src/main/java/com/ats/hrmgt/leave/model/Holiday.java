@@ -1,4 +1,4 @@
-package com.ats.hrmgt.model;
+package com.ats.hrmgt.leave.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "m_holiday")
@@ -62,6 +63,9 @@ public class Holiday {
 	
 	@Column(name="ex_var3")
 	private String exVar3;
+	
+	@Transient
+	private boolean isError;
 
 	public int getHolidayId() {
 		return holidayId;
@@ -198,6 +202,16 @@ public class Holiday {
 	public void setExVar3(String exVar3) {
 		this.exVar3 = exVar3;
 	}
+	
+	
+
+	public boolean isError() {
+		return isError;
+	}
+
+	public void setError(boolean isError) {
+		this.isError = isError;
+	}
 
 	@Override
 	public String toString() {
@@ -205,7 +219,8 @@ public class Holiday {
 				+ locId + ", holidayFromdt=" + holidayFromdt + ", holidayTodt=" + holidayTodt + ", holidayRemark="
 				+ holidayRemark + ", delStatus=" + delStatus + ", isActive=" + isActive + ", makerUserId=" + makerUserId
 				+ ", makerEnterDatetime=" + makerEnterDatetime + ", exInt1=" + exInt1 + ", exInt2=" + exInt2
-				+ ", exInt3=" + exInt3 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", exVar3=" + exVar3 + "]";
+				+ ", exInt3=" + exInt3 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", exVar3=" + exVar3
+				+ ", isError=" + isError + "]";
 	}
 	
 	
