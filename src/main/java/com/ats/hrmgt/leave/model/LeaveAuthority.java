@@ -1,4 +1,4 @@
-package com.ats.hrmgt.model;
+package com.ats.hrmgt.leave.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

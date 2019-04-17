@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.hrmgt.common.DateConvertor;
+import com.ats.hrmgt.leave.model.LeaveAuthority;
 import com.ats.hrmgt.model.CalenderYear;
 import com.ats.hrmgt.model.Company;
 import com.ats.hrmgt.model.EmpDocType;
@@ -23,7 +24,6 @@ import com.ats.hrmgt.model.EmployeeDepartment;
 import com.ats.hrmgt.model.EmployeeInfo;
 import com.ats.hrmgt.model.Info;
 import com.ats.hrmgt.model.LeaveApply;
-import com.ats.hrmgt.model.LeaveAuthority;
 import com.ats.hrmgt.model.LeaveStructure;
 import com.ats.hrmgt.model.LeaveTrail;
 import com.ats.hrmgt.model.LeaveType;

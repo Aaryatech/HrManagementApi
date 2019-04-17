@@ -9,9 +9,9 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.ats.hrmgt.model.LeaveAuthority;
+import com.ats.hrmgt.leave.model.LeaveAuthority;
 
-public interface LeaveAuthorityRepository extends JpaRepository<LeaveAuthority, Integer>{
+public interface LeaveAuthorityRepository extends JpaRepository<LeaveAuthority, Integer> {
 
 	List<LeaveAuthority> findByDelStatus(int i);
 

@@ -18,6 +18,7 @@ import com.ats.hrmgt.leave.model.Holiday;
 import com.ats.hrmgt.leave.repo.GetHolidayRepo;
 import com.ats.hrmgt.leave.repo.HolidayRepo;
 import com.ats.hrmgt.model.Company;
+import com.ats.hrmgt.model.Info;
 
 @RestController
 public class LeaveHolidayApiCon {
@@ -90,5 +91,34 @@ public class LeaveHolidayApiCon {
 		return holiday;
 
 	}
+	
+	@RequestMapping(value = { "/deleteHoliday" }, method = RequestMethod.POST)
+	public @ResponseBody Info deleteHoliday(@RequestParam("holidayId") int holidayId) {
+
+		Info info = new Info();
+
+		try {
+
+			int delete = holidayRepo.deleteHoliday(holidayId);
+
+			if (delete > 0) {
+				info.setError(false);
+				info.setMsg("deleted");
+			} else {
+				info.setError(true);
+				info.setMsg("failed");
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			info.setError(true);
+			info.setMsg("failed");
+		}
+
+		return info;
+
+	}
+
 
 }
