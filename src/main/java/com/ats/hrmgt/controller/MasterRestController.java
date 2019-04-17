@@ -88,9 +88,6 @@ public class MasterRestController {
 	LeaveAllotmentRepository leaveAllotmentRepository;
 
 	@Autowired
-	LeaveAuthorityRepository leaveAuthorityRepository;
-
-	@Autowired
 	CalculateYearRepository calculateYearRepository;
 
 	@RequestMapping(value = { "/checkUniqueField" }, method = RequestMethod.POST)
@@ -1190,85 +1187,6 @@ public class MasterRestController {
 		}
 
 		return leavesAllotment;
-
-	}
-
-	@RequestMapping(value = { "/saveLeaveAuthority" }, method = RequestMethod.POST)
-	public @ResponseBody LeaveAuthority saveLeaveAuthority(@RequestBody LeaveAuthority leavesAllotment) {
-
-		LeaveAuthority save = new LeaveAuthority();
-		try {
-
-			save = leaveAuthorityRepository.saveAndFlush(leavesAllotment);
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-		}
-
-		return save;
-
-	}
-
-	@RequestMapping(value = { "/getLeaveAuthorityList" }, method = RequestMethod.GET)
-	public @ResponseBody List<LeaveAuthority> getLeaveAuthorityList() {
-
-		List<LeaveAuthority> list = new ArrayList<LeaveAuthority>();
-		try {
-
-			list = leaveAuthorityRepository.findByDelStatus(1);
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-		}
-
-		return list;
-
-	}
-
-	@RequestMapping(value = { "/deleteLeaveAuthority" }, method = RequestMethod.POST)
-	public @ResponseBody Info deleteLeaveAuthority(@RequestParam("laPkey") int laPkey) {
-
-		Info info = new Info();
-
-		try {
-
-			int delete = leaveAuthorityRepository.deleteLeaveAuthority(laPkey);
-
-			if (delete > 0) {
-				info.setError(false);
-				info.setMsg("deleted");
-			} else {
-				info.setError(true);
-				info.setMsg("failed");
-			}
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-			info.setError(true);
-			info.setMsg("failed");
-		}
-
-		return info;
-
-	}
-
-	@RequestMapping(value = { "getLeaveAuthorityById" }, method = RequestMethod.POST)
-	public @ResponseBody LeaveAuthority getLeaveAuthorityById(@RequestParam("laPkey") int laPkey) {
-
-		LeaveAuthority leaveAuthority = new LeaveAuthority();
-		try {
-
-			leaveAuthority = leaveAuthorityRepository.findByLaPkeyAndDelStatus(laPkey, 1);
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-		}
-
-		return leaveAuthority;
 
 	}
 
