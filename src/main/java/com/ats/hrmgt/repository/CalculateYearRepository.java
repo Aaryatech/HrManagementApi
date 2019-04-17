@@ -8,16 +8,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
-import com.ats.hrmgt.model.CalculateYear;
+import com.ats.hrmgt.model.CalenderYear;
 
-public interface CalculateYearRepository  extends JpaRepository<CalculateYear, Integer>{
+public interface CalculateYearRepository extends JpaRepository<CalenderYear, Integer> {
 
-	
-	@Transactional
-	@Modifying
-	@Query("update CalculateYear set del_status=0  WHERE cal_yr_id=:calYrId")
-	int deleteCalculateYear(int calYrId);
+	CalenderYear findByCalYrId(int calYrId);
 
-	CalculateYear findByCalYrId(int calYrId);
+	List<CalenderYear> findByIsCurrent(int i);
 
 }

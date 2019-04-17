@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 @Entity
 @Table(name = "dm_cal_year")
-public class CalculateYear {
+public class CalenderYear {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="cal_yr_id")

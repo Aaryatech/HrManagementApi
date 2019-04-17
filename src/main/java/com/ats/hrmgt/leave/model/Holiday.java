@@ -222,6 +222,7 @@ public class Holiday {
 				+ ", exInt3=" + exInt3 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", exVar3=" + exVar3
 				+ ", isError=" + isError + "]";
 	}
-	
+
+	 
 	
 }

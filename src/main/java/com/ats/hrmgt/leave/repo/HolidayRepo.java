@@ -6,4 +6,6 @@ import com.ats.hrmgt.leave.model.Holiday;
 
 public interface HolidayRepo extends JpaRepository<Holiday, Integer> {
 
+	Holiday findByHolidayIdAndDelStatus(int holidayId, int i);
+
 }
