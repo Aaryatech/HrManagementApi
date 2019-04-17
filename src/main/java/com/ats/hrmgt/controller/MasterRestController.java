@@ -845,7 +845,7 @@ public class MasterRestController {
 
 	}
 	
-	@RequestMapping(value = { "/getLeaveTypeList" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/getLeaveTypeList" }, method = RequestMethod.POST)
 	public @ResponseBody List<LeaveType> getLeaveTypeList() {
 
 		 
