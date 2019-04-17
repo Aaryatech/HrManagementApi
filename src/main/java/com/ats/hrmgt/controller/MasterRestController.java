@@ -1,6 +1,7 @@
 package com.ats.hrmgt.controller;
  
 import java.util.ArrayList; 
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,8 +42,9 @@ import com.ats.hrmgt.repository.LeaveAuthorityRepository;
 import com.ats.hrmgt.repository.LeaveStructureRepository;
 import com.ats.hrmgt.repository.LeaveTrailRepository;
 import com.ats.hrmgt.repository.LeaveTypeRepository;
-import com.ats.hrmgt.repository.LocationRepository; 
- 
+import com.ats.hrmgt.repository.LocationRepository;
+
+
 @RestController
 public class MasterRestController {
 	
@@ -90,6 +92,51 @@ public class MasterRestController {
 	
 	@Autowired
 	CalculateYearRepository calculateYearRepository;
+	
+	
+	
+	@RequestMapping(value = { "/checkUniqueField" }, method = RequestMethod.POST)
+	public @ResponseBody Info checkUniqueField(@RequestParam String inputValue,@RequestParam int valueType) 
+		{
+
+		Info info = new Info();
+	
+		
+			List<EmployeeInfo> empList = new ArrayList<>();
+
+			if (valueType == 1) {
+				System.err.println("Its Contact No check");
+			
+					System.err.println("Its New Record Insert ");
+					empList = employeeInfoRepository.findByEmpMobile1AndDelStatusAndIsActive(inputValue.trim(), 1, 1);
+				
+
+			} else if (valueType == 2) {
+				System.err.println("Its Email check");
+				
+					System.err.println("Its New Record Insert ");
+					empList = employeeInfoRepository.findByEmpEmailAndDelStatusAndIsActive(inputValue.trim(), 1, 1);
+				
+
+			}
+
+			if (empList.size() > 0) {
+				info.setError(true);
+				info.setMsg("duplicate");
+			} else {
+				info.setError(false);
+				info.setMsg("unique");
+			}
+
+		
+
+		
+		
+
+		return info;
+
+	}
+
 	
 	@RequestMapping(value = { "/saveCompany" }, method = RequestMethod.POST)
 	public @ResponseBody Company saveLoginLogs(@RequestBody Company company) {
@@ -1426,4 +1473,8 @@ public class MasterRestController {
 		return leaveAuthority;
 
 	}
+	
+
+	
+	
 }

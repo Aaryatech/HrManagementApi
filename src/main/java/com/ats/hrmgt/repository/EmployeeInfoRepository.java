@@ -23,4 +23,8 @@ public interface EmployeeInfoRepository extends JpaRepository<EmployeeInfo, Inte
 
 	EmployeeInfo findByEmpIdAndDelStatus(int empId, int i);
 
+	List<EmployeeInfo> findByEmpMobile1AndDelStatusAndIsActive(String empMobile, int delStatus, int isActive);
+
+	List<EmployeeInfo> findByEmpEmailAndDelStatusAndIsActive(String empEmail, int delStatus, int isActive);
+
 }
