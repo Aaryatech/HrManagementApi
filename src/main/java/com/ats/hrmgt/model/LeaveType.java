@@ -37,7 +37,7 @@ public class LeaveType {
 	private int isStructured;
 	
 	@Column(name="lv_remarks")
-	private int lvRmarks;
+	private String lvRmarks;
 	
 	@Column(name="del_status")
 	private int delStatus;
@@ -135,11 +135,12 @@ public class LeaveType {
 		this.isStructured = isStructured;
 	}
 
-	public int getLvRmarks() {
+	
+	public String getLvRmarks() {
 		return lvRmarks;
 	}
 
-	public void setLvRmarks(int lvRmarks) {
+	public void setLvRmarks(String lvRmarks) {
 		this.lvRmarks = lvRmarks;
 	}
 
@@ -222,6 +223,10 @@ public class LeaveType {
 	public void setExVar3(String exVar3) {
 		this.exVar3 = exVar3;
 	}
+	
+	
+	
+	
 
 	@Override
 	public String toString() {
