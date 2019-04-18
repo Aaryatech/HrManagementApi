@@ -58,10 +58,10 @@ public class MasterRestController {
 
 	@Autowired
 	LocationRepository locationRepository;
-	
+
 	@Autowired
 	UserRepo userRepo;
-	
+
 	@Autowired
 	EmpTypeRepository empTypeRepository;
 
@@ -97,10 +97,9 @@ public class MasterRestController {
 
 	@Autowired
 	CalculateYearRepository calculateYearRepository;
-	
+
 	@Autowired
 	GetEmpInfoRepo getEmpInfo;
-
 
 	@RequestMapping(value = { "/checkUniqueField" }, method = RequestMethod.POST)
 	public @ResponseBody Info checkUniqueField(@RequestParam String inputValue, @RequestParam int valueType) {
@@ -592,7 +591,6 @@ public class MasterRestController {
 
 	}
 
-	
 	@RequestMapping(value = { "/saveUserInfo" }, method = RequestMethod.POST)
 	public @ResponseBody User saveUserInfo(@RequestBody User userInfo) {
 
@@ -626,7 +624,7 @@ public class MasterRestController {
 	 * 
 	 * }
 	 */
-	
+
 	@RequestMapping(value = { "/getEmpInfoList" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetEmployeeInfo> getEmployeeInfo(@RequestParam("companyId") int companyId,
 			@RequestParam("locIdList") List<Integer> locIdList) {
@@ -644,7 +642,6 @@ public class MasterRestController {
 		return list;
 
 	}
-
 
 	@RequestMapping(value = { "/deleteEmpInfo" }, method = RequestMethod.POST)
 	public @ResponseBody Info deleteEmpInfo(@RequestParam("empId") int empId) {
@@ -880,7 +877,7 @@ public class MasterRestController {
 
 	}
 
-	@RequestMapping(value = { "/getLeaveTypeListIsStructure" }, method = RequestMethod.POST)
+	@RequestMapping(value = { "/getLeaveTypeListIsStructure" }, method = RequestMethod.GET)
 	public @ResponseBody List<LeaveType> getLeaveTypeListIsStructure() {
 
 		List<LeaveType> list = new ArrayList<LeaveType>();
@@ -973,34 +970,6 @@ public class MasterRestController {
 		}
 
 		return list;
-
-	}
-
-	@RequestMapping(value = { "/deleteLeaveStructure" }, method = RequestMethod.POST)
-	public @ResponseBody Info deleteLeaveStructure(@RequestParam("lvsPkey") int lvsPkey) {
-
-		Info info = new Info();
-
-		try {
-
-			int delete = leaveStructureRepository.deleteLeaveStructure(lvsPkey);
-
-			if (delete > 0) {
-				info.setError(false);
-				info.setMsg("deleted");
-			} else {
-				info.setError(true);
-				info.setMsg("failed");
-			}
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-			info.setError(true);
-			info.setMsg("failed");
-		}
-
-		return info;
 
 	}
 

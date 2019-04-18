@@ -34,8 +34,8 @@ public class LeaveStructureHeader {
 	@Column(name = "maker_user_id ")
 	private int makerUserId;
 
-	@Column(name = "maker_enter_datetime")
-	private String makerEnterDatetime;
+	@Column(name = "maker_datetime")
+	private String makerDatetime;
 
 	@Column(name = "ex_int1")
 	private int exInt1;
@@ -51,6 +51,9 @@ public class LeaveStructureHeader {
 
 	@Transient
 	List<LeaveStructureDetails> detailList;
+
+	@Transient
+	private boolean isError;
 
 	public int getLvsId() {
 		return lvsId;
@@ -100,12 +103,12 @@ public class LeaveStructureHeader {
 		this.makerUserId = makerUserId;
 	}
 
-	public String getMakerEnterDatetime() {
-		return makerEnterDatetime;
+	public String getMakerDatetime() {
+		return makerDatetime;
 	}
 
-	public void setMakerEnterDatetime(String makerEnterDatetime) {
-		this.makerEnterDatetime = makerEnterDatetime;
+	public void setMakerDatetime(String makerDatetime) {
+		this.makerDatetime = makerDatetime;
 	}
 
 	public int getExInt1() {
@@ -148,12 +151,20 @@ public class LeaveStructureHeader {
 		this.detailList = detailList;
 	}
 
+	public boolean isError() {
+		return isError;
+	}
+
+	public void setError(boolean isError) {
+		this.isError = isError;
+	}
+
 	@Override
 	public String toString() {
 		return "LeaveStructureHeader [lvsId=" + lvsId + ", companyId=" + companyId + ", lvsName=" + lvsName
 				+ ", delStatus=" + delStatus + ", isActive=" + isActive + ", makerUserId=" + makerUserId
-				+ ", makerEnterDatetime=" + makerEnterDatetime + ", exInt1=" + exInt1 + ", exInt2=" + exInt2
-				+ ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", detailList=" + detailList + "]";
+				+ ", makerDatetime=" + makerDatetime + ", exInt1=" + exInt1 + ", exInt2=" + exInt2 + ", exVar1="
+				+ exVar1 + ", exVar2=" + exVar2 + ", detailList=" + detailList + "]";
 	}
 
 }

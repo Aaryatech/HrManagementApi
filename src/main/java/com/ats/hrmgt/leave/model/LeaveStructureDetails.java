@@ -33,8 +33,8 @@ public class LeaveStructureDetails {
 	@Column(name = "maker_user_id ")
 	private int makerUserId;
 
-	@Column(name = "maker_enter_datetime")
-	private String makerEnterDatetime;
+	@Column(name = "maker_datetime")
+	private String makerDatetime;
 
 	@Column(name = "ex_int1")
 	private int exInt1;
@@ -104,14 +104,6 @@ public class LeaveStructureDetails {
 		this.makerUserId = makerUserId;
 	}
 
-	public String getMakerEnterDatetime() {
-		return makerEnterDatetime;
-	}
-
-	public void setMakerEnterDatetime(String makerEnterDatetime) {
-		this.makerEnterDatetime = makerEnterDatetime;
-	}
-
 	public int getExInt1() {
 		return exInt1;
 	}
@@ -144,16 +136,20 @@ public class LeaveStructureDetails {
 		this.exVar2 = exVar2;
 	}
 
+	public String getMakerDatetime() {
+		return makerDatetime;
+	}
+
+	public void setMakerDatetime(String makerDatetime) {
+		this.makerDatetime = makerDatetime;
+	}
+
 	@Override
 	public String toString() {
 		return "LeaveStructureDetails [lvsDetailsId=" + lvsDetailsId + ", lvsId=" + lvsId + ", lvTypeId=" + lvTypeId
 				+ ", lvsAllotedLeaves=" + lvsAllotedLeaves + ", delStatus=" + delStatus + ", isActive=" + isActive
-				+ ", makerUserId=" + makerUserId + ", makerEnterDatetime=" + makerEnterDatetime + ", exInt1=" + exInt1
+				+ ", makerUserId=" + makerUserId + ", makerDatetime=" + makerDatetime + ", exInt1=" + exInt1
 				+ ", exInt2=" + exInt2 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + "]";
 	}
-	
-	
-
-	 
 
 }
