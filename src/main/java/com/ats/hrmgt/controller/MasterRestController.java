@@ -831,6 +831,23 @@ public class MasterRestController {
 
 	}
 
+	@RequestMapping(value = { "/getLeaveTypeListIsStructure" }, method = RequestMethod.POST)
+	public @ResponseBody List<LeaveType> getLeaveTypeListIsStructure() {
+
+		List<LeaveType> list = new ArrayList<LeaveType>();
+		try {
+
+			list = leaveTypeRepository.findByDelStatusAndIsStructured(1, 1);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
+
 	@RequestMapping(value = { "/deleteLeaveType" }, method = RequestMethod.POST)
 	public @ResponseBody Info deleteLeaveType(@RequestParam("lvTypeId") int lvTypeId) {
 

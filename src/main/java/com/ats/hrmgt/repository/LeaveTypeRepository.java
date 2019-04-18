@@ -10,17 +10,17 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.ats.hrmgt.model.LeaveType;
 
-
-public interface LeaveTypeRepository extends JpaRepository<LeaveType, Integer>{
+public interface LeaveTypeRepository extends JpaRepository<LeaveType, Integer> {
 
 	List<LeaveType> findByDelStatus(int i);
 
-	
 	@Transactional
 	@Modifying
 	@Query("update LeaveType set del_status=0  WHERE lv_type_id=:lvTypeId")
 	int deleteLeaveType(int lvTypeId);
 
 	LeaveType findByLvTypeIdAndDelStatus(int lvTypeId, int i);
+
+	List<LeaveType> findByDelStatusAndIsStructured(int i, int j);
 
 }
