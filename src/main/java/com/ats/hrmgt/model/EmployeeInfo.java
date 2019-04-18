@@ -46,10 +46,10 @@ public class EmployeeInfo {
 	private String empPhoto;
 	
 	@Column(name="emp_mobile1")
-	private int empMobile1;
+	private String empMobile1;
 	
 	@Column(name="emp_mobile2")
-	private int empMobile2;
+	private String empMobile2;
 	
 	@Column(name="emp_email")
 	private String empEmail;
@@ -207,24 +207,26 @@ public class EmployeeInfo {
 		return empPhoto;
 	}
 
-	public void setEmpPhoto(String empPhoto) {
-		this.empPhoto = empPhoto;
-	}
+	
 
-	public int getEmpMobile1() {
+	public String getEmpMobile1() {
 		return empMobile1;
 	}
 
-	public void setEmpMobile1(int empMobile1) {
+	public void setEmpMobile1(String empMobile1) {
 		this.empMobile1 = empMobile1;
 	}
 
-	public int getEmpMobile2() {
+	public String getEmpMobile2() {
 		return empMobile2;
 	}
 
-	public void setEmpMobile2(int empMobile2) {
+	public void setEmpMobile2(String empMobile2) {
 		this.empMobile2 = empMobile2;
+	}
+
+	public void setEmpPhoto(String empPhoto) {
+		this.empPhoto = empPhoto;
 	}
 
 	public String getEmpEmail() {

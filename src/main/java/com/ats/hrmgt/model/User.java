@@ -22,7 +22,7 @@ public class User {
 	private int empTypeId;
 	
 	@Column(name="loc_id")
-	private int locId;	
+	private String locId;	
 	
 	@Column(name="user_name")
 	private String userName;
@@ -84,11 +84,12 @@ public class User {
 		this.empTypeId = empTypeId;
 	}
 
-	public int getLocId() {
+
+	public String getLocId() {
 		return locId;
 	}
 
-	public void setLocId(int locId) {
+	public void setLocId(String locId) {
 		this.locId = locId;
 	}
 

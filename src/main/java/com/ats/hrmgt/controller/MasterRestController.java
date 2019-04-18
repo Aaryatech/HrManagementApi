@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.hrmgt.common.DateConvertor;
+import com.ats.hrmgt.leave.model.GetHoliday;
 import com.ats.hrmgt.leave.model.LeaveAuthority;
 import com.ats.hrmgt.model.CalenderYear;
 import com.ats.hrmgt.model.Company;
@@ -22,6 +23,7 @@ import com.ats.hrmgt.model.EmployeDoc;
 import com.ats.hrmgt.model.EmployeeCategory;
 import com.ats.hrmgt.model.EmployeeDepartment;
 import com.ats.hrmgt.model.EmployeeInfo;
+import com.ats.hrmgt.model.GetEmployeeInfo;
 import com.ats.hrmgt.model.Info;
 import com.ats.hrmgt.model.LeaveApply;
 import com.ats.hrmgt.model.LeaveStructure;
@@ -29,6 +31,7 @@ import com.ats.hrmgt.model.LeaveTrail;
 import com.ats.hrmgt.model.LeaveType;
 import com.ats.hrmgt.model.LeavesAllotment;
 import com.ats.hrmgt.model.Location;
+import com.ats.hrmgt.model.User;
 import com.ats.hrmgt.repository.CalculateYearRepository;
 import com.ats.hrmgt.repository.CompanyRepository;
 import com.ats.hrmgt.repository.EmpTypeRepository;
@@ -37,6 +40,7 @@ import com.ats.hrmgt.repository.EmployeeDepartmentRepository;
 import com.ats.hrmgt.repository.EmployeeDeptTypeRepository;
 import com.ats.hrmgt.repository.EmployeeDocsRepository;
 import com.ats.hrmgt.repository.EmployeeInfoRepository;
+import com.ats.hrmgt.repository.GetEmpInfoRepo;
 import com.ats.hrmgt.repository.LeaveAllotmentRepository;
 import com.ats.hrmgt.repository.LeaveApplyRepository;
 import com.ats.hrmgt.repository.LeaveAuthorityRepository;
@@ -44,6 +48,7 @@ import com.ats.hrmgt.repository.LeaveStructureRepository;
 import com.ats.hrmgt.repository.LeaveTrailRepository;
 import com.ats.hrmgt.repository.LeaveTypeRepository;
 import com.ats.hrmgt.repository.LocationRepository;
+import com.ats.hrmgt.repository.UserRepo;
 
 @RestController
 public class MasterRestController {
@@ -53,7 +58,10 @@ public class MasterRestController {
 
 	@Autowired
 	LocationRepository locationRepository;
-
+	
+	@Autowired
+	UserRepo userRepo;
+	
 	@Autowired
 	EmpTypeRepository empTypeRepository;
 
@@ -89,6 +97,10 @@ public class MasterRestController {
 
 	@Autowired
 	CalculateYearRepository calculateYearRepository;
+	
+	@Autowired
+	GetEmpInfoRepo getEmpInfo;
+
 
 	@RequestMapping(value = { "/checkUniqueField" }, method = RequestMethod.POST)
 	public @ResponseBody Info checkUniqueField(@RequestParam String inputValue, @RequestParam int valueType) {
@@ -580,13 +592,49 @@ public class MasterRestController {
 
 	}
 
-	@RequestMapping(value = { "/getEmpInfoList" }, method = RequestMethod.GET)
-	public @ResponseBody List<EmployeeInfo> getEmpInfoList() {
+	
+	@RequestMapping(value = { "/saveUserInfo" }, method = RequestMethod.POST)
+	public @ResponseBody User saveUserInfo(@RequestBody User userInfo) {
 
-		List<EmployeeInfo> list = new ArrayList<EmployeeInfo>();
+		User save = new User();
 		try {
 
-			list = employeeInfoRepository.findByDelStatus(1);
+			save = userRepo.saveAndFlush(userInfo);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return save;
+
+	}
+
+	/*
+	 * @RequestMapping(value = { "/getEmpInfoList" }, method = RequestMethod.GET)
+	 * public @ResponseBody List<EmployeeInfo> getEmpInfoList() {
+	 * 
+	 * List<EmployeeInfo> list = new ArrayList<EmployeeInfo>(); try {
+	 * 
+	 * list = employeeInfoRepository.findByDelStatus(1);
+	 * 
+	 * } catch (Exception e) {
+	 * 
+	 * e.printStackTrace(); }
+	 * 
+	 * return list;
+	 * 
+	 * }
+	 */
+	
+	@RequestMapping(value = { "/getEmpInfoList" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetEmployeeInfo> getEmployeeInfo(@RequestParam("companyId") int companyId,
+			@RequestParam("locIdList") List<Integer> locIdList) {
+
+		List<GetEmployeeInfo> list = new ArrayList<GetEmployeeInfo>();
+		try {
+
+			list = getEmpInfo.getEmpListByCompanyId(companyId, locIdList);
 
 		} catch (Exception e) {
 
@@ -596,6 +644,7 @@ public class MasterRestController {
 		return list;
 
 	}
+
 
 	@RequestMapping(value = { "/deleteEmpInfo" }, method = RequestMethod.POST)
 	public @ResponseBody Info deleteEmpInfo(@RequestParam("empId") int empId) {
