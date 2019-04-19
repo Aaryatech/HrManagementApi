@@ -3,6 +3,8 @@ package com.ats.hrmgt.controller;
 import java.util.ArrayList;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,8 +23,10 @@ import com.ats.hrmgt.leave.repo.GetHolidayRepo;
 import com.ats.hrmgt.leave.repo.HolidayRepo;
 import com.ats.hrmgt.model.Company;
 import com.ats.hrmgt.model.Info;
+import com.ats.hrmgt.model.Location;
 import com.ats.hrmgt.repository.CalculateYearRepository;
 import com.ats.hrmgt.repository.LeaveAuthorityRepository;
+import com.ats.hrmgt.repository.LocationRepository;
 
 @RestController
 public class LeaveHolidayApiCon {
@@ -38,6 +42,8 @@ public class LeaveHolidayApiCon {
 
 	@Autowired
 	CalculateYearRepository calculateYearRepository;
+	@Autowired
+	LocationRepository locationRepository;
 
 	@RequestMapping(value = { "/saveHoliday" }, method = RequestMethod.POST)
 	public @ResponseBody Holiday saveHoliday(@RequestBody Holiday holiday) {
@@ -66,13 +72,33 @@ public class LeaveHolidayApiCon {
 	}
 
 	@RequestMapping(value = { "/getHolidayList" }, method = RequestMethod.POST)
-	public @ResponseBody List<GetHoliday> getHolidayList(@RequestParam("companyId") int companyId,
-			@RequestParam("locIdList") List<Integer> locIdList) {
+	public @ResponseBody List<GetHoliday> getHolidayList(@RequestParam("companyId") int companyId) {
 
 		List<GetHoliday> list = new ArrayList<GetHoliday>();
 		try {
 
-			list = getHolidayRepo.getHolidayListByCompany(companyId, locIdList);
+			list = getHolidayRepo.getHolidayListByCompany(companyId);
+
+			for (int i = 0; i < list.size(); i++) {
+
+				List<Integer> locIds = Stream.of(list.get(i).getLocId().split(",")).map(Integer::parseInt)
+						.collect(Collectors.toList());
+				List<Location> locList = new ArrayList<>();
+
+				locList = locationRepository.findByDelStatusAndIsActiveAndLocIdIn(1, 1, locIds);
+
+				String locName = "";
+				int x = 0;
+				for (int j = 0; j < locList.size(); j++) {
+
+					locName = locList.get(j).getLocName() + "," + locName;
+					if (locList.size() > 1)
+						x = 1;
+
+				}
+				if (x == 1)
+					list.get(i).setLocName(locName.substring(0, locName.length() - 1));
+			}
 
 		} catch (Exception e) {
 

@@ -1154,17 +1154,17 @@ public class MasterRestController {
 
 		LeavesAllotment save = new LeavesAllotment();
 		try {
-/*
+
 			LeavesAllotment leavesAllot = leaveAllotmentRepository
 					.findByEmpIdAndLvsIdAndDelStatus(leavesAllotment.getEmpId(), leavesAllotment.getLvsId(), 1);
-			System.out.println(leavesAllot.toString());
+
 			if (leavesAllot != null) {
 
 				leavesAllot.setLvsId(leavesAllotment.getLvsId());
-
+				save = leaveAllotmentRepository.saveAndFlush(leavesAllot);
+			} else {
+				save = leaveAllotmentRepository.saveAndFlush(leavesAllotment);
 			}
-*/
-			save = leaveAllotmentRepository.saveAndFlush(leavesAllotment);
 
 			if (save != null) {
 				save.setError(false);

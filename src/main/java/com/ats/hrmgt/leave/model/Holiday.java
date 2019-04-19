@@ -13,57 +13,57 @@ import javax.persistence.Transient;
 public class Holiday {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="holiday_id")
+	@Column(name = "holiday_id")
 	private int holidayId;
-	
-	@Column(name="cal_yr_id")
+
+	@Column(name = "cal_yr_id")
 	private int calYrId;
-	
-	@Column(name="company_id")
+
+	@Column(name = "company_id")
 	private int companyId;
-	
-	@Column(name="loc_id")
-	private int locId;	
-	
-	@Column(name="holiday_fromdt")
+
+	@Column(name = "loc_id")
+	private String locId;
+
+	@Column(name = "holiday_fromdt")
 	private String holidayFromdt;
-	
-	@Column(name="holiday_todt")
-	private String holidayTodt;	
-	
-	@Column(name="holiday_remark")
+
+	@Column(name = "holiday_todt")
+	private String holidayTodt;
+
+	@Column(name = "holiday_remark")
 	private String holidayRemark;
-	
-	@Column(name="del_status")
+
+	@Column(name = "del_status")
 	private int delStatus;
-	
-	@Column(name="is_active")
+
+	@Column(name = "is_active")
 	private int isActive;
-	
-	@Column(name="maker_user_id ")
-	private int makerUserId ;
-	
-	@Column(name="maker_enter_datetime")
+
+	@Column(name = "maker_user_id ")
+	private int makerUserId;
+
+	@Column(name = "maker_enter_datetime")
 	private String makerEnterDatetime;
-	
-	@Column(name="ex_int1")
+
+	@Column(name = "ex_int1")
 	private int exInt1;
-	
-	@Column(name="ex_int2")
+
+	@Column(name = "ex_int2")
 	private int exInt2;
-	
-	@Column(name="ex_int3")
+
+	@Column(name = "ex_int3")
 	private int exInt3;
-	
-	@Column(name="ex_var1")
-	private String exVar1; 
-	
-	@Column(name="ex_var2")
-	private String exVar2; 
-	
-	@Column(name="ex_var3")
+
+	@Column(name = "ex_var1")
+	private String exVar1;
+
+	@Column(name = "ex_var2")
+	private String exVar2;
+
+	@Column(name = "ex_var3")
 	private String exVar3;
-	
+
 	@Transient
 	private boolean isError;
 
@@ -91,11 +91,11 @@ public class Holiday {
 		this.companyId = companyId;
 	}
 
-	public int getLocId() {
+	public String getLocId() {
 		return locId;
 	}
 
-	public void setLocId(int locId) {
+	public void setLocId(String locId) {
 		this.locId = locId;
 	}
 
@@ -202,8 +202,6 @@ public class Holiday {
 	public void setExVar3(String exVar3) {
 		this.exVar3 = exVar3;
 	}
-	
-	
 
 	public boolean isError() {
 		return isError;
@@ -223,6 +221,4 @@ public class Holiday {
 				+ ", isError=" + isError + "]";
 	}
 
-	 
-	
 }

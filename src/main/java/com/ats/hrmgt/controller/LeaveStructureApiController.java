@@ -65,7 +65,7 @@ public class LeaveStructureApiController {
 
 			leaveHeader = leaveStructureHeaderRepo.save(leaveStructureHeader);
 
-			for (int i = 0; i < leaveHeader.getDetailList().size(); i++) {
+			for (int i = 0; i < leaveStructureHeader.getDetailList().size(); i++) {
 
 				leaveStructureHeader.getDetailList().get(i).setLvsId(leaveStructureHeader.getLvsId());
 
