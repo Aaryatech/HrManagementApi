@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.ats.hrmgt.model.LeavesAllotment;
 
-public interface LeaveAllotmentRepository extends JpaRepository<LeavesAllotment, Integer>{
+public interface LeaveAllotmentRepository extends JpaRepository<LeavesAllotment, Integer> {
 
 	@Transactional
 	@Modifying
@@ -21,6 +21,6 @@ public interface LeaveAllotmentRepository extends JpaRepository<LeavesAllotment,
 
 	LeavesAllotment findByLvsaPkeyAndDelStatus(int lvsaPkey, int i);
 
-	List<LeavesAllotment> findByEmpIdAndLvsIdAndDelStatus(int empId, int lvsId, int i);
+	LeavesAllotment findByEmpIdAndLvsIdAndDelStatus(int empId, int lvsId, int i);
 
 }

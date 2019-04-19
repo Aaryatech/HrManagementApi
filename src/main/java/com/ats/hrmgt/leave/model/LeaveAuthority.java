@@ -6,62 +6,64 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "leave_authority")
 public class LeaveAuthority {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="la_pkey ")
-	
-	
-	
-	private int laPkey ;
-	
-	@Column(name="emp_id")
+	@Column(name = "la_pkey ")
+
+	private int laPkey;
+
+	@Column(name = "emp_id")
 	private int empId;
-	
-	@Column(name="company_id")
+
+	@Column(name = "company_id")
 	private int companyId;
-	
-	@Column(name="ini_auth_emp_id")
+
+	@Column(name = "ini_auth_emp_id")
 	private int iniAuthEmpId;
-	
-	@Column(name="fin_auth_emp_id")
+
+	@Column(name = "fin_auth_emp_id")
 	private int finAuthEmpId;
-	
-	@Column(name="rep_to_emp_ids")
-	private String repToEmpIds;	
-	
-	@Column(name="del_status")
+
+	@Column(name = "rep_to_emp_ids")
+	private String repToEmpIds;
+
+	@Column(name = "del_status")
 	private int delStatus;
-	
-	@Column(name="is_active")
+
+	@Column(name = "is_active")
 	private int isActive;
-	
-	@Column(name="maker_user_id ")
-	private int makerUserId ;
-	
-	@Column(name="maker_enter_datetime")
+
+	@Column(name = "maker_user_id ")
+	private int makerUserId;
+
+	@Column(name = "maker_enter_datetime")
 	private String makerEnterDatetime;
-	
-	@Column(name="ex_int1")
+
+	@Column(name = "ex_int1")
 	private int exInt1;
-	
-	@Column(name="ex_int2")
+
+	@Column(name = "ex_int2")
 	private int exInt2;
-	
-	@Column(name="ex_int3")
+
+	@Column(name = "ex_int3")
 	private int exInt3;
-	
-	@Column(name="ex_var1")
-	private String exVar1; 
-	
-	@Column(name="ex_var2")
-	private String exVar2; 
-	
-	@Column(name="ex_var3")
+
+	@Column(name = "ex_var1")
+	private String exVar1;
+
+	@Column(name = "ex_var2")
+	private String exVar2;
+
+	@Column(name = "ex_var3")
 	private String exVar3;
+
+	@Transient
+	private boolean error;
 
 	public int getLaPkey() {
 		return laPkey;
@@ -191,15 +193,21 @@ public class LeaveAuthority {
 		this.exVar3 = exVar3;
 	}
 
+	public boolean isError() {
+		return error;
+	}
+
+	public void setError(boolean error) {
+		this.error = error;
+	}
+
 	@Override
 	public String toString() {
 		return "LeaveAuthority [laPkey=" + laPkey + ", empId=" + empId + ", companyId=" + companyId + ", iniAuthEmpId="
 				+ iniAuthEmpId + ", finAuthEmpId=" + finAuthEmpId + ", repToEmpIds=" + repToEmpIds + ", delStatus="
 				+ delStatus + ", isActive=" + isActive + ", makerUserId=" + makerUserId + ", makerEnterDatetime="
 				+ makerEnterDatetime + ", exInt1=" + exInt1 + ", exInt2=" + exInt2 + ", exInt3=" + exInt3 + ", exVar1="
-				+ exVar1 + ", exVar2=" + exVar2 + ", exVar3=" + exVar3 + "]";
+				+ exVar1 + ", exVar2=" + exVar2 + ", exVar3=" + exVar3 + ", error=" + error + "]";
 	}
-	
-	
 
 }

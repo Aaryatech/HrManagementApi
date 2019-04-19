@@ -16,6 +16,7 @@ import com.ats.hrmgt.common.DateConvertor;
 import com.ats.hrmgt.leave.model.GetHoliday;
 import com.ats.hrmgt.leave.model.Holiday;
 import com.ats.hrmgt.leave.model.LeaveAuthority;
+import com.ats.hrmgt.leave.model.LeaveStructureHeader;
 import com.ats.hrmgt.leave.repo.GetHolidayRepo;
 import com.ats.hrmgt.leave.repo.HolidayRepo;
 import com.ats.hrmgt.model.Company;
@@ -34,7 +35,7 @@ public class LeaveHolidayApiCon {
 
 	@Autowired
 	LeaveAuthorityRepository leaveAuthorityRepository;
-	
+
 	@Autowired
 	CalculateYearRepository calculateYearRepository;
 
@@ -137,7 +138,17 @@ public class LeaveHolidayApiCon {
 
 			save = leaveAuthorityRepository.saveAndFlush(leavesAllotment);
 
+			if (save != null) {
+				save.setError(false);
+			} else {
+
+				save = new LeaveAuthority();
+				save.setError(true);
+			}
+
 		} catch (Exception e) {
+			save = new LeaveAuthority();
+			save.setError(true);
 
 			e.printStackTrace();
 		}
