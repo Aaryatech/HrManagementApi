@@ -13,6 +13,9 @@ public class LeaveAuthority {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="la_pkey ")
+	
+	
+	
 	private int laPkey ;
 	
 	@Column(name="emp_id")
