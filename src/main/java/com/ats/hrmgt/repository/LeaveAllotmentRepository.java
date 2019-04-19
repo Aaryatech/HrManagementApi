@@ -23,4 +23,6 @@ public interface LeaveAllotmentRepository extends JpaRepository<LeavesAllotment,
 
 	LeavesAllotment findByEmpIdAndLvsIdAndDelStatus(int empId, int lvsId, int i);
 
+	LeavesAllotment findByEmpIdAndDelStatus(int empId, int i);
+
 }

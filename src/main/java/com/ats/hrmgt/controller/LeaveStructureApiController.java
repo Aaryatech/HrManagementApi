@@ -13,16 +13,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.hrmgt.leave.model.GetLeaveAuthority;
 import com.ats.hrmgt.leave.model.GetStructureAllotment;
 
 import com.ats.hrmgt.leave.model.LeaveStructureDetails;
 import com.ats.hrmgt.leave.model.LeaveStructureHeader;
-
+import com.ats.hrmgt.leave.repo.GetLeaveAuthorityRepo;
 import com.ats.hrmgt.leave.repo.GetStructureAllotmentRepo;
 import com.ats.hrmgt.leave.repo.LeaveStructureDetailsRepo;
 import com.ats.hrmgt.leave.repo.LeaveStructureHeaderRepo;
-
+import com.ats.hrmgt.model.EmployeeInfo;
 import com.ats.hrmgt.model.Info;
+import com.ats.hrmgt.repository.EmployeeInfoRepository;
 
 @RestController
 public class LeaveStructureApiController {
@@ -36,10 +38,29 @@ public class LeaveStructureApiController {
 	@Autowired
 	GetStructureAllotmentRepo getStructureAllotmentRepo;
 
+	@Autowired
+	GetLeaveAuthorityRepo getLeaveAuthorityRepo;
+
+	@RequestMapping(value = { "/getLeaveAuthorityList" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetLeaveAuthority> getLeaveAuthorityList(@RequestParam("companyId") int companyId) {
+
+		List<GetLeaveAuthority> list = new ArrayList<GetLeaveAuthority>();
+		try {
+
+			list = getLeaveAuthorityRepo.getLeaveAuth(companyId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
+
 	@RequestMapping(value = { "/getStructureAllotmentList" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetStructureAllotment> getStructureAllotmentList(@RequestParam("companyId") int companyId,
 			@RequestParam("locIdList") List<Integer> locIdList) {
-		System.out.println("companyId==" + companyId + "====locIdList===" + locIdList);
 
 		List<GetStructureAllotment> list = new ArrayList<GetStructureAllotment>();
 		try {
@@ -59,7 +80,6 @@ public class LeaveStructureApiController {
 	public @ResponseBody LeaveStructureHeader saveLeaveStruture(
 			@RequestBody LeaveStructureHeader leaveStructureHeader) {
 
-		Info errorMessage = new Info();
 		LeaveStructureHeader leaveHeader = new LeaveStructureHeader();
 		try {
 

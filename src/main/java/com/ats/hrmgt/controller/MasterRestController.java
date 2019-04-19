@@ -644,6 +644,23 @@ public class MasterRestController {
 
 	}
 
+	@RequestMapping(value = { "/getEmpInfoListForLeaveAuth" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetEmployeeInfo> getEmpInfoListForLeaveAuth(@RequestParam("companyId") int companyId) {
+
+		List<GetEmployeeInfo> list = new ArrayList<GetEmployeeInfo>();
+		try {
+
+			list = getEmpInfo.getEmpListByCompanyIdForAuth(companyId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
+
 	@RequestMapping(value = { "/deleteEmpInfo" }, method = RequestMethod.POST)
 	public @ResponseBody Info deleteEmpInfo(@RequestParam("empId") int empId) {
 
@@ -1155,9 +1172,9 @@ public class MasterRestController {
 		LeavesAllotment save = new LeavesAllotment();
 		try {
 
-			LeavesAllotment leavesAllot = leaveAllotmentRepository
-					.findByEmpIdAndLvsIdAndDelStatus(leavesAllotment.getEmpId(), leavesAllotment.getLvsId(), 1);
-
+			LeavesAllotment leavesAllot = leaveAllotmentRepository.findByEmpIdAndDelStatus(leavesAllotment.getEmpId(),
+					1);
+			System.out.println(leavesAllotment.toString());
 			if (leavesAllot != null) {
 
 				leavesAllot.setLvsId(leavesAllotment.getLvsId());
