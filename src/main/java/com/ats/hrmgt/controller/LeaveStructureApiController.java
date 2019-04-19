@@ -18,11 +18,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.hrmgt.leave.model.GetStructureAllotment;
 import com.ats.hrmgt.leave.model.Holiday;
 import com.ats.hrmgt.leave.model.LeaveStructureDetails;
 import com.ats.hrmgt.leave.model.LeaveStructureHeader;
+
+import com.ats.hrmgt.leave.repo.GetStructureAllotmentRepo;
 import com.ats.hrmgt.leave.repo.LeaveStructureDetailsRepo;
 import com.ats.hrmgt.leave.repo.LeaveStructureHeaderRepo;
+
 import com.ats.hrmgt.model.Info;
 
 @RestController
@@ -33,6 +37,28 @@ public class LeaveStructureApiController {
 
 	@Autowired
 	LeaveStructureHeaderRepo leaveStructureHeaderRepo;
+
+	@Autowired
+	GetStructureAllotmentRepo getStructureAllotmentRepo;
+
+	@RequestMapping(value = { "/getStructureAllotmentList" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetStructureAllotment> getStructureAllotmentList(@RequestParam("companyId") int companyId,
+			@RequestParam("locIdList") List<Integer> locIdList) {
+		System.out.println("companyId==" + companyId + "====locIdList===" + locIdList);
+
+		List<GetStructureAllotment> list = new ArrayList<GetStructureAllotment>();
+		try {
+
+			list = getStructureAllotmentRepo.getStructureAllotment(companyId, locIdList);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
 
 	@RequestMapping(value = { "/saveLeaveStruture" }, method = RequestMethod.POST)
 	public @ResponseBody LeaveStructureHeader saveLeaveStruture(

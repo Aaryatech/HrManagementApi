@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.hrmgt.common.DateConvertor;
 import com.ats.hrmgt.leave.model.GetHoliday;
+import com.ats.hrmgt.leave.model.Holiday;
 import com.ats.hrmgt.leave.model.LeaveAuthority;
 import com.ats.hrmgt.model.CalenderYear;
 import com.ats.hrmgt.model.Company;
@@ -1154,59 +1155,32 @@ public class MasterRestController {
 		LeavesAllotment save = new LeavesAllotment();
 		try {
 
-			save = leaveAllotmentRepository.saveAndFlush(leavesAllotment);
+			List<LeavesAllotment> leavesAllotmentList = leaveAllotmentRepository
+					.findByEmpIdAndLvsIdAndDelStatus(leavesAllotment.getEmpId(), leavesAllotment.getLvsId(), 1);
+			if (leavesAllotmentList == null) {
+				save = leaveAllotmentRepository.saveAndFlush(leavesAllotment);
+			} else {
+				for (int i = 0; i < leavesAllotmentList.size(); i++) {
+					leavesAllotmentList.get(i).setLvsId(leavesAllotment.getLvsId());
+				}
+			}
+
+			if (save != null) {
+				save.setError(false);
+			} else {
+
+				save = new LeavesAllotment();
+				save.setError(true);
+			}
 
 		} catch (Exception e) {
-
+			save = new LeavesAllotment();
+			save.setError(true);
 			e.printStackTrace();
 		}
-
 		return save;
 
 	}
-
-	/*
-	 * @RequestMapping(value = { "/getLeaveApplyList" }, method = RequestMethod.GET)
-	 * public @ResponseBody List<LeavesAllotment> getLeaveAllotmentList() {
-	 * 
-	 * 
-	 * List<LeavesAllotment> list = new ArrayList<LeavesAllotment>(); try {
-	 * 
-	 * list = leaveAllotmentRepository.findByDelStatus(1);
-	 * 
-	 * 
-	 * } catch (Exception e) {
-	 * 
-	 * e.printStackTrace(); }
-	 * 
-	 * return list;
-	 * 
-	 * }
-	 */
-
-	/*
-	 * @RequestMapping(value = { "/deleteLeaveApply" }, method = RequestMethod.POST)
-	 * public @ResponseBody Info deleteLeaveAllotment(@RequestParam("lvsaPkey") int
-	 * lvsaPkey) {
-	 * 
-	 * 
-	 * Info info = new Info();
-	 * 
-	 * try {
-	 * 
-	 * int delete = leaveAllotmentRepository.deleteLeaveAllotment(lvsaPkey);
-	 * 
-	 * if(delete>0) { info.setError(false); info.setMsg("deleted"); }else {
-	 * info.setError(true); info.setMsg("failed"); }
-	 * 
-	 * } catch (Exception e) {
-	 * 
-	 * e.printStackTrace(); info.setError(true); info.setMsg("failed"); }
-	 * 
-	 * return info;
-	 * 
-	 * }
-	 */
 
 	@RequestMapping(value = { "getLeaveAllotmentById" }, method = RequestMethod.POST)
 	public @ResponseBody LeavesAllotment getLeaveAllotmentById(@RequestParam("lvsaPkey") int lvsaPkey) {

@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "leave_structure_allotment")
@@ -53,6 +54,9 @@ public class LeavesAllotment {
 	
 	@Column(name="ex_var3")
 	private String exVar3;
+	
+	@Transient
+	private boolean isError;
 
 	public int getLvsaPkey() {
 		return lvsaPkey;
@@ -165,13 +169,24 @@ public class LeavesAllotment {
 	public void setExVar3(String exVar3) {
 		this.exVar3 = exVar3;
 	}
+	
+	
+
+	public boolean isError() {
+		return isError;
+	}
+
+	public void setError(boolean isError) {
+		this.isError = isError;
+	}
 
 	@Override
 	public String toString() {
 		return "LeavesAllotment [lvsaPkey=" + lvsaPkey + ", calYrId=" + calYrId + ", empId=" + empId + ", lvsId="
 				+ lvsId + ", delStatus=" + delStatus + ", isActive=" + isActive + ", makerUserId=" + makerUserId
 				+ ", makerEnterDatetime=" + makerEnterDatetime + ", exInt1=" + exInt1 + ", exInt2=" + exInt2
-				+ ", exInt3=" + exInt3 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", exVar3=" + exVar3 + "]";
+				+ ", exInt3=" + exInt3 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", exVar3=" + exVar3
+				+ ", isError=" + isError + "]";
 	}
 	
 	
