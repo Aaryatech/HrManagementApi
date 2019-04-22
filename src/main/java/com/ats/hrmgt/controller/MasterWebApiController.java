@@ -1,6 +1,8 @@
 package com.ats.hrmgt.controller;
 
 import java.util.ArrayList;
+
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,21 +13,83 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.hrmgt.model.EmpType;
 import com.ats.hrmgt.model.EmployeeCategory;
+import com.ats.hrmgt.model.GetEmployeeInfo;
 import com.ats.hrmgt.model.Info;
 import com.ats.hrmgt.model.LeaveSummary;
 import com.ats.hrmgt.model.Location;
+import com.ats.hrmgt.model.LoginResponse;
+import com.ats.hrmgt.model.User;
+import com.ats.hrmgt.repository.EmpTypeRepository;
+import com.ats.hrmgt.repository.GetEmpInfoRepo;
 import com.ats.hrmgt.repository.LeaveSummaryRepository;
 import com.ats.hrmgt.repository.LocationRepository;
+import com.ats.hrmgt.repository.UserRepo;
+
+
 
 @RestController
 public class MasterWebApiController {
+	@Autowired
+	UserRepo userRepo;
+
+	@Autowired
+	GetEmpInfoRepo getEmpInfo;
+	
 	
 	@Autowired
 	LocationRepository locationRepository;
 	
+	
+	@Autowired
+	EmpTypeRepository empTypeRepository;
+
+	
 	@Autowired
 	LeaveSummaryRepository leaveSummaryRepository;
+	
+	@RequestMapping(value = { "/login" }, method = RequestMethod.POST)
+	public @ResponseBody LoginResponse loginUser(@RequestParam("username") String userName,
+			@RequestParam("userPass") String pass) {
+
+		System.err.println("inside loginUser ");
+
+		User user = userRepo.findByDelStatusAndIsActiveAndUserNameAndUserPwd(1, 1, userName, pass);
+		LoginResponse loginResponse = new LoginResponse();
+		if(user!=null) {
+		int empId=user.getEmpId();
+		int empTypeId=user.getEmpTypeId();
+		
+		GetEmployeeInfo einfo=new GetEmployeeInfo();
+		
+		einfo=getEmpInfo.getEmpByEmpId(empId);
+		System.err.println("einfo :::"+einfo.toString());
+		
+		EmpType empType = new EmpType();
+		
+	    empType = empTypeRepository.findByEmpTypeIdAndDelStatus(empTypeId, 1);
+
+	System.err.println("emp type:::"+empType.toString());
+		loginResponse.setGetData(einfo);
+		loginResponse.setEmpType(empType);
+		loginResponse.setUserId(user.getUserId());
+		loginResponse.setLocId(user.getLocId());
+		loginResponse.setUserName(user.getUserName());
+		loginResponse.setErrMsg("false");
+		
+		
+		}
+		
+		else {
+			loginResponse.setErrMsg("true");
+		}
+		
+		return loginResponse;
+
+	}
+	
+	
 	
 	@RequestMapping(value = { "/checkUniqueEmail" }, method = RequestMethod.POST)
 	public @ResponseBody Info checkUniqueEmail(@RequestParam("email") String email) {
