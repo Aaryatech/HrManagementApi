@@ -1088,12 +1088,12 @@ public class MasterRestController {
 	}
 
 	@RequestMapping(value = { "/saveLeaveApply" }, method = RequestMethod.POST)
-	public @ResponseBody LeaveApply saveLeaveApply(@RequestBody LeaveApply leaveTrail) {
+	public @ResponseBody LeaveApply saveLeaveApply(@RequestBody LeaveApply leave) {
 
 		LeaveApply save = new LeaveApply();
 		try {
 
-			save = leaveApplyRepository.saveAndFlush(leaveTrail);
+			save = leaveApplyRepository.saveAndFlush(leave);
 
 		} catch (Exception e) {
 
