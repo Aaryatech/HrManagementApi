@@ -49,6 +49,24 @@ public class MasterWebApiController {
 	@Autowired
 	LeaveSummaryRepository leaveSummaryRepository;
 	
+	
+	@RequestMapping(value = { "/GetEmployeeInfo" }, method = RequestMethod.POST)
+	public @ResponseBody GetEmployeeInfo getEmployeeInfo(@RequestParam("empId") int empId) {
+
+		GetEmployeeInfo company = new GetEmployeeInfo();
+		try {
+
+			company = getEmpInfo.getEmpByEmpId(empId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return company;
+
+	}
+	
 	@RequestMapping(value = { "/login" }, method = RequestMethod.POST)
 	public @ResponseBody LoginResponse loginUser(@RequestParam("username") String userName,
 			@RequestParam("userPass") String pass) {

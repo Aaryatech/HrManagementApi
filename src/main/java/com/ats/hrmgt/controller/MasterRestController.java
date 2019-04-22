@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.hrmgt.common.DateConvertor;
+import com.ats.hrmgt.leave.model.GetEmployeeAuthorityWise;
 import com.ats.hrmgt.leave.model.GetHoliday;
 import com.ats.hrmgt.leave.model.Holiday;
 import com.ats.hrmgt.leave.model.LeaveAuthority;
+import com.ats.hrmgt.leave.repo.GetEmployeeAuthorityWiseRepo;
 import com.ats.hrmgt.model.CalenderYear;
 import com.ats.hrmgt.model.Company;
 import com.ats.hrmgt.model.EmpDocType;
@@ -101,6 +103,9 @@ public class MasterRestController {
 
 	@Autowired
 	GetEmpInfoRepo getEmpInfo;
+	
+	@Autowired
+	GetEmployeeAuthorityWiseRepo getEmployeeAuthorityWise;
 
 	@RequestMapping(value = { "/checkUniqueField" }, method = RequestMethod.POST)
 	public @ResponseBody Info checkUniqueField(@RequestParam String inputValue, @RequestParam int valueType) {
@@ -643,6 +648,36 @@ public class MasterRestController {
 		return list;
 
 	}
+	
+
+	@RequestMapping(value = { "/getEmpInfoAuthWise" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetEmployeeInfo> getEmpInfoAuthWise(@RequestParam("companyId") int companyId,
+			@RequestParam("locIdList") List<Integer> locIdList,@RequestParam("empId") int empId) {
+
+		List<GetEmployeeInfo> list = new ArrayList<GetEmployeeInfo>();
+		
+		
+		
+		
+		List<GetEmployeeAuthorityWise> empIdList = new ArrayList<GetEmployeeAuthorityWise>();
+		
+		empIdList=getEmployeeAuthorityWise.getEmpIdList(empId);
+		
+		System.err.println("empIdList"+empIdList.size());
+		try {
+
+			list = getEmpInfo.getEmpIdListByCompanyId(companyId, locIdList,empIdList);
+			
+			System.err.println("GetEmployeeAuthorityWise::::"+list.size());
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
 
 	@RequestMapping(value = { "/getEmpInfoListForLeaveAuth" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetEmployeeInfo> getEmpInfoListForLeaveAuth(@RequestParam("companyId") int companyId) {
@@ -689,6 +724,8 @@ public class MasterRestController {
 
 	}
 
+	
+	
 	@RequestMapping(value = { "/getEmpInfoById" }, method = RequestMethod.POST)
 	public @ResponseBody EmployeeInfo getEmpInfoById(@RequestParam("empId") int empId) {
 
