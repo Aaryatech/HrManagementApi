@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ats.hrmgt.leave.repo.ClaimAuthorityRepo;
 import com.ats.hrmgt.leave.repo.ClaimRepository;
 import com.ats.hrmgt.model.ClaimType;
-import com.ats.hrmgt.model.Company;
 import com.ats.hrmgt.model.Info;
 import com.ats.hrmgt.repository.EmployeeInfoRepository;
 
@@ -88,22 +87,22 @@ public class MasterAppController {
 
 	}
 
-	/*@RequestMapping(value = { "/getCompanyById" }, method = RequestMethod.POST)
-	public @ResponseBody Company getCompanyById(@RequestParam("claimTypeId") int claimTypeId) {
+	@RequestMapping(value = { "/getClaimById" }, method = RequestMethod.POST)
+	public @ResponseBody ClaimType getClaimById(@RequestParam("claimTypeId") int claimTypeId) {
 
-		Company company = new Company();
+		ClaimType claimType = new ClaimType();
 		try {
 
-			company = claimRepository.findByClaimTypeIdAndDelStatus(claimTypeId, 1);
+			claimType = claimRepository.findByClaimTypeIdAndDelStatus(claimTypeId, 1);
 
 		} catch (Exception e) {
 
 			e.printStackTrace();
 		}
 
-		return company;
+		return claimType;
 
-	}*/
+	}
 	
 	  @RequestMapping(value = { "/updateClaimStatus" }, method =
 	  RequestMethod.POST) public @ResponseBody Info
