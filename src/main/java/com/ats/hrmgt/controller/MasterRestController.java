@@ -89,7 +89,6 @@ public class MasterRestController {
 	@Autowired
 	LeaveStructureRepository leaveStructureRepository;
 
-	
 	@Autowired
 	LeaveAllotmentRepository leaveAllotmentRepository;
 
@@ -98,9 +97,27 @@ public class MasterRestController {
 
 	@Autowired
 	GetEmpInfoRepo getEmpInfo;
-	
+
 	@Autowired
 	GetEmployeeAuthorityWiseRepo getEmployeeAuthorityWise;
+
+	@RequestMapping(value = { "/getEmpInfoListByEmpIdList" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetEmployeeInfo> getEmpInfoListByEmpIdList(@RequestParam("companyId") int companyId,
+			@RequestParam("empIdList") List<Integer> empIdList) {
+
+		List<GetEmployeeInfo> list = new ArrayList<GetEmployeeInfo>();
+		try {
+
+			list = getEmpInfo.getEmpListByCompanyIdAndEmpIdList(companyId, empIdList);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
 
 	@RequestMapping(value = { "/checkUniqueField" }, method = RequestMethod.POST)
 	public @ResponseBody Info checkUniqueField(@RequestParam String inputValue, @RequestParam int valueType) {
@@ -643,27 +660,23 @@ public class MasterRestController {
 		return list;
 
 	}
-	
 
 	@RequestMapping(value = { "/getEmpInfoAuthWise" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetEmployeeInfo> getEmpInfoAuthWise(@RequestParam("companyId") int companyId,
-			@RequestParam("locIdList") List<Integer> locIdList,@RequestParam("empId") int empId) {
+			@RequestParam("locIdList") List<Integer> locIdList, @RequestParam("empId") int empId) {
 
 		List<GetEmployeeInfo> list = new ArrayList<GetEmployeeInfo>();
-		
-		
-		
-		
+
 		List<GetEmployeeAuthorityWise> empIdList = new ArrayList<GetEmployeeAuthorityWise>();
-		
-		empIdList=getEmployeeAuthorityWise.getEmpIdList(empId);
-		
-		System.err.println("empIdList"+empIdList.size());
+
+		empIdList = getEmployeeAuthorityWise.getEmpIdList(empId);
+
+		System.err.println("empIdList" + empIdList.size());
 		try {
 
-			list = getEmpInfo.getEmpIdListByCompanyId(companyId, locIdList,empIdList);
-			
-			System.err.println("GetEmployeeAuthorityWise::::"+list.size());
+			list = getEmpInfo.getEmpIdListByCompanyId(companyId, locIdList, empIdList);
+
+			System.err.println("GetEmployeeAuthorityWise::::" + list.size());
 
 		} catch (Exception e) {
 
@@ -719,8 +732,6 @@ public class MasterRestController {
 
 	}
 
-	
-	
 	@RequestMapping(value = { "/getEmpInfoById" }, method = RequestMethod.POST)
 	public @ResponseBody EmployeeInfo getEmpInfoById(@RequestParam("empId") int empId) {
 
@@ -1039,8 +1050,6 @@ public class MasterRestController {
 		return leaveType;
 
 	}
-
-	
 
 	@RequestMapping(value = { "/saveLeaveAllotment" }, method = RequestMethod.POST)
 	public @ResponseBody LeavesAllotment saveLeaveAllotment(@RequestBody LeavesAllotment leavesAllotment) {

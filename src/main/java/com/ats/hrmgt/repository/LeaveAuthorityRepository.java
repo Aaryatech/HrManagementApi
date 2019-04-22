@@ -22,4 +22,6 @@ public interface LeaveAuthorityRepository extends JpaRepository<LeaveAuthority, 
 
 	LeaveAuthority findByLaPkeyAndDelStatus(int laPkey, int i);
 
+	LeaveAuthority findByDelStatusAndEmpId(int i, int empId);
+
 }

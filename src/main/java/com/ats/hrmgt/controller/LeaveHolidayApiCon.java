@@ -183,6 +183,23 @@ public class LeaveHolidayApiCon {
 
 	}
 
+	@RequestMapping(value = { "/getLeaveAuthorityListByEmpId" }, method = RequestMethod.POST)
+	public @ResponseBody LeaveAuthority getLeaveAuthorityListByEmpId(@RequestParam("empId") int empId) {
+
+		LeaveAuthority list = new LeaveAuthority();
+		try {
+
+			list = leaveAuthorityRepository.findByDelStatusAndEmpId(1, empId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
+
 	@RequestMapping(value = { "/getLeaveAuthorityList" }, method = RequestMethod.GET)
 	public @ResponseBody List<LeaveAuthority> getLeaveAuthorityList() {
 
