@@ -86,7 +86,7 @@ public class MasterWebApiController {
 		
 		EmpType empType = new EmpType();
 		
-	    empType = empTypeRepository.findByEmpTypeIdAndDelStatus(empTypeId, 1);
+	    empType = empTypeRepository.findByEmpTypeIdAndDelStatus(einfo.getEmpTypeId(), 1);
 
 	System.err.println("emp type:::"+empType.toString());
 		loginResponse.setGetData(einfo);

@@ -88,7 +88,7 @@ public class MasterAppController {
 
 	}
 
-	@RequestMapping(value = { "/getCompanyById" }, method = RequestMethod.POST)
+	/*@RequestMapping(value = { "/getCompanyById" }, method = RequestMethod.POST)
 	public @ResponseBody Company getCompanyById(@RequestParam("claimTypeId") int claimTypeId) {
 
 		Company company = new Company();
@@ -103,7 +103,7 @@ public class MasterAppController {
 
 		return company;
 
-	}
+	}*/
 	
 	  @RequestMapping(value = { "/updateClaimStatus" }, method =
 	  RequestMethod.POST) public @ResponseBody Info
