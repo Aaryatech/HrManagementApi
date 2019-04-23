@@ -12,13 +12,6 @@ import com.ats.hrmgt.model.LeaveTrail;
 
 public interface LeaveTrailRepository extends JpaRepository<LeaveTrail, Integer> {
 
-	List<LeaveTrail> findByDelStatus(int i);
-
-	@Transactional
-	@Modifying
-	@Query("update LeaveTrail set del_status=0  WHERE trail_pkey=:trailPkey")
-	int deleteLeaveTrail(int trailPkey);
-
-	LeaveTrail findByTrailPkeyAndDelStatus(int trailPkey, int i);
+	
 
 }

@@ -21,5 +21,21 @@ public interface LeaveApplyRepository extends JpaRepository<LeaveApply, Integer>
 	int deleteLeaveApply(int leaveId);
 
 	LeaveApply findByLeaveIdAndDelStatus(int leaveId, int i);
+	
+	
+	@Transactional
+	@Modifying
+	@Query("update LeaveApply set ex_int2=:trailId  WHERE leave_id=:leaveId")
+	int updateLeaveApply(int leaveId,int trailId);
+
+	
+	
+	@Transactional
+	@Modifying
+	@Query("update LeaveApply set ex_int1=:status  WHERE leave_id=:leaveId")
+	int updateLeaveStatus(int leaveId,int status);
+
+	
+
 
 }
