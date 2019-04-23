@@ -1258,5 +1258,22 @@ public class MasterRestController {
 		return leaveAuthority;
 
 	}
+	
+	@RequestMapping(value = { "/saveEmpDocList" }, method = RequestMethod.POST)
+	public @ResponseBody List<EmployeDoc> saveEmpDocList(@RequestBody List<EmployeDoc> employeeDepartment) {
+
+		List<EmployeDoc> save = new ArrayList<>();
+		try {
+
+			save = employeeDocsRepository.saveAll(employeeDepartment);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return save;
+
+	}
 
 }
