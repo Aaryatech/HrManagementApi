@@ -284,7 +284,7 @@ public class LeaveApplicationController {
 		public @ResponseBody Info updateLeaveStatus(@RequestParam("leaveId") int leaveId,@RequestParam("status") int status) {
 
 			Info info = new Info();
-
+         System.err.println("in updateLeaveStatus"+status+leaveId);
 			try {
 
 				int delete = leaveApplyRepository.updateLeaveStatus(leaveId,status);
