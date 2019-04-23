@@ -1,7 +1,9 @@
 package com.ats.hrmgt.controller;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +19,12 @@ import com.ats.hrmgt.leave.model.GetEmployeeAuthorityWise;
 import com.ats.hrmgt.leave.model.GetHoliday;
 import com.ats.hrmgt.leave.model.Holiday;
 import com.ats.hrmgt.leave.model.LeaveAuthority;
+import com.ats.hrmgt.leave.model.LeaveStructureDetails;
+import com.ats.hrmgt.leave.model.LeaveStructureHeader;
 import com.ats.hrmgt.leave.repo.GetEmployeeAuthorityWiseRepo;
+import com.ats.hrmgt.leave.repo.LeaveBalanceCalRepo;
+import com.ats.hrmgt.leave.repo.LeaveStructureDetailsRepo;
+import com.ats.hrmgt.leave.repo.LeaveStructureHeaderRepo;
 import com.ats.hrmgt.model.CalenderYear;
 import com.ats.hrmgt.model.Company;
 import com.ats.hrmgt.model.EmpDocType;
@@ -29,6 +36,7 @@ import com.ats.hrmgt.model.EmployeeInfo;
 import com.ats.hrmgt.model.GetEmployeeInfo;
 import com.ats.hrmgt.model.Info;
 import com.ats.hrmgt.model.LeaveApply;
+import com.ats.hrmgt.model.LeaveBalanceCal;
 import com.ats.hrmgt.model.LeaveStructure;
 import com.ats.hrmgt.model.LeaveTrail;
 import com.ats.hrmgt.model.LeaveType;
@@ -100,6 +108,11 @@ public class MasterRestController {
 
 	@Autowired
 	GetEmployeeAuthorityWiseRepo getEmployeeAuthorityWise;
+
+	DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	Date now = new Date();
+	String curDate = dateFormat.format(new Date());
+	String dateTime = dateFormat.format(now);
 
 	@RequestMapping(value = { "/getEmpInfoListByEmpIdList" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetEmployeeInfo> getEmpInfoListByEmpIdList(@RequestParam("companyId") int companyId,
@@ -1051,25 +1064,63 @@ public class MasterRestController {
 
 	}
 
+	@Autowired
+	LeaveBalanceCalRepo leaveBalanceCalRepo;
+	@Autowired
+	LeaveStructureHeaderRepo leaveStructureHeaderRepo;
+	@Autowired
+	LeaveStructureDetailsRepo leaveStructureDetailsRepo;
+
 	@RequestMapping(value = { "/saveLeaveAllotment" }, method = RequestMethod.POST)
 	public @ResponseBody LeavesAllotment saveLeaveAllotment(@RequestBody LeavesAllotment leavesAllotment) {
 
 		LeavesAllotment save = new LeavesAllotment();
+
 		try {
 
-			LeavesAllotment leavesAllot = leaveAllotmentRepository.findByEmpIdAndDelStatus(leavesAllotment.getEmpId(),
-					1);
-			System.out.println(leavesAllotment.toString());
-			if (leavesAllot != null) {
-
-				leavesAllot.setLvsId(leavesAllotment.getLvsId());
-				save = leaveAllotmentRepository.saveAndFlush(leavesAllot);
-			} else {
-				save = leaveAllotmentRepository.saveAndFlush(leavesAllotment);
-			}
-
+			/*
+			 * LeavesAllotment leavesAllot =
+			 * leaveAllotmentRepository.findByEmpIdAndDelStatus(leavesAllotment.getEmpId(),
+			 * 1); System.out.println(leavesAllotment.toString()); if (leavesAllot != null)
+			 * {
+			 * 
+			 * leavesAllot.setLvsId(leavesAllotment.getLvsId()); save =
+			 * leaveAllotmentRepository.saveAndFlush(leavesAllot); } else {
+			 */
+			save = leaveAllotmentRepository.saveAndFlush(leavesAllotment);
 			if (save != null) {
 				save.setError(false);
+
+				List<LeaveStructureDetails> leaveStructureDetailsList = leaveStructureDetailsRepo
+						.findByLvsIdAndDelStatus(save.getLvsId(), 1);
+				System.out.println(leaveStructureDetailsList.toString());
+
+				for (int j = 0; j < leaveStructureDetailsList.size(); j++) {
+
+					LeaveBalanceCal leaveBalanceCal = new LeaveBalanceCal();
+
+					leaveBalanceCal.setCalYrId(2);
+					leaveBalanceCal.setDelStatus(1);
+					leaveBalanceCal.setEmpId(save.getEmpId());
+					leaveBalanceCal.setIsActive(1);
+					leaveBalanceCal.setLvAlloted(0);
+					leaveBalanceCal.setLvbalId(0);
+					leaveBalanceCal.setLvCarryFwd(0);
+					leaveBalanceCal.setLvCarryFwdRemarks("Null");
+					leaveBalanceCal.setLvEncash(0);
+					leaveBalanceCal.setOpBal(0);
+					leaveBalanceCal.setMakerUserId(1);
+					leaveBalanceCal.setMakerEnterDatetime(dateTime);
+					leaveBalanceCal.setLvEncashRemarks("Null");
+
+					leaveBalanceCal.setLvTypeId(leaveStructureDetailsList.get(j).getLvTypeId());
+
+					System.out.println("--------------" + leaveBalanceCal.toString());
+
+					LeaveBalanceCal leaveBalanccRes = leaveBalanceCalRepo.saveAndFlush(leaveBalanceCal);
+					System.out.println(leaveBalanccRes.toString());
+				}
+
 			} else {
 
 				save = new LeavesAllotment();
@@ -1082,6 +1133,24 @@ public class MasterRestController {
 			e.printStackTrace();
 		}
 		return save;
+
+	}
+
+	@RequestMapping(value = { "getLeaveAllotmentByCurrentCalender" }, method = RequestMethod.POST)
+	public @ResponseBody List<LeavesAllotment> getLeaveAllotmentByCurrentCalender(
+			@RequestParam("calYrId") int calYrId) {
+
+		List<LeavesAllotment> leavesAllotment = new ArrayList<>();
+		try {
+
+			leavesAllotment = leaveAllotmentRepository.findByCalYrId(calYrId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return leavesAllotment;
 
 	}
 

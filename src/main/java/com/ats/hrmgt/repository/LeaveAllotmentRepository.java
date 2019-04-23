@@ -18,6 +18,8 @@ public interface LeaveAllotmentRepository extends JpaRepository<LeavesAllotment,
 	int deleteLeaveAllotment(int lvsaPkey);
 
 	List<LeavesAllotment> findByDelStatus(int i);
+	
+	List<LeavesAllotment> findByCalYrId(int calYrId);
 
 	LeavesAllotment findByLvsaPkeyAndDelStatus(int lvsaPkey, int i);
 
