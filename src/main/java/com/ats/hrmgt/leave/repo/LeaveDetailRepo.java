@@ -14,5 +14,44 @@ public interface LeaveDetailRepo extends JpaRepository<LeaveDetail, Integer>{
 			"  WHERE  l.del_status=1 and l.ex_int1=1 and l.emp_id=e.emp_id and d.emp_dept_id=e.emp_dept_id and lt.lv_type_id=l.lv_type_id \n" + 
 			"  and l.emp_id IN(SELECT emp_id FROM `leave_authority` WHERE ini_auth_emp_id=:empId OR fin_auth_emp_id=:empId)", nativeQuery = true)
 	List<LeaveDetail> getLeaveDetailByEmpId(@Param("empId") int empId);
+
+	@Query(value = " SELECT\n" + 
+			"l.*,\n" + 
+			"e.emp_fname,\n" + 
+			"e.emp_mname,\n" + 
+			"e.emp_sname,\n" + 
+			"e.emp_photo,\n" + 
+			"d.emp_dept_name,\n" + 
+			"lt.lv_title\n" + 
+			"FROM\n" + 
+			"leave_apply AS l,\n" + 
+			"emp_info AS e,\n" + 
+			"m_emp_department d,\n" + 
+			"leave_type AS lt\n" + 
+			"WHERE \n" + 
+			"l.emp_id =:empId AND l.ex_int1 IN(:status) AND l.emp_id = e.emp_id AND l.del_status = 1 AND d.emp_dept_id = e.emp_dept_id AND lt.lv_type_id = l.lv_type_id ", nativeQuery = true)
+	List<LeaveDetail> getLeaveStatus(@Param("empId") int empId,@Param("status") String status);
+
+	
+	@Query(value = " SELECT\n" + 
+			"l.*,\n" + 
+			"e.emp_fname,\n" + 
+			"e.emp_mname,\n" + 
+			"e.emp_sname,\n" + 
+			"e.emp_photo,\n" + 
+			"d.emp_dept_name,\n" + 
+			"lt.lv_title\n" + 
+			"FROM\n" + 
+			"leave_apply AS l,\n" + 
+			"emp_info AS e,\n" + 
+			"m_emp_department d,\n" + 
+			"leave_type AS lt\n" + 
+			"WHERE \n" + 
+			"l.emp_id =:empId AND l.emp_id = e.emp_id AND l.del_status = 1 AND d.emp_dept_id = e.emp_dept_id AND lt.lv_type_id = l.lv_type_id ", nativeQuery = true)
+	List<LeaveDetail> getLeaveStatusByEmpId(@Param("empId") int empId);
+
+	//List<LeaveDetail> getLeaveStatus(int empId, int status);
+	
+	
 			
 }

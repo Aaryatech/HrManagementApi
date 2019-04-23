@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.hrmgt.leave.model.GetLeaveStatus;
 import com.ats.hrmgt.leave.model.LeaveDetail;
 import com.ats.hrmgt.leave.repo.ClaimAuthorityRepo;
 import com.ats.hrmgt.leave.repo.ClaimRepository;
+import com.ats.hrmgt.leave.repo.GetLeaveStatusRepo;
 import com.ats.hrmgt.leave.repo.LeaveDetailRepo;
 import com.ats.hrmgt.leave.repo.ProjectRepository;
 import com.ats.hrmgt.model.ClaimType;
@@ -36,6 +38,9 @@ public class MasterAppController {
 	
 	@Autowired
 	ProjectRepository projectRepository;
+	
+	@Autowired
+	GetLeaveStatusRepo getLeaveStatusRepo;
 	
 	@RequestMapping(value = { "/saveClaimType" }, method = RequestMethod.POST)
 	public @ResponseBody ClaimType saveClaimType(@RequestBody ClaimType claimType) {
@@ -222,6 +227,8 @@ public class MasterAppController {
 			return info;
 
 		}
+		
+		
 
 		@RequestMapping(value = { "/getProjectById" }, method = RequestMethod.POST)
 		public @ResponseBody ProjectType getProjectById(@RequestParam("projectTypeId") int projectTypeId) {
@@ -239,6 +246,75 @@ public class MasterAppController {
 			return projectType;
 
 		}
+		  @RequestMapping(value = { "/getLeaveStatusList" }, method = RequestMethod.POST)
+			public @ResponseBody List<LeaveDetail> getLeaveStatuslist(@RequestParam("empId") int empId ,@RequestParam("status") String status ) {
+
+				 
+				List<LeaveDetail> list = new ArrayList<LeaveDetail>();
+				//List<LeaveDetail> result = new ArrayList<LeaveDetail>();
+			
+				try {
+					 
+					
+						list = leaveDetailRepo.getLeaveStatus(empId,status);
+						if(list!=null)
+						{
+							for(int i=1; i<list.size();i++)
+							{
+								List<GetLeaveStatus> leaveStatus = new ArrayList<GetLeaveStatus>();
+								leaveStatus = getLeaveStatusRepo.getLeaveTrailByLeaveId(list.get(i).getLeaveId());
+								list.get(i).setGetLeaveStatusList(leaveStatus);
+							}
+						}
+							
+
+				} catch (Exception e) {
+		 
+					e.printStackTrace();
+				}
+
+				return list;
+
+			}
+		  @RequestMapping(value = { "/getLeaveStatusByEmpId" }, method = RequestMethod.POST)
+			public @ResponseBody List<LeaveDetail> getLeaveStatusByEmpId(@RequestParam("empId") int empId) {
+
+				 
+				List<LeaveDetail> list = new ArrayList<LeaveDetail>();
+				try {
+					 
+					
+						list = leaveDetailRepo.getLeaveStatusByEmpId(empId);
+					
+
+				} catch (Exception e) {
+		 
+					e.printStackTrace();
+				}
+
+				return list;
+
+			}
+	/*
+	 * @RequestMapping(value = { "/getLeaveTrailByLeaveId" }, method =
+	 * RequestMethod.POST) public @ResponseBody List<GetLeaveStatus>
+	 * getLeaveTrailByLeaveId(@RequestParam("leaveId") int leaveId) {
+	 * 
+	 * 
+	 * List<GetLeaveStatus> list = new ArrayList<GetLeaveStatus>(); try {
+	 * 
+	 * 
+	 * list = getLeaveStatusRepo.getLeaveTrailByLeaveId(leaveId);
+	 * 
+	 * 
+	 * } catch (Exception e) {
+	 * 
+	 * e.printStackTrace(); }
+	 * 
+	 * return list;
+	 * 
+	 * }
+	 */
 
 }
 	

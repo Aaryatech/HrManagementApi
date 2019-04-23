@@ -1,8 +1,10 @@
 package com.ats.hrmgt.leave.model;
 
-import javax.persistence.Column;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 @Entity
 public class LeaveDetail {
@@ -61,6 +63,9 @@ public class LeaveDetail {
 	private String empDeptName;
 	
 	private String lvTitle;
+	
+	@Transient
+	List<GetLeaveStatus>  GetLeaveStatusList;
 
 	public int getLeaveId() {
 		return leaveId;
@@ -278,6 +283,15 @@ public class LeaveDetail {
 		this.lvTitle = lvTitle;
 	}
 
+	
+	public List<GetLeaveStatus> getGetLeaveStatusList() {
+		return GetLeaveStatusList;
+	}
+
+	public void setGetLeaveStatusList(List<GetLeaveStatus> getLeaveStatusList) {
+		GetLeaveStatusList = getLeaveStatusList;
+	}
+
 	@Override
 	public String toString() {
 		return "LeaveDetail [leaveId=" + leaveId + ", calYrId=" + calYrId + ", empId=" + empId + ", lvTypeId="
@@ -287,20 +301,11 @@ public class LeaveDetail {
 				+ ", makerUserId=" + makerUserId + ", makerEnterDatetime=" + makerEnterDatetime + ", exInt1=" + exInt1
 				+ ", exInt2=" + exInt2 + ", exInt3=" + exInt3 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2
 				+ ", exVar3=" + exVar3 + ", empFname=" + empFname + ", empMname=" + empMname + ", empSname=" + empSname
-				+ ", empPhoto=" + empPhoto + ", empDeptName=" + empDeptName + ", lvTitle=" + lvTitle + ", getLeaveId()="
-				+ getLeaveId() + ", getCalYrId()=" + getCalYrId() + ", getEmpId()=" + getEmpId() + ", getLvTypeId()="
-				+ getLvTypeId() + ", getLeaveDuration()=" + getLeaveDuration() + ", getLeaveFromdt()="
-				+ getLeaveFromdt() + ", getLeaveTodt()=" + getLeaveTodt() + ", getLeaveNumDays()=" + getLeaveNumDays()
-				+ ", getLeaveEmpReason()=" + getLeaveEmpReason() + ", getFinalStatus()=" + getFinalStatus()
-				+ ", getCirculatedTo()=" + getCirculatedTo() + ", getDelStatus()=" + getDelStatus() + ", getIsActive()="
-				+ getIsActive() + ", getMakerUserId()=" + getMakerUserId() + ", getMakerEnterDatetime()="
-				+ getMakerEnterDatetime() + ", getExInt1()=" + getExInt1() + ", getExInt2()=" + getExInt2()
-				+ ", getExInt3()=" + getExInt3() + ", getExVar1()=" + getExVar1() + ", getExVar2()=" + getExVar2()
-				+ ", getExVar3()=" + getExVar3() + ", getEmpFname()=" + getEmpFname() + ", getEmpMname()="
-				+ getEmpMname() + ", getEmpSname()=" + getEmpSname() + ", getEmpPhoto()=" + getEmpPhoto()
-				+ ", getEmpDeptName()=" + getEmpDeptName() + ", getLvTitle()=" + getLvTitle() + ", getClass()="
-				+ getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
+				+ ", empPhoto=" + empPhoto + ", empDeptName=" + empDeptName + ", lvTitle=" + lvTitle
+				+ ", GetLeaveStatusList=" + GetLeaveStatusList + "]";
 	}
+
+	
 
 	
 }
