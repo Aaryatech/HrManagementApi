@@ -58,6 +58,8 @@ public class LeaveDetail {
 	
 	private String empSname;
 	
+	private String empCode;
+	
 	private String empPhoto;
 	
 	private String empDeptName;
@@ -259,6 +261,15 @@ public class LeaveDetail {
 		this.empSname = empSname;
 	}
 
+	
+	public String getEmpCode() {
+		return empCode;
+	}
+
+	public void setEmpCode(String empCode) {
+		this.empCode = empCode;
+	}
+
 	public String getEmpPhoto() {
 		return empPhoto;
 	}
@@ -301,11 +312,7 @@ public class LeaveDetail {
 				+ ", makerUserId=" + makerUserId + ", makerEnterDatetime=" + makerEnterDatetime + ", exInt1=" + exInt1
 				+ ", exInt2=" + exInt2 + ", exInt3=" + exInt3 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2
 				+ ", exVar3=" + exVar3 + ", empFname=" + empFname + ", empMname=" + empMname + ", empSname=" + empSname
-				+ ", empPhoto=" + empPhoto + ", empDeptName=" + empDeptName + ", lvTitle=" + lvTitle
-				+ ", GetLeaveStatusList=" + GetLeaveStatusList + "]";
-	}
-
-	
-
-	
+				+ ", empCode=" + empCode + ", empPhoto=" + empPhoto + ", empDeptName=" + empDeptName + ", lvTitle="
+				+ lvTitle + ", GetLeaveStatusList=" + GetLeaveStatusList + "]";
+	}	
 }
