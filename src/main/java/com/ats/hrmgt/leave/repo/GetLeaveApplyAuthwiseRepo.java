@@ -34,7 +34,7 @@ public interface GetLeaveApplyAuthwiseRepo extends JpaRepository<GetLeaveApplyAu
 			"    leave_apply,\n" + 
 			"    emp_info\n" + 
 			"WHERE\n" + 
-			"   leave_apply.emp_id IN(1) AND emp_info.emp_id = leave_apply.emp_id AND leave_apply.lv_type_id = "
+			"   leave_apply.emp_id IN(:empIdList) AND emp_info.emp_id = leave_apply.emp_id AND leave_apply.lv_type_id = "
 			+ "leave_type.lv_type_id and leave_apply.del_status=1 and leave_apply.is_active=1 and leave_apply.ex_int1=:status", nativeQuery = true)
 
 	List<GetLeaveApplyAuthwise> getLeaveApplyList(@Param("empIdList") List<GetEmployeeAuthorityWise> empIdList,@Param("status") int status);

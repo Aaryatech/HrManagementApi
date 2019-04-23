@@ -222,8 +222,31 @@ public class LeaveApplicationController {
 	
 	   //*************WS for leave approvals and updations and rejections*******************************
 	
-		@RequestMapping(value = { "/getLeaveApplyListForAuth" }, method = RequestMethod.GET)
+		@RequestMapping(value = { "/getLeaveApplyListForInitialAuth" }, method = RequestMethod.GET)
 		public @ResponseBody List<GetLeaveApplyAuthwise> getLeaveApplyAuthwiseList(@RequestParam("empId") int empId,@RequestParam("status") int status) {
+
+			List<GetLeaveApplyAuthwise> list = new ArrayList<GetLeaveApplyAuthwise>();
+			
+				List<GetEmployeeAuthorityWise> empIdList = new ArrayList<GetEmployeeAuthorityWise>();
+			
+			empIdList=getEmployeeAuthorityWise.getEmpIdListForInitialAuth(empId);
+			
+			System.err.println("empIdList"+empIdList.size());
+			try {
+
+				list = getLeaveApplyAuthwiseRepo.getLeaveApplyList(empIdList,status);
+
+			} catch (Exception e) {
+
+				e.printStackTrace();
+			}
+
+			return list;
+
+		}
+		
+		@RequestMapping(value = { "/getLeaveApplyListForFinalAuth" }, method = RequestMethod.GET)
+		public @ResponseBody List<GetLeaveApplyAuthwise> getLeaveApplyListForFinalAuth(@RequestParam("empId") int empId,@RequestParam("status") int status) {
 
 			List<GetLeaveApplyAuthwise> list = new ArrayList<GetLeaveApplyAuthwise>();
 			
@@ -275,31 +298,5 @@ public class LeaveApplicationController {
 		}
 		
 		
-		@RequestMapping(value = { "/updateTrailId" }, method = RequestMethod.POST)
-		public @ResponseBody Info updateTrailId(@RequestParam("leaveId") int leaveId,@RequestParam("trailId") int trailId) {
-
-			Info info = new Info();
-
-			try {
-
-				int delete = leaveApplyRepository.updateLeaveApply(leaveId,trailId);
-
-				if (delete > 0) {
-					info.setError(false);
-					info.setMsg("updated");
-				} else {
-					info.setError(true);
-					info.setMsg("failed");
-				}
-
-			} catch (Exception e) {
-
-				e.printStackTrace();
-				info.setError(true);
-				info.setMsg("failed");
-			}
-
-			return info;
-
-		}
+		
 }
