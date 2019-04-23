@@ -222,19 +222,28 @@ public class LeaveApplicationController {
 	
 	   //*************WS for leave approvals and updations and rejections*******************************
 	
-		@RequestMapping(value = { "/getLeaveApplyListForInitialAuth" }, method = RequestMethod.GET)
-		public @ResponseBody List<GetLeaveApplyAuthwise> getLeaveApplyAuthwiseList(@RequestParam("empId") int empId,@RequestParam("status") int status) {
-
+		@RequestMapping(value = { "/getLeaveApplyListForAuth" }, method = RequestMethod.POST)
+		public @ResponseBody List<GetLeaveApplyAuthwise> getLeaveApplyAuthwiseList(@RequestParam("empId") int empId,@RequestParam("statusList") List<Integer> statusList,
+				@RequestParam("authTypeId") int authTypeId,@RequestParam("currYrId") int currYrId) {
 			List<GetLeaveApplyAuthwise> list = new ArrayList<GetLeaveApplyAuthwise>();
-			
-				List<GetEmployeeAuthorityWise> empIdList = new ArrayList<GetEmployeeAuthorityWise>();
-			
+			List<GetEmployeeAuthorityWise> empIdList = new ArrayList<GetEmployeeAuthorityWise>();
+			if(authTypeId==1) {
+				
 			empIdList=getEmployeeAuthorityWise.getEmpIdListForInitialAuth(empId);
-			
 			System.err.println("empIdList"+empIdList.size());
+			
+			}
+			else {
+			
+			
+			empIdList=getEmployeeAuthorityWise.getEmpIdListForFinalAuth(empId);
+			System.err.println("empIdList"+empIdList.size());
+				
+			}
+			
 			try {
 
-				list = getLeaveApplyAuthwiseRepo.getLeaveApplyList(empIdList,status);
+				list = getLeaveApplyAuthwiseRepo.getLeaveApplyList(empIdList,statusList,currYrId);
 
 			} catch (Exception e) {
 
@@ -245,29 +254,31 @@ public class LeaveApplicationController {
 
 		}
 		
-		@RequestMapping(value = { "/getLeaveApplyListForFinalAuth" }, method = RequestMethod.GET)
-		public @ResponseBody List<GetLeaveApplyAuthwise> getLeaveApplyListForFinalAuth(@RequestParam("empId") int empId,@RequestParam("status") int status) {
-
-			List<GetLeaveApplyAuthwise> list = new ArrayList<GetLeaveApplyAuthwise>();
-			
-				List<GetEmployeeAuthorityWise> empIdList = new ArrayList<GetEmployeeAuthorityWise>();
-			
-			empIdList=getEmployeeAuthorityWise.getEmpIdList(empId);
-			
-			System.err.println("empIdList"+empIdList.size());
-			try {
-
-				list = getLeaveApplyAuthwiseRepo.getLeaveApplyList(empIdList,status);
-
-			} catch (Exception e) {
-
-				e.printStackTrace();
-			}
-
-			return list;
-
-		}
-		
+	/*
+	 * @RequestMapping(value = { "/getLeaveApplyListForFinalAuth" }, method =
+	 * RequestMethod.GET) public @ResponseBody List<GetLeaveApplyAuthwise>
+	 * getLeaveApplyListForFinalAuth(@RequestParam("empId") int
+	 * empId,@RequestParam("status") int status) {
+	 * 
+	 * List<GetLeaveApplyAuthwise> list = new ArrayList<GetLeaveApplyAuthwise>();
+	 * 
+	 * List<GetEmployeeAuthorityWise> empIdList = new
+	 * ArrayList<GetEmployeeAuthorityWise>();
+	 * 
+	 * empIdList=getEmployeeAuthorityWise.getEmpIdList(empId);
+	 * 
+	 * System.err.println("empIdList"+empIdList.size()); try {
+	 * 
+	 * list = getLeaveApplyAuthwiseRepo.getLeaveApplyList(empIdList,status);
+	 * 
+	 * } catch (Exception e) {
+	 * 
+	 * e.printStackTrace(); }
+	 * 
+	 * return list;
+	 * 
+	 * }
+	 */
 		
 		@RequestMapping(value = { "/updateLeaveStatus" }, method = RequestMethod.POST)
 		public @ResponseBody Info updateLeaveStatus(@RequestParam("leaveId") int leaveId,@RequestParam("status") int status) {
@@ -277,6 +288,35 @@ public class LeaveApplicationController {
 			try {
 
 				int delete = leaveApplyRepository.updateLeaveStatus(leaveId,status);
+
+				if (delete > 0) {
+					info.setError(false);
+					info.setMsg("updated status");
+				} else {
+					info.setError(true);
+					info.setMsg("failed");
+				}
+
+			} catch (Exception e) {
+
+				e.printStackTrace();
+				info.setError(true);
+				info.setMsg("failed");
+			}
+
+			return info;
+
+		}
+		
+		
+		@RequestMapping(value = { "/updateTrailId" }, method = RequestMethod.POST)
+		public @ResponseBody Info updateTrailId(@RequestParam("leaveId") int leaveId,@RequestParam("trailId") int trailId) {
+
+			Info info = new Info();
+
+			try {
+
+				int delete = leaveApplyRepository.updateLeaveApply(leaveId,trailId);
 
 				if (delete > 0) {
 					info.setError(false);

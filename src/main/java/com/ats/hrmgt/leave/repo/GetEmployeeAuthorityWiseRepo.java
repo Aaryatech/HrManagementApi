@@ -22,5 +22,10 @@ public interface GetEmployeeAuthorityWiseRepo extends JpaRepository<GetEmployeeA
 	List<GetEmployeeAuthorityWise> getEmpIdListForInitialAuth(@Param("empId") int empId
 			);
 	
+	@Query(value = " SELECT l.emp_id FROM leave_authority l WHERE l.fin_auth_emp_id=:empId", nativeQuery = true)
+
+	List<GetEmployeeAuthorityWise> getEmpIdListForFinalAuth(@Param("empId") int empId
+			);
+	
 	
 }
