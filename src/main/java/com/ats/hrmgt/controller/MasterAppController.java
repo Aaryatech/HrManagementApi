@@ -18,6 +18,7 @@ import com.ats.hrmgt.leave.repo.GetLeaveStatusRepo;
 import com.ats.hrmgt.leave.repo.LeaveDetailRepo;
 import com.ats.hrmgt.leave.repo.ProjectRepository;
 import com.ats.hrmgt.model.ClaimType;
+import com.ats.hrmgt.model.EmployeeInfo;
 import com.ats.hrmgt.model.Info;
 import com.ats.hrmgt.model.ProjectType;
 import com.ats.hrmgt.repository.EmployeeInfoRepository;
@@ -41,6 +42,8 @@ public class MasterAppController {
 	
 	@Autowired
 	GetLeaveStatusRepo getLeaveStatusRepo;
+	
+	
 	
 	@RequestMapping(value = { "/saveClaimType" }, method = RequestMethod.POST)
 	public @ResponseBody ClaimType saveClaimType(@RequestBody ClaimType claimType) {
@@ -295,26 +298,25 @@ public class MasterAppController {
 				return list;
 
 			}
-	/*
-	 * @RequestMapping(value = { "/getLeaveTrailByLeaveId" }, method =
-	 * RequestMethod.POST) public @ResponseBody List<GetLeaveStatus>
-	 * getLeaveTrailByLeaveId(@RequestParam("leaveId") int leaveId) {
-	 * 
-	 * 
-	 * List<GetLeaveStatus> list = new ArrayList<GetLeaveStatus>(); try {
-	 * 
-	 * 
-	 * list = getLeaveStatusRepo.getLeaveTrailByLeaveId(leaveId);
-	 * 
-	 * 
-	 * } catch (Exception e) {
-	 * 
-	 * e.printStackTrace(); }
-	 * 
-	 * return list;
-	 * 
-	 * }
-	 */
+		
+		  @RequestMapping(value = { "/getEmployeeListByEmpId" }, method = RequestMethod.POST)
+		  public @ResponseBody List<EmployeeInfo> getEmployeeListByEmpId(@RequestParam("empId") int empId) {
 
+		 
+			  List<EmployeeInfo> list = new ArrayList<EmployeeInfo>();
+			  try {
+			 
+			
+				list = employeeInfoRepository.getEmployeeListByEmpId(empId);
+			
+
+			  } catch (Exception e) {
+
+				  e.printStackTrace();
+			  }
+
+		return list;
+		
+	}
 }
 	

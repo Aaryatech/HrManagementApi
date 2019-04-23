@@ -27,4 +27,7 @@ public interface EmployeeInfoRepository extends JpaRepository<EmployeeInfo, Inte
 
 	List<EmployeeInfo> findByEmpEmailAndDelStatusAndIsActive(String empEmail, int delStatus, int isActive);
 
+	@Query(value = "select * from emp_info i,leave_authority la where  la.ini_auth_emp_id=:empId OR la.fin_auth_emp_id=:empId and i.del_status=1 and la.emp_id=i.emp_id", nativeQuery = true)	
+	List<EmployeeInfo> getEmployeeListByEmpId(int empId);
+
 }
