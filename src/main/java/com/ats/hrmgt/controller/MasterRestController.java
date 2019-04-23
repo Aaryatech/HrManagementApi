@@ -1120,23 +1120,22 @@ public class MasterRestController {
 	}
 
 	@RequestMapping(value = { "/getCalculateYearListIsCurrent" }, method = RequestMethod.GET)
-	public @ResponseBody List<CalenderYear> getCalculateYearListIsCurrent() {
+	public @ResponseBody CalenderYear getCalculateYearListIsCurrent() {
 
-		List<CalenderYear> list = new ArrayList<CalenderYear>();
+		CalenderYear calendearYear = new CalenderYear();
 		try {
 
-			list = calculateYearRepository.findByIsCurrent(1);
-			for (int i = 0; i < list.size(); i++) {
-				list.get(i).setCalYrFromDate(DateConvertor.convertToDMY(list.get(i).getCalYrFromDate()));
-				list.get(i).setCalYrToDate(DateConvertor.convertToDMY(list.get(i).getCalYrToDate()));
-			}
+			calendearYear = calculateYearRepository.findByIsCurrent(1);
+
+			calendearYear.setCalYrFromDate(DateConvertor.convertToDMY(calendearYear.getCalYrFromDate()));
+			calendearYear.setCalYrToDate(DateConvertor.convertToDMY(calendearYear.getCalYrToDate()));
 
 		} catch (Exception e) {
 
 			e.printStackTrace();
 		}
 
-		return list;
+		return calendearYear;
 
 	}
 

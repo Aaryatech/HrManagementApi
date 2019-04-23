@@ -6,71 +6,75 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "leave_balance_cal")
 public class LeaveBalanceCal {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="lvbal_id")
+	@Column(name = "lvbal_id")
 	private int lvbalId;
-	
-	@Column(name="cal_yr_id")
+
+	@Column(name = "cal_yr_id")
 	private int calYrId;
-	
-	@Column(name="emp_id")
+
+	@Column(name = "emp_id")
 	private int empId;
-	
-	@Column(name="lv_type_id")
+
+	@Column(name = "lv_type_id")
 	private int lvTypeId;
-	
-	@Column(name="op_bal")
+
+	@Column(name = "op_bal")
 	private float opBal;
-	
-	@Column(name="lvAlloted")
+
+	@Column(name = "lvAlloted")
 	private float lvAlloted;
-	
-	@Column(name="lv_encash")
-	private float lvEncash ;
-	
-	@Column(name="lv_encash_remarks")
+
+	@Column(name = "lv_encash")
+	private float lvEncash;
+
+	@Column(name = "lv_encash_remarks")
 	private String lvEncashRemarks;
-	
-	@Column(name="lv_carry_fwd")
+
+	@Column(name = "lv_carry_fwd")
 	private float lvCarryFwd;
-	
-	@Column(name="lv_carry_fwd_remarks")
+
+	@Column(name = "lv_carry_fwd_remarks")
 	private String lvCarryFwdRemarks;
-	
-	@Column(name="del_status")
+
+	@Column(name = "del_status")
 	private int delStatus;
-	
-	@Column(name="is_active")
+
+	@Column(name = "is_active")
 	private int isActive;
-	
-	@Column(name="maker_user_id ")
-	private int makerUserId ;
-	
-	@Column(name="maker_enter_datetime")
+
+	@Column(name = "maker_user_id ")
+	private int makerUserId;
+
+	@Column(name = "maker_enter_datetime")
 	private String makerEnterDatetime;
-	
-	@Column(name="ex_int1")
+
+	@Column(name = "ex_int1")
 	private int exInt1;
-	
-	@Column(name="ex_int2")
+
+	@Column(name = "ex_int2")
 	private int exInt2;
-	
-	@Column(name="ex_int3")
+
+	@Column(name = "ex_int3")
 	private int exInt3;
-	
-	@Column(name="ex_var1")
-	private String exVar1; 
-	
-	@Column(name="ex_var2")
-	private String exVar2; 
-	
-	@Column(name="ex_var3")
+
+	@Column(name = "ex_var1")
+	private String exVar1;
+
+	@Column(name = "ex_var2")
+	private String exVar2;
+
+	@Column(name = "ex_var3")
 	private String exVar3;
+
+	@Transient
+	private boolean error;
 
 	public int getLvbalId() {
 		return lvbalId;
@@ -232,6 +236,14 @@ public class LeaveBalanceCal {
 		this.exVar3 = exVar3;
 	}
 
+	public boolean isError() {
+		return error;
+	}
+
+	public void setError(boolean error) {
+		this.error = error;
+	}
+
 	@Override
 	public String toString() {
 		return "LeaveBalanceCal [lvbalId=" + lvbalId + ", calYrId=" + calYrId + ", empId=" + empId + ", lvTypeId="
@@ -240,8 +252,7 @@ public class LeaveBalanceCal {
 				+ lvCarryFwdRemarks + ", delStatus=" + delStatus + ", isActive=" + isActive + ", makerUserId="
 				+ makerUserId + ", makerEnterDatetime=" + makerEnterDatetime + ", exInt1=" + exInt1 + ", exInt2="
 				+ exInt2 + ", exInt3=" + exInt3 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", exVar3=" + exVar3
-				+ "]";
+				+ ", error=" + error + "]";
 	}
-	
-	
+
 }

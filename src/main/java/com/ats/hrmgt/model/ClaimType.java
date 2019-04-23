@@ -6,59 +6,63 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "claim_type")
 public class ClaimType {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="claim_type_id")
+	@Column(name = "claim_type_id")
 	private int claimTypeId;
-	
-	@Column(name="company_id")
+
+	@Column(name = "company_id")
 	private int companyId;
-	
-	@Column(name="claim_type_title")
+
+	@Column(name = "claim_type_title")
 	private String claimTypeTitle;
-	
-	@Column(name="claim_type_title_short")
-	private String claimTypeTitleShort;	
-	
-	@Column(name="claim_type_remarks")
+
+	@Column(name = "claim_type_title_short")
+	private String claimTypeTitleShort;
+
+	@Column(name = "claim_type_remarks")
 	private String claimTypeRemarks;
-	
-	@Column(name="claim_type_color")
-	private String claimTypeColor;	
-		
-	@Column(name="del_status")
+
+	@Column(name = "claim_type_color")
+	private String claimTypeColor;
+
+	@Column(name = "del_status")
 	private int delStatus;
-	
-	@Column(name="is_active")
+
+	@Column(name = "is_active")
 	private int isActive;
-	
-	@Column(name="maker_user_id ")
-	private int makerUserId ;
-	
-	@Column(name="maker_enter_datetime")
+
+	@Column(name = "maker_user_id ")
+	private int makerUserId;
+
+	@Column(name = "maker_enter_datetime")
 	private String makerEnterDatetime;
-	
-	@Column(name="ex_int1")
+
+	@Column(name = "ex_int1")
 	private int exInt1;
-	
-	@Column(name="ex_int2")
+
+	@Column(name = "ex_int2")
 	private int exInt2;
-	
-	@Column(name="ex_int3")
+
+	@Column(name = "ex_int3")
 	private int exInt3;
-	
-	@Column(name="ex_var1")
-	private String exVar1; 
-	
-	@Column(name="ex_var2")
-	private String exVar2; 
-	
-	@Column(name="ex_var3")
+
+	@Column(name = "ex_var1")
+	private String exVar1;
+
+	@Column(name = "ex_var2")
+	private String exVar2;
+
+	@Column(name = "ex_var3")
 	private String exVar3;
+
+	@Transient
+	private boolean error;
 
 	public int getClaimTypeId() {
 		return claimTypeId;
@@ -188,6 +192,14 @@ public class ClaimType {
 		this.exVar3 = exVar3;
 	}
 
+	public boolean isError() {
+		return error;
+	}
+
+	public void setError(boolean error) {
+		this.error = error;
+	}
+
 	@Override
 	public String toString() {
 		return "ClaimType [claimTypeId=" + claimTypeId + ", companyId=" + companyId + ", claimTypeTitle="
@@ -195,8 +207,7 @@ public class ClaimType {
 				+ claimTypeRemarks + ", claimTypeColor=" + claimTypeColor + ", delStatus=" + delStatus + ", isActive="
 				+ isActive + ", makerUserId=" + makerUserId + ", makerEnterDatetime=" + makerEnterDatetime + ", exInt1="
 				+ exInt1 + ", exInt2=" + exInt2 + ", exInt3=" + exInt3 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2
-				+ ", exVar3=" + exVar3 + "]";
+				+ ", exVar3=" + exVar3 + ", error=" + error + "]";
 	}
-	
-	
+
 }

@@ -11,7 +11,7 @@ import org.springframework.data.repository.query.Param;
 
 import com.ats.hrmgt.model.ClaimType;
 
-public interface ClaimRepository extends JpaRepository<ClaimType, Integer>{
+public interface ClaimRepository extends JpaRepository<ClaimType, Integer> {
 
 	List<ClaimType> findByDelStatusOrderByClaimTypeIdDesc(int i);
 
@@ -22,8 +22,8 @@ public interface ClaimRepository extends JpaRepository<ClaimType, Integer>{
 
 	ClaimType findByClaimTypeIdAndDelStatus(int claimTypeId, int i);
 
-	
+	List<ClaimType> findByDelStatusOrderByCompanyIdDesc(int i);
 
-	
+	List<ClaimType> findByDelStatusAndCompanyIdOrderByCompanyIdDesc(int i, int companyId);
 
 }

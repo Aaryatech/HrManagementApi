@@ -14,6 +14,6 @@ public interface CalculateYearRepository extends JpaRepository<CalenderYear, Int
 
 	CalenderYear findByCalYrId(int calYrId);
 
-	List<CalenderYear> findByIsCurrent(int i);
+	CalenderYear findByIsCurrent(int i);
 
 }
