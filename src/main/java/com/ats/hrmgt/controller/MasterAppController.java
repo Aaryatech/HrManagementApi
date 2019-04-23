@@ -10,10 +10,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.hrmgt.leave.model.LeaveDetail;
 import com.ats.hrmgt.leave.repo.ClaimAuthorityRepo;
 import com.ats.hrmgt.leave.repo.ClaimRepository;
+import com.ats.hrmgt.leave.repo.LeaveDetailRepo;
+import com.ats.hrmgt.leave.repo.ProjectRepository;
 import com.ats.hrmgt.model.ClaimType;
 import com.ats.hrmgt.model.Info;
+import com.ats.hrmgt.model.ProjectType;
 import com.ats.hrmgt.repository.EmployeeInfoRepository;
 
 @RestController
@@ -23,8 +27,16 @@ public class MasterAppController {
 	
 	@Autowired
 	EmployeeInfoRepository employeeInfoRepository;
+	
 	@Autowired
 	ClaimAuthorityRepo claimAuthorityRepo;
+	
+	@Autowired
+	LeaveDetailRepo leaveDetailRepo;
+	
+	@Autowired
+	ProjectRepository projectRepository;
+	
 	@RequestMapping(value = { "/saveClaimType" }, method = RequestMethod.POST)
 	public @ResponseBody ClaimType saveClaimType(@RequestBody ClaimType claimType) {
 
@@ -130,8 +142,103 @@ public class MasterAppController {
 	  
 	  }
 	 
-	
+	  @RequestMapping(value = { "/getLeaveDetailList" }, method = RequestMethod.POST)
+		public @ResponseBody List<LeaveDetail> getLeaveDetailList(@RequestParam("empId") int empId) {
 
+			 
+			List<LeaveDetail> list = new ArrayList<LeaveDetail>();
+			try {
+				 
+				
+					list = leaveDetailRepo.getLeaveDetailByEmpId(empId);
+				
+
+			} catch (Exception e) {
+	 
+				e.printStackTrace();
+			}
+
+			return list;
+
+		}
+	  @RequestMapping(value = { "/saveProjectType" }, method = RequestMethod.POST)
+		public @ResponseBody ProjectType saveProjectType(@RequestBody ProjectType projectType) {
+
+		  ProjectType save = new ProjectType();
+			try {
+
+				save = projectRepository.saveAndFlush(projectType);
+
+			} catch (Exception e) {
+
+				e.printStackTrace();
+			}
+
+			return save;
+
+		}
+
+		@RequestMapping(value = { "/getProjectList" }, method = RequestMethod.GET)
+		public @ResponseBody List<ProjectType> getProjectList() {
+
+			List<ProjectType> list = new ArrayList<ProjectType>();
+			try {
+
+				list = projectRepository.findByDelStatusOrderByProjectTypeIdDesc(1);
+
+			} catch (Exception e) {
+
+				e.printStackTrace();
+			}
+
+			return list;
+
+		}
+
+		@RequestMapping(value = { "/deleteProjectType" }, method = RequestMethod.POST)
+		public @ResponseBody Info deleteProjectType(@RequestParam("projectTypeId") int projectTypeId) {
+
+			Info info = new Info();
+
+			try {
+
+				int delete = projectRepository.deleteProjectType(projectTypeId);
+
+				if (delete > 0) {
+					info.setError(false);
+					info.setMsg("deleted");
+				} else {
+					info.setError(true);
+					info.setMsg("failed");
+				}
+
+			} catch (Exception e) {
+
+				e.printStackTrace();
+				info.setError(true);
+				info.setMsg("failed");
+			}
+
+			return info;
+
+		}
+
+		@RequestMapping(value = { "/getProjectById" }, method = RequestMethod.POST)
+		public @ResponseBody ProjectType getProjectById(@RequestParam("projectTypeId") int projectTypeId) {
+
+			ProjectType projectType = new ProjectType();
+			try {
+
+				projectType = projectRepository.findByProjectTypeIdAndDelStatus(projectTypeId, 1);
+
+			} catch (Exception e) {
+
+				e.printStackTrace();
+			}
+
+			return projectType;
+
+		}
 
 }
 	
