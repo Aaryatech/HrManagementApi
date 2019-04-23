@@ -21,3 +21,5 @@ public interface ClaimAuthorityRepo extends JpaRepository<ClaimAuthority, Intege
  * WHERE  l.del_status=1 and l.ex_int1=1 and l.emp_id=e.emp_id and d.emp_dept_id=e.emp_dept_id and lt.lv_type_id=l.lv_type_id 
  * and l.emp_id IN(SELECT emp_id FROM `leave_authority` WHERE ini_auth_emp_id=1 OR fin_auth_emp_id=1) */
  
+
+
