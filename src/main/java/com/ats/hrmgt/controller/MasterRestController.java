@@ -717,6 +717,23 @@ public class MasterRestController {
 
 	}
 
+	@RequestMapping(value = { "/getEmpInfoListForClaimAuth" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetEmployeeInfo> getEmpInfoListForClaimAuth(@RequestParam("companyId") int companyId) {
+
+		List<GetEmployeeInfo> list = new ArrayList<GetEmployeeInfo>();
+		try {
+
+			list = getEmpInfo.getEmpListByCompanyIdForAuthClaim(companyId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
+
 	@RequestMapping(value = { "/deleteEmpInfo" }, method = RequestMethod.POST)
 	public @ResponseBody Info deleteEmpInfo(@RequestParam("empId") int empId) {
 

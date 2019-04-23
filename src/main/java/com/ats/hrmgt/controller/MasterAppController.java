@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.hrmgt.leave.model.GetLeaveStatus;
 import com.ats.hrmgt.leave.model.LeaveDetail;
-import com.ats.hrmgt.leave.repo.ClaimAuthorityRepo;
+import com.ats.hrmgt.leave.repo.ClaimApplyRepo;
 import com.ats.hrmgt.leave.repo.ClaimRepository;
 import com.ats.hrmgt.leave.repo.GetLeaveStatusRepo;
 import com.ats.hrmgt.leave.repo.LeaveDetailRepo;
@@ -33,7 +33,7 @@ public class MasterAppController {
 	EmployeeInfoRepository employeeInfoRepository;
 
 	@Autowired
-	ClaimAuthorityRepo claimAuthorityRepo;
+	ClaimApplyRepo claimAuthorityRepo;
 
 	@Autowired
 	LeaveDetailRepo leaveDetailRepo;

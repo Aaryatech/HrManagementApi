@@ -7,15 +7,15 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.ats.hrmgt.model.ClaimAuthority;
+import com.ats.hrmgt.model.ClaimApply;
 
-public interface ClaimAuthorityRepo extends JpaRepository<ClaimAuthority, Integer>{
-/*
+public interface ClaimApplyRepo extends JpaRepository<ClaimApply, Integer>{
+
 	@Transactional
 	@Modifying
 	@Query("update ClaimType set claim_final_status=:status ,claim_remarks=:remark  WHERE emp_id=:empId and claim_id=:claimId")
 	int updateClaimStatus(@Param("empId") int empId,@Param("claimId") int claimId,@Param("status") int status,@Param("remark") String remark);
- */
+ 
 }
 /*SELECT l.*,e.emp_fname,e.emp_mname,e.emp_sname, e.emp_photo,d.emp_dept_name,lt.lv_title FROM leave_apply as l, emp_info as e ,m_emp_department d,leave_type lt 
  * WHERE  l.del_status=1 and l.ex_int1=1 and l.emp_id=e.emp_id and d.emp_dept_id=e.emp_dept_id and lt.lv_type_id=l.lv_type_id 

@@ -6,32 +6,39 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 @Entity
-@Table(name = "claim_authority")
-public class ClaimAuthority {
+@Table(name = "claim_apply")
+public class ClaimApply {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "ca_pkey ")
-
-	private int caPkey;
+	@Column(name = "claim_id")
+	private int claimId;
 
 	@Column(name = "emp_id")
 	private int empId;
 
-	@Column(name = "company_id")
-	private int companyId;
+	@Column(name = "project_id")
+	private int projectId;
 
-	@Column(name = "ca_ini_auth_emp_id")
-	private int caIniAuthEmpId;
+	@Column(name = "claim_type_id")
+	private int claimTypeId;
 
-	@Column(name = "ca_fin_auth_emp_id")
-	private int caFinAuthEmpId;
+	@Column(name = "claim_date")
+	private String claimDate;
 
-	@Column(name = "ca_rep_to_emp_ids")
-	private String caRepToEmpIds;
+	@Column(name = "claim_amount")
+	private float claimAmount;
+
+	@Column(name = "claim_remarks")
+	private String claimRemarks;
+
+	@Column(name = "claim_final_status")
+	private int claimFinalStatus;
+
+	@Column(name = "circulated_to")
+	private String circulatedTo;
 
 	@Column(name = "del_status")
 	private int delStatus;
@@ -63,15 +70,12 @@ public class ClaimAuthority {
 	@Column(name = "ex_var3")
 	private String exVar3;
 
-	@Transient
-	private boolean error;
-
-	public int getCaPkey() {
-		return caPkey;
+	public int getClaimId() {
+		return claimId;
 	}
 
-	public void setCaPkey(int caPkey) {
-		this.caPkey = caPkey;
+	public void setClaimId(int claimId) {
+		this.claimId = claimId;
 	}
 
 	public int getEmpId() {
@@ -82,36 +86,60 @@ public class ClaimAuthority {
 		this.empId = empId;
 	}
 
-	public int getCompanyId() {
-		return companyId;
+	public int getProjectId() {
+		return projectId;
 	}
 
-	public void setCompanyId(int companyId) {
-		this.companyId = companyId;
+	public void setProjectId(int projectId) {
+		this.projectId = projectId;
 	}
 
-	public int getCaIniAuthEmpId() {
-		return caIniAuthEmpId;
+	public int getClaimTypeId() {
+		return claimTypeId;
 	}
 
-	public void setCaIniAuthEmpId(int caIniAuthEmpId) {
-		this.caIniAuthEmpId = caIniAuthEmpId;
+	public void setClaimTypeId(int claimTypeId) {
+		this.claimTypeId = claimTypeId;
 	}
 
-	public int getCaFinAuthEmpId() {
-		return caFinAuthEmpId;
+	public String getClaimDate() {
+		return claimDate;
 	}
 
-	public void setCaFinAuthEmpId(int caFinAuthEmpId) {
-		this.caFinAuthEmpId = caFinAuthEmpId;
+	public void setClaimDate(String claimDate) {
+		this.claimDate = claimDate;
 	}
 
-	public String getCaRepToEmpIds() {
-		return caRepToEmpIds;
+	public float getClaimAmount() {
+		return claimAmount;
 	}
 
-	public void setCaRepToEmpIds(String caRepToEmpIds) {
-		this.caRepToEmpIds = caRepToEmpIds;
+	public void setClaimAmount(float claimAmount) {
+		this.claimAmount = claimAmount;
+	}
+
+	public String getClaimRemarks() {
+		return claimRemarks;
+	}
+
+	public void setClaimRemarks(String claimRemarks) {
+		this.claimRemarks = claimRemarks;
+	}
+
+	public int getClaimFinalStatus() {
+		return claimFinalStatus;
+	}
+
+	public void setClaimFinalStatus(int claimFinalStatus) {
+		this.claimFinalStatus = claimFinalStatus;
+	}
+
+	public String getCirculatedTo() {
+		return circulatedTo;
+	}
+
+	public void setCirculatedTo(String circulatedTo) {
+		this.circulatedTo = circulatedTo;
 	}
 
 	public int getDelStatus() {
@@ -194,22 +222,14 @@ public class ClaimAuthority {
 		this.exVar3 = exVar3;
 	}
 
-	public boolean isError() {
-		return error;
-	}
-
-	public void setError(boolean error) {
-		this.error = error;
-	}
-
 	@Override
 	public String toString() {
-		return "ClaimAuthority [caPkey=" + caPkey + ", empId=" + empId + ", companyId=" + companyId
-				+ ", caIniAuthEmpId=" + caIniAuthEmpId + ", caFinAuthEmpId=" + caFinAuthEmpId + ", caRepToEmpIds="
-				+ caRepToEmpIds + ", delStatus=" + delStatus + ", isActive=" + isActive + ", makerUserId=" + makerUserId
+		return "ClaimAuthority [claimId=" + claimId + ", empId=" + empId + ", projectId=" + projectId + ", claimTypeId="
+				+ claimTypeId + ", claimDate=" + claimDate + ", claimAmount=" + claimAmount + ", claimRemarks="
+				+ claimRemarks + ", claimFinalStatus=" + claimFinalStatus + ", circulatedTo=" + circulatedTo
+				+ ", delStatus=" + delStatus + ", isActive=" + isActive + ", makerUserId=" + makerUserId
 				+ ", makerEnterDatetime=" + makerEnterDatetime + ", exInt1=" + exInt1 + ", exInt2=" + exInt2
-				+ ", exInt3=" + exInt3 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", exVar3=" + exVar3 + ", error="
-				+ error + "]";
+				+ ", exInt3=" + exInt3 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", exVar3=" + exVar3 + "]";
 	}
 
 }
