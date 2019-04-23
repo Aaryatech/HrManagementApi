@@ -27,48 +27,60 @@ import com.ats.hrmgt.repository.EmployeeInfoRepository;
 public class MasterAppController {
 	@Autowired
 	ClaimRepository claimRepository;
-	
+
 	@Autowired
 	EmployeeInfoRepository employeeInfoRepository;
-	
+
 	@Autowired
 	ClaimAuthorityRepo claimAuthorityRepo;
-	
+
 	@Autowired
 	LeaveDetailRepo leaveDetailRepo;
-	
+
 	@Autowired
 	ProjectRepository projectRepository;
-	
+
 	@Autowired
 	GetLeaveStatusRepo getLeaveStatusRepo;
-	
-	
-	
-	@RequestMapping(value = { "/saveClaimType" }, method = RequestMethod.POST)
-	public @ResponseBody ClaimType saveClaimType(@RequestBody ClaimType claimType) {
 
-		ClaimType save = new ClaimType();
+	@RequestMapping(value = { "/updateClaimStatus" }, method = RequestMethod.POST)
+	public @ResponseBody Info updateClaimStatus(@RequestParam("empId") int empId, @RequestParam("claimId") int claimId,
+			@RequestParam("status") int status,
+
+			@RequestParam("remark") String remark) {
+
+		Info info = new Info();
+
 		try {
 
-			save = claimRepository.saveAndFlush(claimType);
+			int updateStatus = claimAuthorityRepo.updateClaimStatus(empId, claimId, status, remark);
+
+			if (updateStatus > 0) {
+				info.setError(false);
+				info.setMsg("Updated Successfully");
+			} else {
+				info.setError(true);
+				info.setMsg("failed");
+			}
 
 		} catch (Exception e) {
 
 			e.printStackTrace();
+			info.setError(true);
+			info.setMsg("failed");
 		}
 
-		return save;
+		return info;
 
 	}
 
-	@RequestMapping(value = { "/getClaimList" }, method = RequestMethod.GET)
-	public @ResponseBody List<ClaimType> getClaimList() {
+	@RequestMapping(value = { "/getLeaveDetailList" }, method = RequestMethod.POST)
+	public @ResponseBody List<LeaveDetail> getLeaveDetailList(@RequestParam("empId") int empId) {
 
-		List<ClaimType> list = new ArrayList<ClaimType>();
+		List<LeaveDetail> list = new ArrayList<LeaveDetail>();
 		try {
 
-			list = claimRepository.findByDelStatusOrderByClaimTypeIdDesc(1);
+			list = leaveDetailRepo.getLeaveDetailByEmpId(empId);
 
 		} catch (Exception e) {
 
@@ -79,14 +91,48 @@ public class MasterAppController {
 
 	}
 
-	@RequestMapping(value = { "/deleteClaimType" }, method = RequestMethod.POST)
-	public @ResponseBody Info deleteClaimType(@RequestParam("claimTypeId") int claimTypeId) {
+	@RequestMapping(value = { "/saveProjectType" }, method = RequestMethod.POST)
+	public @ResponseBody ProjectType saveProjectType(@RequestBody ProjectType projectType) {
+
+		ProjectType save = new ProjectType();
+		try {
+
+			save = projectRepository.saveAndFlush(projectType);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return save;
+
+	}
+
+	@RequestMapping(value = { "/getProjectList" }, method = RequestMethod.GET)
+	public @ResponseBody List<ProjectType> getProjectList() {
+
+		List<ProjectType> list = new ArrayList<ProjectType>();
+		try {
+
+			list = projectRepository.findByDelStatusOrderByProjectTypeIdDesc(1);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
+
+	@RequestMapping(value = { "/deleteProjectType" }, method = RequestMethod.POST)
+	public @ResponseBody Info deleteProjectType(@RequestParam("projectTypeId") int projectTypeId) {
 
 		Info info = new Info();
 
 		try {
 
-			int delete = claimRepository.deleteClaimType(claimTypeId);
+			int delete = projectRepository.deleteProjectType(projectTypeId);
 
 			if (delete > 0) {
 				info.setError(false);
@@ -107,216 +153,81 @@ public class MasterAppController {
 
 	}
 
-	@RequestMapping(value = { "/getClaimById" }, method = RequestMethod.POST)
-	public @ResponseBody ClaimType getClaimById(@RequestParam("claimTypeId") int claimTypeId) {
+	@RequestMapping(value = { "/getProjectById" }, method = RequestMethod.POST)
+	public @ResponseBody ProjectType getProjectById(@RequestParam("projectTypeId") int projectTypeId) {
 
-		ClaimType claimType = new ClaimType();
+		ProjectType projectType = new ProjectType();
 		try {
 
-			claimType = claimRepository.findByClaimTypeIdAndDelStatus(claimTypeId, 1);
+			projectType = projectRepository.findByProjectTypeIdAndDelStatus(projectTypeId, 1);
 
 		} catch (Exception e) {
 
 			e.printStackTrace();
 		}
 
-		return claimType;
+		return projectType;
 
 	}
-	
-	  @RequestMapping(value = { "/updateClaimStatus" }, method =
-	  RequestMethod.POST) public @ResponseBody Info
-	  updateClaimStatus(@RequestParam("empId") int empId,@RequestParam("claimId")
-	  int claimId ,@RequestParam("status") int status,
-	  
-	  @RequestParam("remark") String remark) {
-	  
-	  Info info = new Info();
-	  
-	  try {
-	  
-	  int updateStatus =
-			  claimAuthorityRepo.updateClaimStatus(empId,claimId,status,remark);
-	  
-	  if (updateStatus > 0) { info.setError(false);
-	  info.setMsg("Updated Successfully"); } else { info.setError(true);
-	  info.setMsg("failed"); }
-	  
-	  } catch (Exception e) {
-	  
-	  e.printStackTrace(); info.setError(true); info.setMsg("failed"); }
-	  
-	  return info;
-	  
-	  }
-	 
-	  @RequestMapping(value = { "/getLeaveDetailList" }, method = RequestMethod.POST)
-		public @ResponseBody List<LeaveDetail> getLeaveDetailList(@RequestParam("empId") int empId) {
 
-			 
-			List<LeaveDetail> list = new ArrayList<LeaveDetail>();
-			try {
-				 
-				
-					list = leaveDetailRepo.getLeaveDetailByEmpId(empId);
-				
+	@RequestMapping(value = { "/getLeaveStatusList" }, method = RequestMethod.POST)
+	public @ResponseBody List<LeaveDetail> getLeaveStatuslist(@RequestParam("empId") int empId,
+			@RequestParam("status") String status) {
 
-			} catch (Exception e) {
-	 
-				e.printStackTrace();
-			}
+		List<LeaveDetail> list = new ArrayList<LeaveDetail>();
+		// List<LeaveDetail> result = new ArrayList<LeaveDetail>();
 
-			return list;
+		try {
 
-		}
-	  @RequestMapping(value = { "/saveProjectType" }, method = RequestMethod.POST)
-		public @ResponseBody ProjectType saveProjectType(@RequestBody ProjectType projectType) {
-
-		  ProjectType save = new ProjectType();
-			try {
-
-				save = projectRepository.saveAndFlush(projectType);
-
-			} catch (Exception e) {
-
-				e.printStackTrace();
-			}
-
-			return save;
-
-		}
-
-		@RequestMapping(value = { "/getProjectList" }, method = RequestMethod.GET)
-		public @ResponseBody List<ProjectType> getProjectList() {
-
-			List<ProjectType> list = new ArrayList<ProjectType>();
-			try {
-
-				list = projectRepository.findByDelStatusOrderByProjectTypeIdDesc(1);
-
-			} catch (Exception e) {
-
-				e.printStackTrace();
-			}
-
-			return list;
-
-		}
-
-		@RequestMapping(value = { "/deleteProjectType" }, method = RequestMethod.POST)
-		public @ResponseBody Info deleteProjectType(@RequestParam("projectTypeId") int projectTypeId) {
-
-			Info info = new Info();
-
-			try {
-
-				int delete = projectRepository.deleteProjectType(projectTypeId);
-
-				if (delete > 0) {
-					info.setError(false);
-					info.setMsg("deleted");
-				} else {
-					info.setError(true);
-					info.setMsg("failed");
+			list = leaveDetailRepo.getLeaveStatus(empId, status);
+			if (list != null) {
+				for (int i = 1; i < list.size(); i++) {
+					List<GetLeaveStatus> leaveStatus = new ArrayList<GetLeaveStatus>();
+					leaveStatus = getLeaveStatusRepo.getLeaveTrailByLeaveId(list.get(i).getLeaveId());
+					list.get(i).setGetLeaveStatusList(leaveStatus);
 				}
-
-			} catch (Exception e) {
-
-				e.printStackTrace();
-				info.setError(true);
-				info.setMsg("failed");
 			}
 
-			return info;
+		} catch (Exception e) {
 
+			e.printStackTrace();
 		}
-		
-		
-
-		@RequestMapping(value = { "/getProjectById" }, method = RequestMethod.POST)
-		public @ResponseBody ProjectType getProjectById(@RequestParam("projectTypeId") int projectTypeId) {
-
-			ProjectType projectType = new ProjectType();
-			try {
-
-				projectType = projectRepository.findByProjectTypeIdAndDelStatus(projectTypeId, 1);
-
-			} catch (Exception e) {
-
-				e.printStackTrace();
-			}
-
-			return projectType;
-
-		}
-		  @RequestMapping(value = { "/getLeaveStatusList" }, method = RequestMethod.POST)
-			public @ResponseBody List<LeaveDetail> getLeaveStatuslist(@RequestParam("empId") int empId ,@RequestParam("status") String status ) {
-
-				 
-				List<LeaveDetail> list = new ArrayList<LeaveDetail>();
-				//List<LeaveDetail> result = new ArrayList<LeaveDetail>();
-			
-				try {
-					 
-					
-						list = leaveDetailRepo.getLeaveStatus(empId,status);
-						if(list!=null)
-						{
-							for(int i=1; i<list.size();i++)
-							{
-								List<GetLeaveStatus> leaveStatus = new ArrayList<GetLeaveStatus>();
-								leaveStatus = getLeaveStatusRepo.getLeaveTrailByLeaveId(list.get(i).getLeaveId());
-								list.get(i).setGetLeaveStatusList(leaveStatus);
-							}
-						}
-							
-
-				} catch (Exception e) {
-		 
-					e.printStackTrace();
-				}
-
-				return list;
-
-			}
-		  @RequestMapping(value = { "/getLeaveStatusByEmpId" }, method = RequestMethod.POST)
-			public @ResponseBody List<LeaveDetail> getLeaveStatusByEmpId(@RequestParam("empId") int empId) {
-
-				 
-				List<LeaveDetail> list = new ArrayList<LeaveDetail>();
-				try {
-					 
-					
-						list = leaveDetailRepo.getLeaveStatusByEmpId(empId);
-					
-
-				} catch (Exception e) {
-		 
-					e.printStackTrace();
-				}
-
-				return list;
-
-			}
-		
-		  @RequestMapping(value = { "/getEmployeeListByEmpId" }, method = RequestMethod.POST)
-		  public @ResponseBody List<EmployeeInfo> getEmployeeListByEmpId(@RequestParam("empId") int empId) {
-
-		 
-			  List<EmployeeInfo> list = new ArrayList<EmployeeInfo>();
-			  try {
-			 
-			
-				list = employeeInfoRepository.getEmployeeListByEmpId(empId);
-			
-
-			  } catch (Exception e) {
-
-				  e.printStackTrace();
-			  }
 
 		return list;
-		
+
+	}
+
+	@RequestMapping(value = { "/getLeaveStatusByEmpId" }, method = RequestMethod.POST)
+	public @ResponseBody List<LeaveDetail> getLeaveStatusByEmpId(@RequestParam("empId") int empId) {
+
+		List<LeaveDetail> list = new ArrayList<LeaveDetail>();
+		try {
+
+			list = leaveDetailRepo.getLeaveStatusByEmpId(empId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
+
+	@RequestMapping(value = { "/getEmployeeListByEmpId" }, method = RequestMethod.POST)
+	public @ResponseBody List<EmployeeInfo> getEmployeeListByEmpId(@RequestParam("empId") int empId) {
+
+		List<EmployeeInfo> list = new ArrayList<EmployeeInfo>();
+		try {
+
+			list = employeeInfoRepository.getEmployeeListByEmpId(empId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return list;
+
 	}
 }
-	
