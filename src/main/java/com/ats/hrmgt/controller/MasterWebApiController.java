@@ -25,6 +25,7 @@ import com.ats.hrmgt.repository.EmpTypeRepository;
 import com.ats.hrmgt.repository.GetEmpInfoRepo;
 import com.ats.hrmgt.repository.LeaveSummaryRepository;
 import com.ats.hrmgt.repository.LocationRepository;
+import com.ats.hrmgt.repository.LoginResponseRepo;
 import com.ats.hrmgt.repository.UserRepo;
 
 
@@ -49,6 +50,8 @@ public class MasterWebApiController {
 	@Autowired
 	LeaveSummaryRepository leaveSummaryRepository;
 	
+	@Autowired
+	LoginResponseRepo loginResponseRepo;
 	
 	@RequestMapping(value = { "/GetEmployeeInfo" }, method = RequestMethod.POST)
 	public @ResponseBody GetEmployeeInfo getEmployeeInfo(@RequestParam("empId") int empId) {
@@ -71,38 +74,29 @@ public class MasterWebApiController {
 	public @ResponseBody LoginResponse loginUser(@RequestParam("username") String userName,
 			@RequestParam("userPass") String pass) {
 
-		System.err.println("inside loginUser ");
-
-		User user = userRepo.findByDelStatusAndIsActiveAndUserNameAndUserPwd(1, 1, userName, pass);
+		 
 		LoginResponse loginResponse = new LoginResponse();
-		if(user!=null) {
-		int empId=user.getEmpId();
-		int empTypeId=user.getEmpTypeId();
-		
-		GetEmployeeInfo einfo=new GetEmployeeInfo();
-		
-		einfo=getEmpInfo.getEmpByEmpId(empId);
-		System.err.println("einfo :::"+einfo.toString());
-		
-		EmpType empType = new EmpType();
-		
-	    empType = empTypeRepository.findByEmpTypeIdAndDelStatus(einfo.getEmpTypeId(), 1);
-
-	System.err.println("emp type:::"+empType.toString());
-		loginResponse.setGetData(einfo);
-		loginResponse.setEmpType(empType);
-		loginResponse.setUserId(user.getUserId());
-		loginResponse.setLocId(user.getLocId());
-		loginResponse.setUserName(user.getUserName());
-		loginResponse.setErrMsg("false");
-		
-		
+		try {
+			
+			 loginResponse = loginResponseRepo.loginUser(userName, pass);
+			 
+			 if(loginResponse==null) {
+				 loginResponse = new LoginResponse();
+				 loginResponse.setError(true);
+				 loginResponse.setMsg("record Not found");
+			 }else {
+				 loginResponse.setError(false);
+				 loginResponse.setMsg("Record Found");
+			 }
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+			
+			loginResponse = new LoginResponse();
+			 loginResponse.setError(true);
+			 loginResponse.setMsg("record Not found");
 		}
-		
-		else {
-			loginResponse.setErrMsg("true");
-		}
-		
+		 
 		return loginResponse;
 
 	}
