@@ -17,10 +17,11 @@ import com.ats.hrmgt.leave.repo.ClaimRepository;
 import com.ats.hrmgt.leave.repo.GetLeaveStatusRepo;
 import com.ats.hrmgt.leave.repo.LeaveDetailRepo;
 import com.ats.hrmgt.leave.repo.ProjectRepository;
-import com.ats.hrmgt.model.ClaimType;
+import com.ats.hrmgt.model.DashboardCount;
 import com.ats.hrmgt.model.EmployeeInfo;
 import com.ats.hrmgt.model.Info;
 import com.ats.hrmgt.model.ProjectType;
+import com.ats.hrmgt.repository.DashboardRepo;
 import com.ats.hrmgt.repository.EmployeeInfoRepository;
 
 @RestController
@@ -42,6 +43,9 @@ public class MasterAppController {
 
 	@Autowired
 	GetLeaveStatusRepo getLeaveStatusRepo;
+	
+	@Autowired
+	DashboardRepo dashboardRepo;
 
 	@RequestMapping(value = { "/updateClaimStatus" }, method = RequestMethod.POST)
 	public @ResponseBody Info updateClaimStatus(@RequestParam("empId") int empId, @RequestParam("claimId") int claimId,
@@ -228,6 +232,23 @@ public class MasterAppController {
 		}
 
 		return list;
+
+	}
+	
+	@RequestMapping(value = { "/getDashboardCount" }, method = RequestMethod.POST)
+	public @ResponseBody DashboardCount getDashboardCount(@RequestParam("empId") int empId) {
+
+		DashboardCount dashboardCount = new DashboardCount();
+		try {
+
+			dashboardCount = dashboardRepo.getDashboardCount(empId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return dashboardCount;
 
 	}
 }

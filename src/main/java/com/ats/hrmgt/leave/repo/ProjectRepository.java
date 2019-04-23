@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import com.ats.hrmgt.model.DashboardCount;
 import com.ats.hrmgt.model.ProjectType;
 
 public interface ProjectRepository extends JpaRepository<ProjectType, Integer>{
@@ -20,5 +21,7 @@ public interface ProjectRepository extends JpaRepository<ProjectType, Integer>{
 	@Modifying
 	@Query("update ProjectType set del_status=0  WHERE project_type_id=:projectTypeId")
 	int deleteProjectType(int projectTypeId);
+
+
 
 }
