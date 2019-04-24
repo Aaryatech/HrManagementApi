@@ -15,9 +15,7 @@ public class GetLeaveStatus {
 	private String empRemarks;
 	
 	private int leaveStatus;
-	
-	private int makerUserId ;
-	
+		
 	private String makerEnterDatetime;
 	
 	private String empFname;
@@ -68,14 +66,6 @@ public class GetLeaveStatus {
 		this.leaveStatus = leaveStatus;
 	}
 
-	public int getMakerUserId() {
-		return makerUserId;
-	}
-
-	public void setMakerUserId(int makerUserId) {
-		this.makerUserId = makerUserId;
-	}
-
 	public String getMakerEnterDatetime() {
 		return makerEnterDatetime;
 	}
@@ -119,10 +109,12 @@ public class GetLeaveStatus {
 	@Override
 	public String toString() {
 		return "GetLeaveStatus [trailPkey=" + trailPkey + ", leaveId=" + leaveId + ", empId=" + empId + ", empRemarks="
-				+ empRemarks + ", leaveStatus=" + leaveStatus + ", makerUserId=" + makerUserId + ", makerEnterDatetime="
-				+ makerEnterDatetime + ", empFname=" + empFname + ", empMname=" + empMname + ", empSname=" + empSname
-				+ ", empPhoto=" + empPhoto + "]";
+				+ empRemarks + ", leaveStatus=" + leaveStatus + ", makerEnterDatetime=" + makerEnterDatetime
+				+ ", empFname=" + empFname + ", empMname=" + empMname + ", empSname=" + empSname + ", empPhoto="
+				+ empPhoto + "]";
 	}
+
+	
 	
 	
 }

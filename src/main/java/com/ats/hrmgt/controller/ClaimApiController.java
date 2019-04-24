@@ -11,12 +11,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.hrmgt.leave.model.GetClaimApplyAuthWise;
+import com.ats.hrmgt.leave.model.GetEmployeeAuthorityWise;
+import com.ats.hrmgt.leave.model.GetLeaveApplyAuthwise;
 import com.ats.hrmgt.leave.model.GetLeaveAuthority;
 import com.ats.hrmgt.leave.model.Holiday;
 import com.ats.hrmgt.leave.model.LeaveAuthority;
 import com.ats.hrmgt.leave.repo.ClaimAuthorityRepo;
 import com.ats.hrmgt.leave.repo.ClaimRepository;
+import com.ats.hrmgt.leave.repo.GetClaimApplyAuthRepo;
 import com.ats.hrmgt.leave.repo.GetClaimAuthorityRepo;
+import com.ats.hrmgt.leave.repo.GetEmployeeAuthorityWiseRepo;
 import com.ats.hrmgt.model.ClaimAuthority;
 import com.ats.hrmgt.model.ClaimType;
 import com.ats.hrmgt.model.GetClaimAuthority;
@@ -34,6 +39,11 @@ public class ClaimApiController {
 	@Autowired
 	GetClaimAuthorityRepo getClaimAuthorityRepo;
 	
+	@Autowired
+	GetClaimApplyAuthRepo getClaimApplyAuthRepo;
+	
+	@Autowired
+	GetEmployeeAuthorityWiseRepo getEmployeeAuthorityWise;	
 	
 	@RequestMapping(value = { "/getClaimAuthorityListByEmpId" }, method = RequestMethod.POST)
 	public @ResponseBody ClaimAuthority getLeaveAuthorityListByEmpId(@RequestParam("empId") int empId) {
@@ -197,5 +207,35 @@ public class ClaimApiController {
 		return claimType;
 
 	}
+	@RequestMapping(value = { "/getClaimApplyListForAuth" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetClaimApplyAuthWise> getClaimApplyListForAuth(@RequestParam("empId") int empId,@RequestParam("statusList") List<Integer> statusList,
+			@RequestParam("authTypeId") int authTypeId) {
+		List<GetClaimApplyAuthWise> list = new ArrayList<GetClaimApplyAuthWise>();
+		List<GetEmployeeAuthorityWise> empIdList = new ArrayList<GetEmployeeAuthorityWise>();
+		if(authTypeId==1) {
+			
+		empIdList=getEmployeeAuthorityWise.getClaimIdListForInitialAuth(empId);
+		System.err.println("empIdList"+empIdList.size());
+		
+		}
+		else {
+		
+		
+		empIdList=getEmployeeAuthorityWise.getClaimIdListForFinalAuth(empId);
+		System.err.println("empIdList"+empIdList.size());
+			
+		}
+		
+		try {
 
+			list = getClaimApplyAuthRepo.getClaimApplyList(empIdList,statusList);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
 }

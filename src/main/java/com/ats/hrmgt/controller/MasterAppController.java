@@ -185,7 +185,7 @@ public class MasterAppController {
 
 			list = leaveDetailRepo.getLeaveStatus(empId, status);
 			if (list != null) {
-				for (int i = 1; i < list.size(); i++) {
+				for (int i = 0; i < list.size(); i++) {
 					List<GetLeaveStatus> leaveStatus = new ArrayList<GetLeaveStatus>();
 					leaveStatus = getLeaveStatusRepo.getLeaveTrailByLeaveId(list.get(i).getLeaveId());
 					list.get(i).setGetLeaveStatusList(leaveStatus);

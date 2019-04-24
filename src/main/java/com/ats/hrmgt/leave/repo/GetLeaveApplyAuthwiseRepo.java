@@ -28,6 +28,7 @@ public interface GetLeaveApplyAuthwiseRepo extends JpaRepository<GetLeaveApplyAu
 			"    emp_info.emp_fname,\n" + 
 			"    emp_info.emp_mname,\n" + 
 			"    emp_info.emp_sname,\n" + 
+			"    emp_info.emp_photo ,\n" + 
 			"    leave_type.lv_title as leave_title\n, 0 as leave_type_name " + 
 			"FROM\n" + 
 			"    leave_type,\n" + 

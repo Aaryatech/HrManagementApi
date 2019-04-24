@@ -24,6 +24,8 @@ public class GetLeaveApplyAuthwise {
 	
 	private String empCode;
 	
+	private String empPhoto;
+	
  	private int lvTypeId;
  	
  	private String leaveTypeName;
@@ -104,6 +106,15 @@ public class GetLeaveApplyAuthwise {
 		this.empCode = empCode;
 	}
 
+	
+	public String getEmpPhoto() {
+		return empPhoto;
+	}
+
+	public void setEmpPhoto(String empPhoto) {
+		this.empPhoto = empPhoto;
+	}
+
 	public int getLvTypeId() {
 		return lvTypeId;
 	}
@@ -172,12 +183,13 @@ public class GetLeaveApplyAuthwise {
 	public String toString() {
 		return "GetLeaveApplyAuthwise [leaveId=" + leaveId + ", calYrId=" + calYrId + ", leaveTitle=" + leaveTitle
 				+ ", empId=" + empId + ", empFname=" + empFname + ", empMname=" + empMname + ", empSname=" + empSname
-				+ ", empCode=" + empCode + ", lvTypeId=" + lvTypeId + ", leaveTypeName=" + leaveTypeName
-				+ ", leaveDuration=" + leaveDuration + ", leaveFromdt=" + leaveFromdt + ", leaveTodt=" + leaveTodt
-				+ ", leaveNumDays=" + leaveNumDays + ", leaveEmpReason=" + leaveEmpReason + ", circulatedTo="
-				+ circulatedTo + "]";
+				+ ", empCode=" + empCode + ", empPhoto=" + empPhoto + ", lvTypeId=" + lvTypeId + ", leaveTypeName="
+				+ leaveTypeName + ", leaveDuration=" + leaveDuration + ", leaveFromdt=" + leaveFromdt + ", leaveTodt="
+				+ leaveTodt + ", leaveNumDays=" + leaveNumDays + ", leaveEmpReason=" + leaveEmpReason
+				+ ", circulatedTo=" + circulatedTo + "]";
 	}
-		
+
+	
 	
 	
 
