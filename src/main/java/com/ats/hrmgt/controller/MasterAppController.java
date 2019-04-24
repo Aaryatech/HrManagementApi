@@ -10,10 +10,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.hrmgt.leave.model.ClaimDetail;
+import com.ats.hrmgt.leave.model.GetClaimTrailStatus;
 import com.ats.hrmgt.leave.model.GetLeaveStatus;
 import com.ats.hrmgt.leave.model.LeaveDetail;
 import com.ats.hrmgt.leave.repo.ClaimApplyRepo;
+import com.ats.hrmgt.leave.repo.ClaimDetailRepo;
 import com.ats.hrmgt.leave.repo.ClaimRepository;
+import com.ats.hrmgt.leave.repo.GetClaimTrailStatusRepo;
 import com.ats.hrmgt.leave.repo.GetLeaveStatusRepo;
 import com.ats.hrmgt.leave.repo.LeaveDetailRepo;
 import com.ats.hrmgt.leave.repo.ProjectRepository;
@@ -47,6 +51,12 @@ public class MasterAppController {
 	@Autowired
 	DashboardRepo dashboardRepo;
 
+	@Autowired
+	ClaimDetailRepo claimDetailRepo;
+	
+	@Autowired
+	GetClaimTrailStatusRepo getClaimTrailStatusRepo;
+	
 	@RequestMapping(value = { "/updateClaimStatus" }, method = RequestMethod.POST)
 	public @ResponseBody Info updateClaimStatus(@RequestParam("empId") int empId, @RequestParam("claimId") int claimId,
 			@RequestParam("status") int status,
@@ -269,6 +279,65 @@ public class MasterAppController {
 		}
 
 		return dashboardCount;
+
+	}
+	@RequestMapping(value = { "/getLeaveTrailList" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetLeaveStatus> getLeaveTrailList(@RequestParam("leaveId") int leaveId){
+
+		List<GetLeaveStatus> leaveStatus = new ArrayList<GetLeaveStatus>();
+		try {
+					leaveStatus = getLeaveStatusRepo.getLeaveTrailByLeaveId(leaveId);				
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return leaveStatus;
+
+	}
+	
+	@RequestMapping(value = { "/getEmpListForClaimAuthByEmpId" }, method = RequestMethod.POST)
+	public @ResponseBody List<EmployeeInfo> getEmpListForClaimAuthByEmpId(@RequestParam("empId") int empId) {
+
+		List<EmployeeInfo> list = new ArrayList<EmployeeInfo>();
+		try {
+
+			list = employeeInfoRepository.getEmpListForClaimByEmpId(empId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
+	
+	@RequestMapping(value = { "/getClaimStatusList" }, method = RequestMethod.POST)
+	public @ResponseBody List<ClaimDetail> getClaimStatusList(@RequestParam("empId") int empId,
+			@RequestParam("status") String status) {
+
+		List<ClaimDetail> list = new ArrayList<ClaimDetail>();
+		// List<LeaveDetail> result = new ArrayList<LeaveDetail>();
+
+		try {
+
+			list = claimDetailRepo.getClaimStatus(empId, status);
+			if (list != null) {
+				for (int i = 0; i < list.size(); i++) {
+					List<GetClaimTrailStatus> leaveStatus = new ArrayList<GetClaimTrailStatus>();
+					leaveStatus = getClaimTrailStatusRepo.getClaimTrailByClaimId(list.get(i).getClaimId());
+					list.get(i).setGetClaimTrailStatus(leaveStatus);
+				}
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return list;
 
 	}
 }
