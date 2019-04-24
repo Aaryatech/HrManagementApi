@@ -1116,7 +1116,7 @@ public class MasterRestController {
 
 					LeaveBalanceCal leaveBalanceCal = new LeaveBalanceCal();
 
-					leaveBalanceCal.setCalYrId(2);
+					leaveBalanceCal.setCalYrId(save.getCalYrId());
 					leaveBalanceCal.setDelStatus(1);
 					leaveBalanceCal.setEmpId(save.getEmpId());
 					leaveBalanceCal.setIsActive(1);
@@ -1258,7 +1258,7 @@ public class MasterRestController {
 		return leaveAuthority;
 
 	}
-	
+
 	@RequestMapping(value = { "/saveEmpDocList" }, method = RequestMethod.POST)
 	public @ResponseBody List<EmployeDoc> saveEmpDocList(@RequestBody List<EmployeDoc> employeeDepartment) {
 
