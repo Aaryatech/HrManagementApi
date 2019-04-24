@@ -10,6 +10,8 @@ import org.springframework.data.repository.query.Param;
 import com.ats.hrmgt.model.ClaimAuthority;
 
 public interface ClaimAuthorityRepo extends JpaRepository<ClaimAuthority, Integer>{
+
+	ClaimAuthority findByDelStatusAndEmpId(int i, int empId);
 /*
 	@Transactional
 	@Modifying

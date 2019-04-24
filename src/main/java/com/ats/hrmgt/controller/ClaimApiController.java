@@ -11,9 +11,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.hrmgt.leave.model.GetLeaveAuthority;
 import com.ats.hrmgt.leave.model.Holiday;
+import com.ats.hrmgt.leave.model.LeaveAuthority;
+import com.ats.hrmgt.leave.repo.ClaimAuthorityRepo;
 import com.ats.hrmgt.leave.repo.ClaimRepository;
+import com.ats.hrmgt.leave.repo.GetClaimAuthorityRepo;
+import com.ats.hrmgt.model.ClaimAuthority;
 import com.ats.hrmgt.model.ClaimType;
+import com.ats.hrmgt.model.GetClaimAuthority;
 import com.ats.hrmgt.model.Info;
 
 @RestController
@@ -21,6 +27,72 @@ public class ClaimApiController {
 
 	@Autowired
 	ClaimRepository claimRepository;
+
+	@Autowired
+	ClaimAuthorityRepo claimAuthorityRepo;
+
+	@Autowired
+	GetClaimAuthorityRepo getClaimAuthorityRepo;
+	
+	
+	@RequestMapping(value = { "/getClaimAuthorityListByEmpId" }, method = RequestMethod.POST)
+	public @ResponseBody ClaimAuthority getLeaveAuthorityListByEmpId(@RequestParam("empId") int empId) {
+
+		ClaimAuthority list = new ClaimAuthority();
+		try {
+
+			list = claimAuthorityRepo.findByDelStatusAndEmpId(1, empId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
+
+	@RequestMapping(value = { "/getClaimAuthorityList" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetClaimAuthority> getClaimAuthorityList(@RequestParam("companyId") int companyId) {
+
+		List<GetClaimAuthority> list = new ArrayList<GetClaimAuthority>();
+		try {
+
+			list = getClaimAuthorityRepo.getClaimAuth(companyId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
+
+	@RequestMapping(value = { "/saveClaimAuthority" }, method = RequestMethod.POST)
+	public @ResponseBody ClaimAuthority saveClaimAuthority(@RequestBody ClaimAuthority claimAuthority) {
+
+		ClaimAuthority save = new ClaimAuthority();
+		try {
+
+			save = claimAuthorityRepo.saveAndFlush(claimAuthority);
+
+			if (save != null) {
+				save.setError(false);
+			} else {
+
+				save = new ClaimAuthority();
+				save.setError(true);
+			}
+
+		} catch (Exception e) {
+			save = new ClaimAuthority();
+			save.setError(true);
+			e.printStackTrace();
+		}
+
+		return save;
+	}
 
 	@RequestMapping(value = { "/saveClaimType" }, method = RequestMethod.POST)
 	public @ResponseBody ClaimType saveClaimType(@RequestBody ClaimType claimType) {
