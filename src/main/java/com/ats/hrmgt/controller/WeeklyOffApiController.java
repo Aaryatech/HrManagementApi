@@ -11,10 +11,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.hrmgt.leave.model.GetLeaveAuthority;
 import com.ats.hrmgt.model.ClaimAuthority;
 import com.ats.hrmgt.model.ClaimType;
+import com.ats.hrmgt.model.GetWeeklyOff;
 import com.ats.hrmgt.model.Info;
 import com.ats.hrmgt.model.WeeklyOff;
+import com.ats.hrmgt.repository.GetWeeklyOffRepo;
 import com.ats.hrmgt.repository.WeeklyOffRepo;
 
 @RestController
@@ -22,6 +25,25 @@ public class WeeklyOffApiController {
 
 	@Autowired
 	WeeklyOffRepo weeklyOffRepo;
+	@Autowired
+	GetWeeklyOffRepo getWeeklyOffRepo;
+
+	@RequestMapping(value = { "/getWeeklyOffList" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetWeeklyOff> getWeeklyOffList(@RequestParam("companyId") int companyId) {
+
+		List<GetWeeklyOff> list = new ArrayList<GetWeeklyOff>();
+		try {
+
+			list = getWeeklyOffRepo.getListByCompanyId(companyId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
 
 	@RequestMapping(value = { "/saveWeeklyOff" }, method = RequestMethod.POST)
 	public @ResponseBody WeeklyOff saveWeeklyOff(@RequestBody WeeklyOff weeklyOff) {
