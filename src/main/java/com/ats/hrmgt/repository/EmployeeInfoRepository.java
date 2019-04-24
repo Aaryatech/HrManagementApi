@@ -40,7 +40,7 @@ public interface EmployeeInfoRepository extends JpaRepository<EmployeeInfo, Inte
 			"    WHERE\n" + 
 			"        ini_auth_emp_id =:empId OR fin_auth_emp_id = :empId AND del_status = 1\n" + 
 			")", nativeQuery = true)	
-	List<EmployeeInfo> getEmployeeListByEmpId(int empId);
+	List<EmployeeInfo> getEmployeeListByEmpId(@Param("empId") int empId);
 
 	@Query(value = "SELECT\n" + 
 			"    e.*\n" + 
@@ -55,6 +55,14 @@ public interface EmployeeInfoRepository extends JpaRepository<EmployeeInfo, Inte
 			"    WHERE\n" + 
 			"        ca_ini_auth_emp_id = :empId OR ca_fin_auth_emp_id = :empId AND del_status = 1\n" + 
 			")", nativeQuery = true)
-	List<EmployeeInfo> getEmpListForClaimByEmpId(int empId);
+	List<EmployeeInfo> getEmpListForClaimByEmpId(@Param("empId") int empId);
+
+	@Query(value = "SELECT\n" + 
+			"    e.*\n" + 
+			"FROM\n" + 
+			"    emp_info AS e\n" + 
+			"WHERE\n" + 
+			"    e.loc_id IN(:locationId) and e.del_status=:i", nativeQuery = true)
+	List<EmployeeInfo> getEmpInfoByLocId(@Param("locationId") List<Integer> locationId, int i);
 
 }

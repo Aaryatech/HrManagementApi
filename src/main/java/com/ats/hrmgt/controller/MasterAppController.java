@@ -21,10 +21,13 @@ import com.ats.hrmgt.leave.repo.GetClaimTrailStatusRepo;
 import com.ats.hrmgt.leave.repo.GetLeaveStatusRepo;
 import com.ats.hrmgt.leave.repo.LeaveDetailRepo;
 import com.ats.hrmgt.leave.repo.ProjectRepository;
+import com.ats.hrmgt.model.CalenderYear;
 import com.ats.hrmgt.model.DashboardCount;
 import com.ats.hrmgt.model.EmployeeInfo;
 import com.ats.hrmgt.model.Info;
+import com.ats.hrmgt.model.LeaveApply;
 import com.ats.hrmgt.model.ProjectType;
+import com.ats.hrmgt.repository.CalculateYearRepository;
 import com.ats.hrmgt.repository.DashboardRepo;
 import com.ats.hrmgt.repository.EmployeeInfoRepository;
 
@@ -57,6 +60,9 @@ public class MasterAppController {
 	@Autowired
 	GetClaimTrailStatusRepo getClaimTrailStatusRepo;
 	
+	@Autowired
+	CalculateYearRepository calculateYearRepository;
+
 	@RequestMapping(value = { "/updateClaimStatus" }, method = RequestMethod.POST)
 	public @ResponseBody Info updateClaimStatus(@RequestParam("empId") int empId, @RequestParam("claimId") int claimId,
 			@RequestParam("status") int status,
@@ -317,7 +323,7 @@ public class MasterAppController {
 	@RequestMapping(value = { "/getClaimStatusList" }, method = RequestMethod.POST)
 	public @ResponseBody List<ClaimDetail> getClaimStatusList(@RequestParam("empId") int empId,
 			@RequestParam("status") String status) {
-
+ 
 		List<ClaimDetail> list = new ArrayList<ClaimDetail>();
 		// List<LeaveDetail> result = new ArrayList<LeaveDetail>();
 
@@ -340,4 +346,24 @@ public class MasterAppController {
 		return list;
 
 	}
+	
+	@RequestMapping(value = { "getEmpInfoByLocId" }, method = RequestMethod.POST)
+	public @ResponseBody List<EmployeeInfo> getEmpInfoByLocId(@RequestParam("locationId") List<Integer> locationId) {
+
+		
+		List<EmployeeInfo> employeeInfo = new ArrayList<EmployeeInfo>();
+		
+		try {
+
+			employeeInfo = employeeInfoRepository.getEmpInfoByLocId(locationId, 1);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return employeeInfo;
+
+	}
+	
 }
