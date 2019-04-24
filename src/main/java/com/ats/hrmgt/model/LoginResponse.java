@@ -155,12 +155,15 @@ public class LoginResponse {
 	@Column(name="loc_name")
 	private String locName;
 	
+	@Column(name="company_logo")
+	private String companyLogo;
+	
 	@Transient
 	private boolean isError;
 	
 	@Transient
 	private String msg;
-
+	
 	public int getUserId() {
 		return userId;
 	}
@@ -553,6 +556,14 @@ public class LoginResponse {
 		this.msg = msg;
 	}
 
+	public String getCompanyLogo() {
+		return companyLogo;
+	}
+
+	public void setCompanyLogo(String companyLogo) {
+		this.companyLogo = companyLogo;
+	}
+
 	@Override
 	public String toString() {
 		return "LoginResponse [userId=" + userId + ", locationIds=" + locationIds + ", userName=" + userName
@@ -570,7 +581,8 @@ public class LoginResponse {
 				+ ", exInt2=" + exInt2 + ", exInt3=" + exInt3 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2
 				+ ", exVar3=" + exVar3 + ", companyName=" + companyName + ", empCatName=" + empCatName
 				+ ", empTypeName=" + empTypeName + ", empTypeAccess=" + empTypeAccess + ", empDeptName=" + empDeptName
-				+ ", locName=" + locName + ", isError=" + isError + ", msg=" + msg + "]";
+				+ ", locName=" + locName + ", companyLogo=" + companyLogo + ", isError=" + isError + ", msg=" + msg
+				+ "]";
 	}
 	 
 }
