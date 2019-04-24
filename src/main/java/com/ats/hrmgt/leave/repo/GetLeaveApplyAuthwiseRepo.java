@@ -42,14 +42,13 @@ public interface GetLeaveApplyAuthwiseRepo extends JpaRepository<GetLeaveApplyAu
 			"WHERE\n" + 
 			"    la.lv_type_id = lt.lv_type_id AND le.emp_id = la.emp_id AND e.emp_id = le.emp_id AND(\n" + 
 			"        (\n" + 
-			"            le.ini_auth_emp_id IN (:initialAuthId) AND la.ex_int1 = 1\n" + 
+			"            le.ini_auth_emp_id=:empId AND la.ex_int1 = 1\n" + 
 			"        ) OR(\n" + 
-			"            le.fin_auth_emp_id IN (:finalAuthId) AND la.ex_int1 = 2\n" + 
+			"            le.fin_auth_emp_id=:empId AND la.ex_int1 = 2\n" + 
 			"        )\n" + 
 			"    ) AND la.cal_yr_id = :currYrId ", nativeQuery = true)
 
-	List<GetLeaveApplyAuthwise> getLeaveApplyList(@Param("initialAuthId") List<GetEmployeeAuthorityWise> initialAuthId,
-			@Param("finalAuthId") List<GetEmployeeAuthorityWise> finalAuthId,@Param("currYrId") int currYrId);
+	List<GetLeaveApplyAuthwise> getLeaveApplyList(@Param("empId") int empId,@Param("currYrId") int currYrId);
 	
 	//final
 	
@@ -80,15 +79,14 @@ public interface GetLeaveApplyAuthwiseRepo extends JpaRepository<GetLeaveApplyAu
 			"WHERE\n" + 
 			"    la.lv_type_id = lt.lv_type_id AND le.emp_id = la.emp_id AND e.emp_id = le.emp_id AND( \n" + 
 			"        (\n" + 
-			"            le.ini_auth_emp_id IN (:initialAuthId)  AND la.ex_int1=2 \n" + 
+			"            le.ini_auth_emp_id=:empId  AND la.ex_int1=2 \n" + 
 			"        ) OR(\n" + 
-			"            le.fin_auth_emp_id IN (:finalAuthId) AND la.ex_int1=1 \n" + 
+			"            le.fin_auth_emp_id=:empId AND la.ex_int1=1 \n" + 
 			"        )\n" + 
 			"    ) AND le.fin_auth_emp_id != le.ini_auth_emp_id AND la.cal_yr_id =:currYrId ORDER BY la.ex_int1 DESC  ", nativeQuery = true)
 
-	List<GetLeaveApplyAuthwise> getLeaveApplyList2(@Param("initialAuthId") List<GetEmployeeAuthorityWise> initialAuthId,
-			@Param("finalAuthId") List<GetEmployeeAuthorityWise> finalAuthId,@Param("currYrId") int currYrId);
-	
+	List<GetLeaveApplyAuthwise> getLeaveApplyList2(@Param("empId") int empId,@Param("currYrId") int currYrId);
+
 	
 
 	

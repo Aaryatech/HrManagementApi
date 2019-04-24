@@ -227,21 +227,10 @@ public class LeaveApplicationController {
 		public @ResponseBody List<GetLeaveApplyAuthwise> getLeaveApplyAuthwiseList(@RequestParam("empId") int empId,
 				@RequestParam("currYrId") int currYrId) {
 			List<GetLeaveApplyAuthwise> list = new ArrayList<GetLeaveApplyAuthwise>();
-			List<GetEmployeeAuthorityWise> initialAuthId = new ArrayList<GetEmployeeAuthorityWise>();
-			List<GetEmployeeAuthorityWise> finalAuthId = new ArrayList<GetEmployeeAuthorityWise>();
-				
-			initialAuthId=getEmployeeAuthorityWise.getEmpIdListForInitialAuth(empId);
-			System.err.println("empIdList"+initialAuthId.size());
-			
-		
-			finalAuthId=getEmployeeAuthorityWise.getEmpIdListForFinalAuth(empId);
-			System.err.println("empIdList"+finalAuthId.size());
-				
-			
 			
 			try {
 
-				list = getLeaveApplyAuthwiseRepo.getLeaveApplyList(initialAuthId,finalAuthId,currYrId);
+				list = getLeaveApplyAuthwiseRepo.getLeaveApplyList(empId,currYrId);
 
 			} catch (Exception e) {
 
@@ -257,21 +246,11 @@ public class LeaveApplicationController {
 		public @ResponseBody List<GetLeaveApplyAuthwise> getLeaveApplyListForInformation(@RequestParam("empId") int empId,
 				@RequestParam("currYrId") int currYrId) {
 			List<GetLeaveApplyAuthwise> list = new ArrayList<GetLeaveApplyAuthwise>();
-			List<GetEmployeeAuthorityWise> initialAuthId = new ArrayList<GetEmployeeAuthorityWise>();
-			List<GetEmployeeAuthorityWise> finalAuthId = new ArrayList<GetEmployeeAuthorityWise>();
-				
-			initialAuthId=getEmployeeAuthorityWise.getEmpIdListForInitialAuth(empId);
-			System.err.println("empIdList"+initialAuthId.size());
-			
-		
-			finalAuthId=getEmployeeAuthorityWise.getEmpIdListForFinalAuth(empId);
-			System.err.println("empIdList"+finalAuthId.size());
-				
 			
 			
 			try {
 
-				list = getLeaveApplyAuthwiseRepo.getLeaveApplyList2(initialAuthId,finalAuthId,currYrId);
+				list = getLeaveApplyAuthwiseRepo.getLeaveApplyList2(empId,currYrId);
 
 			} catch (Exception e) {
 
