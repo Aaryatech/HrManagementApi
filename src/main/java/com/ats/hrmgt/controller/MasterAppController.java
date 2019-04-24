@@ -235,6 +235,26 @@ public class MasterAppController {
 
 	}
 	
+	
+	@RequestMapping(value = { "/getEmployeeLeaveByEmpId" }, method = RequestMethod.POST)
+	public @ResponseBody LeaveDetail getEmployeeLeaveByEmpId(@RequestParam("empId") int empId,
+			@RequestParam("statusList") List<Integer> statusList,
+			@RequestParam("currYrId") int currYrId) {
+
+	LeaveDetail list = new LeaveDetail();
+		try {
+
+			 	list = leaveDetailRepo.getLeaveStatus(empId,statusList,currYrId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
+	
 	@RequestMapping(value = { "/getDashboardCount" }, method = RequestMethod.POST)
 	public @ResponseBody DashboardCount getDashboardCount(@RequestParam("empId") int empId) {
 
