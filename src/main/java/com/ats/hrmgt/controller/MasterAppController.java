@@ -199,7 +199,16 @@ public class MasterAppController {
 
 		try {
 
-			list = leaveDetailRepo.getLeaveStatus(empId, status);
+			CalenderYear calendearYear = new CalenderYear();
+			calendearYear = calculateYearRepository.findByIsCurrent(1);
+
+			int curYrId=0;
+			if(calendearYear!=null) {
+				curYrId=calendearYear.getCalYrId();
+			}
+			
+			list = leaveDetailRepo.getLeaveStatus(empId, status, curYrId);
+			
 			if (list != null) {
 				for (int i = 0; i < list.size(); i++) {
 					List<GetLeaveStatus> leaveStatus = new ArrayList<GetLeaveStatus>();
@@ -276,8 +285,16 @@ public class MasterAppController {
 
 		DashboardCount dashboardCount = new DashboardCount();
 		try {
+			
+			CalenderYear calendearYear = new CalenderYear();
+			calendearYear = calculateYearRepository.findByIsCurrent(1);
 
-			dashboardCount = dashboardRepo.getDashboardCount(empId);
+			int curYrId=0;
+			if(calendearYear!=null) {
+				curYrId=calendearYear.getCalYrId();
+			}
+
+			dashboardCount = dashboardRepo.getDashboardCount(empId,curYrId);
 
 		} catch (Exception e) {
 
@@ -287,6 +304,7 @@ public class MasterAppController {
 		return dashboardCount;
 
 	}
+	
 	@RequestMapping(value = { "/getLeaveTrailList" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetLeaveStatus> getLeaveTrailList(@RequestParam("leaveId") int leaveId){
 
