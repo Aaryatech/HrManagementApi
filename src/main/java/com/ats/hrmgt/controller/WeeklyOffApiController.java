@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.hrmgt.leave.model.GetLeaveAuthority;
+import com.ats.hrmgt.leave.model.LeaveStructureDetails;
+import com.ats.hrmgt.leave.model.LeaveStructureHeader;
 import com.ats.hrmgt.model.ClaimAuthority;
 import com.ats.hrmgt.model.ClaimType;
 import com.ats.hrmgt.model.GetWeeklyOff;
@@ -84,6 +86,23 @@ public class WeeklyOffApiController {
 		}
 
 		return list;
+
+	}
+
+	@RequestMapping(value = { "/getWeeklyOffById" }, method = RequestMethod.POST)
+	public @ResponseBody WeeklyOff getWeeklyOffById(@RequestParam("woId") int woId) {
+
+		WeeklyOff woo = new WeeklyOff();
+		try {
+
+			woo = weeklyOffRepo.findBywoIdAndDelStatus(woId, 1);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return woo;
 
 	}
 

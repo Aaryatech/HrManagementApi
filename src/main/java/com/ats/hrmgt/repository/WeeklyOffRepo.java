@@ -20,4 +20,6 @@ public interface WeeklyOffRepo extends JpaRepository<WeeklyOff, Integer> {
 	@Query("update WeeklyOff set del_status=0  WHERE wo_id=:woId")
 	int deleteWeeklyOff(@Param("woId") int woId);
 
+	WeeklyOff findBywoIdAndDelStatus(int woId,int i);
+
 }
