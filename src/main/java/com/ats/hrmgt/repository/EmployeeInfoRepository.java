@@ -65,4 +65,6 @@ public interface EmployeeInfoRepository extends JpaRepository<EmployeeInfo, Inte
 			"    e.loc_id IN(:locationId) and e.del_status=:i", nativeQuery = true)
 	List<EmployeeInfo> getEmpInfoByLocId(@Param("locationId") List<Integer> locationId, int i);
 
+	List<EmployeeInfo> findByEmpIdAndLocIdAndDelStatus(int empId, int calYrId, int i);
+
 }

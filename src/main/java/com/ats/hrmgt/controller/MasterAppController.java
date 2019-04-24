@@ -366,4 +366,23 @@ public class MasterAppController {
 
 	}
 	
+	@RequestMapping(value = { "getEmpInfoByLocIdAndEmp" }, method = RequestMethod.POST)
+	public @ResponseBody List<EmployeeInfo> getEmpInfoByLocIdAndEmp(@RequestParam("empId") int empId,@RequestParam("calYrId") int calYrId) {
+
+		
+		List<EmployeeInfo> employeeInfo = new ArrayList<EmployeeInfo>();
+		
+		try {
+
+			employeeInfo = employeeInfoRepository.findByEmpIdAndLocIdAndDelStatus(empId, calYrId,1);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return employeeInfo;
+
+	}
+	
 }
