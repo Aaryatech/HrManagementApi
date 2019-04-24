@@ -1,6 +1,7 @@
 package com.ats.hrmgt.leave.model;
 
 import javax.persistence.Entity;
+
 import javax.persistence.Id;
 
 @Entity
@@ -8,62 +9,75 @@ public class LeaveHistory {
 	
 	
 	@Id
-private int empId;
+    private int lvTypeId;
 	
+	private String lvTitleShort;
 	
-	private String shortName;
+	private int lvsAllotedLeaves;
 	
-	private int earnedNo;
+	private int balLeave;
 	
-	private int sanctionNo;
+	private int aplliedLeaeve;
 	
-	private int appliedNo;
+	private int sactionLeave;
 
-	public int getEmpId() {
-		return empId;
+	public int getLvTypeId() {
+		return lvTypeId;
 	}
 
-	public void setEmpId(int empId) {
-		this.empId = empId;
+	public void setLvTypeId(int lvTypeId) {
+		this.lvTypeId = lvTypeId;
 	}
 
-	public int getEarnedNo() {
-		return earnedNo;
+	public String getLvTitleShort() {
+		return lvTitleShort;
 	}
 
-	public void setEarnedNo(int earnedNo) {
-		this.earnedNo = earnedNo;
+	public void setLvTitleShort(String lvTitleShort) {
+		this.lvTitleShort = lvTitleShort;
 	}
 
-	public int getSanctionNo() {
-		return sanctionNo;
+	public int getLvsAllotedLeaves() {
+		return lvsAllotedLeaves;
 	}
 
-	public void setSanctionNo(int sanctionNo) {
-		this.sanctionNo = sanctionNo;
+	public void setLvsAllotedLeaves(int lvsAllotedLeaves) {
+		this.lvsAllotedLeaves = lvsAllotedLeaves;
 	}
 
-	public int getAppliedNo() {
-		return appliedNo;
+	public int getBalLeave() {
+		return balLeave;
 	}
 
-	public void setAppliedNo(int appliedNo) {
-		this.appliedNo = appliedNo;
+	public void setBalLeave(int balLeave) {
+		this.balLeave = balLeave;
 	}
 
-	
-	public String getShortName() {
-		return shortName;
+	public int getAplliedLeaeve() {
+		return aplliedLeaeve;
 	}
 
-	public void setShortName(String shortName) {
-		this.shortName = shortName;
+	public void setAplliedLeaeve(int aplliedLeaeve) {
+		this.aplliedLeaeve = aplliedLeaeve;
+	}
+
+	public int getSactionLeave() {
+		return sactionLeave;
+	}
+
+	public void setSactionLeave(int sactionLeave) {
+		this.sactionLeave = sactionLeave;
 	}
 
 	@Override
 	public String toString() {
-		return "LeaveHistory [empId=" + empId + ", shortName=" + shortName + ", earnedNo=" + earnedNo + ", sanctionNo="
-				+ sanctionNo + ", appliedNo=" + appliedNo + "]";
+		return "LeaveHistory [lvTypeId=" + lvTypeId + ", lvTitleShort=" + lvTitleShort + ", lvsAllotedLeaves="
+				+ lvsAllotedLeaves + ", balLeave=" + balLeave + ", aplliedLeaeve=" + aplliedLeaeve + ", sactionLeave="
+				+ sactionLeave + ", getLvTypeId()=" + getLvTypeId() + ", getLvTitleShort()=" + getLvTitleShort()
+				+ ", getLvsAllotedLeaves()=" + getLvsAllotedLeaves() + ", getBalLeave()=" + getBalLeave()
+				+ ", getAplliedLeaeve()=" + getAplliedLeaeve() + ", getSactionLeave()=" + getSactionLeave()
+				+ ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString()
+				+ "]";
 	}
 
 	

@@ -45,15 +45,16 @@ public class LeaveApplicationController {
 	GetLeaveApplyAuthwiseRepo getLeaveApplyAuthwiseRepo;
 	
 	@RequestMapping(value = { "/getLeaveHistoryList" }, method = RequestMethod.POST)
-	public @ResponseBody List<LeaveHistory> getLeaveHistoryList(@RequestParam("empId") int empId) {
+	public @ResponseBody List<LeaveHistory> getLeaveHistoryList(@RequestParam("empId") int empId,@RequestParam("currYrId") int currYrId) {
 
 		 
 		List<LeaveHistory> list = new ArrayList<LeaveHistory>();
 		try {
 			 
 			
-				list = leaveHistoryRepo.getLeaveHistoryByEmpId(empId);
+				list = leaveHistoryRepo.getLeaveHistoryByEmpId(empId,currYrId);
 			
+				System.err.println("LeaveHistory"+list.toString());
 
 		} catch (Exception e) {
  
