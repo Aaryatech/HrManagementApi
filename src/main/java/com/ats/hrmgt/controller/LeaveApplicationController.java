@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.hrmgt.leave.model.GetAuthorityIds;
 import com.ats.hrmgt.leave.model.GetLeaveApplyAuthwise;
 import com.ats.hrmgt.leave.model.LeaveHistory;
+import com.ats.hrmgt.leave.repo.GetAuthorityIdsRepo;
 import com.ats.hrmgt.leave.repo.GetEmployeeAuthorityWiseRepo;
 import com.ats.hrmgt.leave.repo.GetLeaveApplyAuthwiseRepo;
 import com.ats.hrmgt.leave.repo.LeaveHistoryRepo;
@@ -34,8 +36,8 @@ public class LeaveApplicationController {
 
 	@Autowired
 	LeaveApplyRepository leaveApplyRepository;
-
-	
+	@Autowired
+	GetAuthorityIdsRepo getAuthorityIdsRepo;
 	@Autowired
 	GetEmployeeAuthorityWiseRepo getEmployeeAuthorityWise;
 	
@@ -208,6 +210,25 @@ public class LeaveApplicationController {
 		try {
 
 			leaveApply = leaveApplyRepository.findByLeaveIdAndDelStatus(leaveId, 1);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return leaveApply;
+
+	}
+	
+
+	@RequestMapping(value = { "getAuthIdByEmpId" }, method = RequestMethod.POST)
+	public @ResponseBody GetAuthorityIds getAuthIdByEmpId(@RequestParam("empId") int empId) {
+
+		System.out.println("emp id is "+empId);
+		GetAuthorityIds leaveApply = new GetAuthorityIds();
+		try {
+
+			leaveApply = getAuthorityIdsRepo.getAuthIds(empId);
 
 		} catch (Exception e) {
 
