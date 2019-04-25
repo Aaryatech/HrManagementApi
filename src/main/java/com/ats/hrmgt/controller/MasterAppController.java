@@ -298,7 +298,7 @@ public class MasterAppController {
 		return employeeInfo;
 
 	}
-
+ 
 	@RequestMapping(value = { "getEmpInfoByLocIdAndEmp" }, method = RequestMethod.POST)
 	public @ResponseBody List<EmployeeInfo> getEmpInfoByLocIdAndEmp(@RequestParam("empId") int empId,
 			@RequestParam("calYrId") int calYrId) {
@@ -308,13 +308,29 @@ public class MasterAppController {
 		try {
 
 			employeeInfo = employeeInfoRepository.findByEmpIdAndLocIdAndDelStatus(empId, calYrId, 1);
+  
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		} 
+
+		return employeeInfo;
+
+	}
+	
+	@RequestMapping(value = { "/getEmpInfoListByTrailEmpId" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetLeaveStatus> getEmpInfoListByTrailEmpId(@RequestParam("empId") int empId) {
+
+		List<GetLeaveStatus> leaveStatus = new ArrayList<GetLeaveStatus>();
+		try {
+			leaveStatus = getLeaveStatusRepo.getEmpInfoByEmpId(empId);
 
 		} catch (Exception e) {
 
 			e.printStackTrace();
 		}
 
-		return employeeInfo;
+		return leaveStatus;
 
 	}
 
