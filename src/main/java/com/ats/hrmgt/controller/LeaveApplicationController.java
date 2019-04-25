@@ -280,33 +280,7 @@ public class LeaveApplicationController {
 			return list;
 
 		}
-		
-	/*
-	 * @RequestMapping(value = { "/getLeaveApplyListForFinalAuth" }, method =
-	 * RequestMethod.GET) public @ResponseBody List<GetLeaveApplyAuthwise>
-	 * getLeaveApplyListForFinalAuth(@RequestParam("empId") int
-	 * empId,@RequestParam("status") int status) {
-	 * 
-	 * List<GetLeaveApplyAuthwise> list = new ArrayList<GetLeaveApplyAuthwise>();
-	 * 
-	 * List<GetEmployeeAuthorityWise> empIdList = new
-	 * ArrayList<GetEmployeeAuthorityWise>();
-	 * 
-	 * empIdList=getEmployeeAuthorityWise.getEmpIdList(empId);
-	 * 
-	 * System.err.println("empIdList"+empIdList.size()); try {
-	 * 
-	 * list = getLeaveApplyAuthwiseRepo.getLeaveApplyList(empIdList,status);
-	 * 
-	 * } catch (Exception e) {
-	 * 
-	 * e.printStackTrace(); }
-	 * 
-	 * return list;
-	 * 
-	 * }
-	 */
-		
+	
 		@RequestMapping(value = { "/updateLeaveStatus" }, method = RequestMethod.POST)
 		public @ResponseBody Info updateLeaveStatus(@RequestParam("leaveId") int leaveId,@RequestParam("status") int status) {
 

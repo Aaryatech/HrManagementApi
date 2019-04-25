@@ -15,7 +15,9 @@ import com.ats.hrmgt.leave.repo.ProjectRepository;
 import com.ats.hrmgt.model.ClaimAuthority;
 import com.ats.hrmgt.model.ClaimType;
 import com.ats.hrmgt.model.Info;
+import com.ats.hrmgt.model.ProjectHeader;
 import com.ats.hrmgt.model.ProjectType;
+import com.ats.hrmgt.repository.ProjectHeaderRpo;
 
 @RestController
 public class ProjectApiController {
@@ -116,6 +118,28 @@ public class ProjectApiController {
 		try {
 
 			list = projectRepository.findByDelStatusAndCompanyId(1, companyId);
+			System.out.println(list.toString());
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
+	//harsha
+	
+    @Autowired
+    ProjectHeaderRpo projectHeaderRpo;
+    
+	@RequestMapping(value = { "/getProjectsListByCompanyId" }, method = RequestMethod.POST)
+	public @ResponseBody List<ProjectHeader> getProjectsListByCompanyId(@RequestParam("companyId") int companyId) {
+		System.out.println(companyId);
+		List<ProjectHeader> list = new ArrayList<ProjectHeader>();
+		try {
+
+			list = projectHeaderRpo.findByDelStatusAndCompanyId(1, companyId);
 			System.out.println(list.toString());
 
 		} catch (Exception e) {
