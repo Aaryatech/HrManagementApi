@@ -46,20 +46,17 @@ public class MasterAppController {
 	LeaveDetailRepo leaveDetailRepo;
 
 	@Autowired
-	ProjectRepository projectRepository;
-
-	@Autowired
 	GetLeaveStatusRepo getLeaveStatusRepo;
-	
+
 	@Autowired
 	DashboardRepo dashboardRepo;
 
 	@Autowired
 	ClaimDetailRepo claimDetailRepo;
-	
+
 	@Autowired
 	GetClaimTrailStatusRepo getClaimTrailStatusRepo;
-	
+
 	@Autowired
 	CalculateYearRepository calculateYearRepository;
 
@@ -111,85 +108,6 @@ public class MasterAppController {
 
 	}
 
-	@RequestMapping(value = { "/saveProjectType" }, method = RequestMethod.POST)
-	public @ResponseBody ProjectType saveProjectType(@RequestBody ProjectType projectType) {
-
-		ProjectType save = new ProjectType();
-		try {
-
-			save = projectRepository.saveAndFlush(projectType);
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-		}
-
-		return save;
-
-	}
-
-	@RequestMapping(value = { "/getProjectList" }, method = RequestMethod.GET)
-	public @ResponseBody List<ProjectType> getProjectList() {
-
-		List<ProjectType> list = new ArrayList<ProjectType>();
-		try {
-
-			list = projectRepository.findByDelStatusOrderByProjectTypeIdDesc(1);
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-		}
-
-		return list;
-
-	}
-
-	@RequestMapping(value = { "/deleteProjectType" }, method = RequestMethod.POST)
-	public @ResponseBody Info deleteProjectType(@RequestParam("projectTypeId") int projectTypeId) {
-
-		Info info = new Info();
-
-		try {
-
-			int delete = projectRepository.deleteProjectType(projectTypeId);
-
-			if (delete > 0) {
-				info.setError(false);
-				info.setMsg("deleted");
-			} else {
-				info.setError(true);
-				info.setMsg("failed");
-			}
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-			info.setError(true);
-			info.setMsg("failed");
-		}
-
-		return info;
-
-	}
-
-	@RequestMapping(value = { "/getProjectById" }, method = RequestMethod.POST)
-	public @ResponseBody ProjectType getProjectById(@RequestParam("projectTypeId") int projectTypeId) {
-
-		ProjectType projectType = new ProjectType();
-		try {
-
-			projectType = projectRepository.findByProjectTypeIdAndDelStatus(projectTypeId, 1);
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-		}
-
-		return projectType;
-
-	}
-
 	@RequestMapping(value = { "/getLeaveStatusList" }, method = RequestMethod.POST)
 	public @ResponseBody List<LeaveDetail> getLeaveStatuslist(@RequestParam("empId") int empId,
 			@RequestParam("status") String status) {
@@ -202,13 +120,13 @@ public class MasterAppController {
 			CalenderYear calendearYear = new CalenderYear();
 			calendearYear = calculateYearRepository.findByIsCurrent(1);
 
-			int curYrId=0;
-			if(calendearYear!=null) {
-				curYrId=calendearYear.getCalYrId();
+			int curYrId = 0;
+			if (calendearYear != null) {
+				curYrId = calendearYear.getCalYrId();
 			}
-			
+
 			list = leaveDetailRepo.getLeaveStatus(empId, status, curYrId);
-			
+
 			if (list != null) {
 				for (int i = 0; i < list.size(); i++) {
 					List<GetLeaveStatus> leaveStatus = new ArrayList<GetLeaveStatus>();
@@ -259,17 +177,15 @@ public class MasterAppController {
 		return list;
 
 	}
-	
-	
+
 	@RequestMapping(value = { "/getEmployeeLeaveByEmpId" }, method = RequestMethod.POST)
 	public @ResponseBody LeaveDetail getEmployeeLeaveByEmpId(@RequestParam("empId") int empId,
-			@RequestParam("statusList") List<Integer> statusList,
-			@RequestParam("currYrId") int currYrId) {
+			@RequestParam("statusList") List<Integer> statusList, @RequestParam("currYrId") int currYrId) {
 
-	LeaveDetail list = new LeaveDetail();
+		LeaveDetail list = new LeaveDetail();
 		try {
 
-			 	list = leaveDetailRepo.getLeaveStatus(empId,statusList,currYrId);
+			list = leaveDetailRepo.getLeaveStatus(empId, statusList, currYrId);
 
 		} catch (Exception e) {
 
@@ -279,22 +195,22 @@ public class MasterAppController {
 		return list;
 
 	}
-	
+
 	@RequestMapping(value = { "/getDashboardCount" }, method = RequestMethod.POST)
 	public @ResponseBody DashboardCount getDashboardCount(@RequestParam("empId") int empId) {
 
 		DashboardCount dashboardCount = new DashboardCount();
 		try {
-			
+
 			CalenderYear calendearYear = new CalenderYear();
 			calendearYear = calculateYearRepository.findByIsCurrent(1);
 
-			int curYrId=0;
-			if(calendearYear!=null) {
-				curYrId=calendearYear.getCalYrId();
+			int curYrId = 0;
+			if (calendearYear != null) {
+				curYrId = calendearYear.getCalYrId();
 			}
 
-			dashboardCount = dashboardRepo.getDashboardCount(empId,curYrId);
+			dashboardCount = dashboardRepo.getDashboardCount(empId, curYrId);
 
 		} catch (Exception e) {
 
@@ -304,13 +220,13 @@ public class MasterAppController {
 		return dashboardCount;
 
 	}
-	
+
 	@RequestMapping(value = { "/getLeaveTrailList" }, method = RequestMethod.POST)
-	public @ResponseBody List<GetLeaveStatus> getLeaveTrailList(@RequestParam("leaveId") int leaveId){
+	public @ResponseBody List<GetLeaveStatus> getLeaveTrailList(@RequestParam("leaveId") int leaveId) {
 
 		List<GetLeaveStatus> leaveStatus = new ArrayList<GetLeaveStatus>();
 		try {
-					leaveStatus = getLeaveStatusRepo.getLeaveTrailByLeaveId(leaveId);				
+			leaveStatus = getLeaveStatusRepo.getLeaveTrailByLeaveId(leaveId);
 
 		} catch (Exception e) {
 
@@ -320,7 +236,7 @@ public class MasterAppController {
 		return leaveStatus;
 
 	}
-	
+
 	@RequestMapping(value = { "/getEmpListForClaimAuthByEmpId" }, method = RequestMethod.POST)
 	public @ResponseBody List<EmployeeInfo> getEmpListForClaimAuthByEmpId(@RequestParam("empId") int empId) {
 
@@ -337,11 +253,11 @@ public class MasterAppController {
 		return list;
 
 	}
-	
+
 	@RequestMapping(value = { "/getClaimStatusList" }, method = RequestMethod.POST)
 	public @ResponseBody List<ClaimDetail> getClaimStatusList(@RequestParam("empId") int empId,
 			@RequestParam("status") String status) {
- 
+
 		List<ClaimDetail> list = new ArrayList<ClaimDetail>();
 		// List<LeaveDetail> result = new ArrayList<LeaveDetail>();
 
@@ -364,13 +280,12 @@ public class MasterAppController {
 		return list;
 
 	}
-	
+
 	@RequestMapping(value = { "getEmpInfoByLocId" }, method = RequestMethod.POST)
 	public @ResponseBody List<EmployeeInfo> getEmpInfoByLocId(@RequestParam("locationId") List<Integer> locationId) {
 
-		
 		List<EmployeeInfo> employeeInfo = new ArrayList<EmployeeInfo>();
-		
+
 		try {
 
 			employeeInfo = employeeInfoRepository.getEmpInfoByLocId(locationId, 1);
@@ -383,16 +298,16 @@ public class MasterAppController {
 		return employeeInfo;
 
 	}
-	
-	@RequestMapping(value = { "getEmpInfoByLocIdAndEmp" }, method = RequestMethod.POST)
-	public @ResponseBody List<EmployeeInfo> getEmpInfoByLocIdAndEmp(@RequestParam("empId") int empId,@RequestParam("calYrId") int calYrId) {
 
-		
+	@RequestMapping(value = { "getEmpInfoByLocIdAndEmp" }, method = RequestMethod.POST)
+	public @ResponseBody List<EmployeeInfo> getEmpInfoByLocIdAndEmp(@RequestParam("empId") int empId,
+			@RequestParam("calYrId") int calYrId) {
+
 		List<EmployeeInfo> employeeInfo = new ArrayList<EmployeeInfo>();
-		
+
 		try {
 
-			employeeInfo = employeeInfoRepository.findByEmpIdAndLocIdAndDelStatus(empId, calYrId,1);
+			employeeInfo = employeeInfoRepository.findByEmpIdAndLocIdAndDelStatus(empId, calYrId, 1);
 
 		} catch (Exception e) {
 
@@ -402,5 +317,5 @@ public class MasterAppController {
 		return employeeInfo;
 
 	}
-	
+
 }
