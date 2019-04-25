@@ -24,8 +24,10 @@ import com.ats.hrmgt.leave.repo.GetClaimAuthorityRepo;
 import com.ats.hrmgt.leave.repo.GetEmployeeAuthorityWiseRepo;
 import com.ats.hrmgt.model.ClaimAuthority;
 import com.ats.hrmgt.model.ClaimType;
+import com.ats.hrmgt.model.Customer;
 import com.ats.hrmgt.model.GetClaimAuthority;
 import com.ats.hrmgt.model.Info;
+import com.ats.hrmgt.repository.CustomerRepo;
 
 @RestController
 public class ClaimApiController {
@@ -38,13 +40,103 @@ public class ClaimApiController {
 
 	@Autowired
 	GetClaimAuthorityRepo getClaimAuthorityRepo;
-	
+
 	@Autowired
 	GetClaimApplyAuthRepo getClaimApplyAuthRepo;
-	
+
 	@Autowired
-	GetEmployeeAuthorityWiseRepo getEmployeeAuthorityWise;	
-	
+	GetEmployeeAuthorityWiseRepo getEmployeeAuthorityWise;
+
+	@Autowired
+	CustomerRepo customerRepo;
+
+	@RequestMapping(value = { "/saveCustomer" }, method = RequestMethod.POST)
+	public @ResponseBody Customer saveCustomer(@RequestBody Customer customer) {
+
+		Customer save = new Customer();
+		try {
+
+			save = customerRepo.saveAndFlush(customer);
+
+			if (save != null) {
+				save.setError(false);
+			} else {
+
+				save = new Customer();
+				save.setError(true);
+			}
+
+		} catch (Exception e) {
+			save = new Customer();
+			save.setError(true);
+			e.printStackTrace();
+		}
+
+		return save;
+	}
+
+	@RequestMapping(value = { "/getCustListByCompanyId" }, method = RequestMethod.POST)
+	public @ResponseBody List<Customer> getCustListByCompanyId(@RequestParam("companyId") int companyId) {
+
+		List<Customer> list = new ArrayList<Customer>();
+		try {
+
+			list = customerRepo.findByDelStatusAndCompanyId(1, companyId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
+
+	@RequestMapping(value = { "/getCustByCustId" }, method = RequestMethod.POST)
+	public @ResponseBody Customer getCustByCustId(@RequestParam("custId") int custId) {
+
+		Customer cust = new Customer();
+		try {
+
+			cust = customerRepo.findByCustIdAndDelStatus(custId, 1);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return cust;
+
+	}
+
+	@RequestMapping(value = { "/deleteCustomer" }, method = RequestMethod.POST)
+	public @ResponseBody Info deleteCustomer(@RequestParam("custId") int custId) {
+
+		Info info = new Info();
+
+		try {
+
+			int delete = customerRepo.deleteCust(custId);
+
+			if (delete > 0) {
+				info.setError(false);
+				info.setMsg("deleted");
+			} else {
+				info.setError(true);
+				info.setMsg("failed");
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			info.setError(true);
+			info.setMsg("failed");
+		}
+
+		return info;
+
+	}
+
 	@RequestMapping(value = { "/getClaimAuthorityListByEmpId" }, method = RequestMethod.POST)
 	public @ResponseBody ClaimAuthority getLeaveAuthorityListByEmpId(@RequestParam("empId") int empId) {
 
@@ -207,28 +299,27 @@ public class ClaimApiController {
 		return claimType;
 
 	}
+
 	@RequestMapping(value = { "/getClaimApplyListForAuth" }, method = RequestMethod.POST)
-	public @ResponseBody List<GetClaimApplyAuthWise> getClaimApplyListForAuth(@RequestParam("empId") int empId,@RequestParam("statusList") List<Integer> statusList,
-			@RequestParam("authTypeId") int authTypeId) {
+	public @ResponseBody List<GetClaimApplyAuthWise> getClaimApplyListForAuth(@RequestParam("empId") int empId,
+			@RequestParam("statusList") List<Integer> statusList, @RequestParam("authTypeId") int authTypeId) {
 		List<GetClaimApplyAuthWise> list = new ArrayList<GetClaimApplyAuthWise>();
 		List<GetEmployeeAuthorityWise> empIdList = new ArrayList<GetEmployeeAuthorityWise>();
-		if(authTypeId==1) {
-			
-		empIdList=getEmployeeAuthorityWise.getClaimIdListForInitialAuth(empId);
-		System.err.println("empIdList"+empIdList.size());
-		
+		if (authTypeId == 1) {
+
+			empIdList = getEmployeeAuthorityWise.getClaimIdListForInitialAuth(empId);
+			System.err.println("empIdList" + empIdList.size());
+
+		} else {
+
+			empIdList = getEmployeeAuthorityWise.getClaimIdListForFinalAuth(empId);
+			System.err.println("empIdList" + empIdList.size());
+
 		}
-		else {
-		
-		
-		empIdList=getEmployeeAuthorityWise.getClaimIdListForFinalAuth(empId);
-		System.err.println("empIdList"+empIdList.size());
-			
-		}
-		
+
 		try {
 
-			list = getClaimApplyAuthRepo.getClaimApplyList(empIdList,statusList);
+			list = getClaimApplyAuthRepo.getClaimApplyList(empIdList, statusList);
 
 		} catch (Exception e) {
 

@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.hrmgt.leave.repo.ProjectRepository;
+import com.ats.hrmgt.model.ClaimAuthority;
+import com.ats.hrmgt.model.ClaimType;
 import com.ats.hrmgt.model.Info;
 import com.ats.hrmgt.model.ProjectType;
 
@@ -28,6 +30,13 @@ public class ProjectApiController {
 		try {
 
 			save = projectRepository.saveAndFlush(projectType);
+			if (save != null) {
+				save.setError(false);
+			} else {
+
+				save = new ProjectType();
+				save.setError(true);
+			}
 
 		} catch (Exception e) {
 
@@ -97,6 +106,24 @@ public class ProjectApiController {
 		}
 
 		return projectType;
+
+	}
+
+	@RequestMapping(value = { "/getProjectListByCompanyId" }, method = RequestMethod.POST)
+	public @ResponseBody List<ProjectType> getProjectListByCompanyId(@RequestParam("companyId") int companyId) {
+		System.out.println(companyId);
+		List<ProjectType> list = new ArrayList<ProjectType>();
+		try {
+
+			list = projectRepository.findByDelStatusAndCompanyId(1, companyId);
+			System.out.println(list.toString());
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return list;
 
 	}
 

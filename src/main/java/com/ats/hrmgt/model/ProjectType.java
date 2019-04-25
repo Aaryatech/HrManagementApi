@@ -192,6 +192,14 @@ public class ProjectType {
 		this.exVar3 = exVar3;
 	}
 
+	public boolean isError() {
+		return error;
+	}
+
+	public void setError(boolean error) {
+		this.error = error;
+	}
+
 	@Override
 	public String toString() {
 		return "ProjectType [projectTypeId=" + projectTypeId + ", companyId=" + companyId + ", projectTypeTitle="
