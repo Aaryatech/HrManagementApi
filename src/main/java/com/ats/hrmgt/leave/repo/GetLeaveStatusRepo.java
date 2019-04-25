@@ -28,7 +28,7 @@ public interface GetLeaveStatusRepo extends JpaRepository<GetLeaveStatus, Intege
 			"    emp_info AS e,\n" + 
 			"    leave_trail AS t\n" + 
 			"WHERE\n" + 
-			"    e.emp_id = t.emp_id and t.leave_id=:leaveId", nativeQuery = true)
+			"    e.emp_id = t.emp_id and t.leave_id=:leaveId ORDER BY t.trail_pkey DESC", nativeQuery = true)
 	List<GetLeaveStatus> getLeaveTrailByLeaveId(int leaveId);
 
 
