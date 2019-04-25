@@ -110,9 +110,9 @@ public class MasterAppController {
 
 	@RequestMapping(value = { "/getLeaveStatusList" }, method = RequestMethod.POST)
 	public @ResponseBody List<LeaveDetail> getLeaveStatuslist(@RequestParam("empId") int empId,
-			@RequestParam("status") String status) {
+			@RequestParam("status") List<Integer> status) {
 
-		List<LeaveDetail> list = new ArrayList<LeaveDetail>();
+		List<LeaveDetail> resList = new ArrayList<LeaveDetail>();
 		// List<LeaveDetail> result = new ArrayList<LeaveDetail>();
 
 		try {
@@ -124,14 +124,15 @@ public class MasterAppController {
 			if (calendearYear != null) {
 				curYrId = calendearYear.getCalYrId();
 			}
-
-			list = leaveDetailRepo.getLeaveStatus(empId, status, curYrId);
-
-			if (list != null) {
-				for (int i = 0; i < list.size(); i++) {
+			//System.err.println("list "+leaveDetailRepo.getLeaveStatus1(empId, status, curYrId));
+System.err.println("curYrId " +curYrId);
+			resList = leaveDetailRepo.getLeaveStatus1(empId, status, curYrId);
+System.err.println("list "+resList.toString());
+			if (resList != null) {
+				for (int i = 0; i < resList.size(); i++) {
 					List<GetLeaveStatus> leaveStatus = new ArrayList<GetLeaveStatus>();
-					leaveStatus = getLeaveStatusRepo.getLeaveTrailByLeaveId(list.get(i).getLeaveId());
-					list.get(i).setGetLeaveStatusList(leaveStatus);
+					leaveStatus = getLeaveStatusRepo.getLeaveTrailByLeaveId(resList.get(i).getLeaveId());
+					resList.get(i).setGetLeaveStatusList(leaveStatus);
 				}
 			}
 
@@ -140,7 +141,7 @@ public class MasterAppController {
 			e.printStackTrace();
 		}
 
-		return list;
+		return resList;
 
 	}
 
