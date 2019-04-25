@@ -14,7 +14,7 @@ public interface LeaveHistoryRepo  extends JpaRepository<LeaveHistory, Integer>{
 	
 	@Query(value = " SELECT\n" + 
 			"    leave_type.lv_type_id,\n" + 
-			"    leave_type.lv_title_short,\n" + 
+			"    leave_type.lv_title_short,leave_type.lv_title, \n" + 
 			"    leave_structure_details.lvs_alloted_leaves,\n" + 
 			"    coalesce((select b.op_bal from leave_balance_cal b, dm_cal_year y where b.emp_id=emp_info.emp_id and leave_type.lv_type_id=b.lv_type_id and y.cal_yr_id=b.cal_yr_id and y.is_current=1),0) as bal_leave,\n" + 
 			"    coalesce((select sum(b.leave_num_days) from leave_apply b, dm_cal_year y where b.emp_id=emp_info.emp_id and leave_type.lv_type_id=b.lv_type_id and y.cal_yr_id=b.cal_yr_id and y.is_current=1 and b.ex_int1=3),0) as saction_leave,\n" + 

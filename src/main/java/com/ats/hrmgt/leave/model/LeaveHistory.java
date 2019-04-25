@@ -13,6 +13,8 @@ public class LeaveHistory {
 	
 	private String lvTitleShort;
 	
+	private String lvTitle;
+	
 	private int lvsAllotedLeaves;
 	
 	private int balLeave;
@@ -20,6 +22,16 @@ public class LeaveHistory {
 	private int aplliedLeaeve;
 	
 	private int sactionLeave;
+	
+	
+
+	public String getLvTitle() {
+		return lvTitle;
+	}
+
+	public void setLvTitle(String lvTitle) {
+		this.lvTitle = lvTitle;
+	}
 
 	public int getLvTypeId() {
 		return lvTypeId;
@@ -71,15 +83,18 @@ public class LeaveHistory {
 
 	@Override
 	public String toString() {
-		return "LeaveHistory [lvTypeId=" + lvTypeId + ", lvTitleShort=" + lvTitleShort + ", lvsAllotedLeaves="
-				+ lvsAllotedLeaves + ", balLeave=" + balLeave + ", aplliedLeaeve=" + aplliedLeaeve + ", sactionLeave="
-				+ sactionLeave + ", getLvTypeId()=" + getLvTypeId() + ", getLvTitleShort()=" + getLvTitleShort()
+		return "LeaveHistory [lvTypeId=" + lvTypeId + ", lvTitleShort=" + lvTitleShort + ", lvTitle=" + lvTitle
+				+ ", lvsAllotedLeaves=" + lvsAllotedLeaves + ", balLeave=" + balLeave + ", aplliedLeaeve="
+				+ aplliedLeaeve + ", sactionLeave=" + sactionLeave + ", getLvTitle()=" + getLvTitle()
+				+ ", getLvTypeId()=" + getLvTypeId() + ", getLvTitleShort()=" + getLvTitleShort()
 				+ ", getLvsAllotedLeaves()=" + getLvsAllotedLeaves() + ", getBalLeave()=" + getBalLeave()
 				+ ", getAplliedLeaeve()=" + getAplliedLeaeve() + ", getSactionLeave()=" + getSactionLeave()
 				+ ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString()
 				+ "]";
 	}
 
+	
+	
 	
 
 
