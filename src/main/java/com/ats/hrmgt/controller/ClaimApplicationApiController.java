@@ -214,7 +214,7 @@ public class ClaimApplicationApiController {
 
 		try {
 
-			int delete = claimApplyRepository.updateTrailApply(trailId,trailId);
+			int delete = claimApplyRepository.updateTrailApply(claimId,trailId);
 
 			if (delete > 0) {
 				info.setError(false);
