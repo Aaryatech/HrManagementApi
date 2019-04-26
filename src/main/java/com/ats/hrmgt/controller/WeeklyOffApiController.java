@@ -11,9 +11,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.hrmgt.leave.model.GetHoliday;
 import com.ats.hrmgt.leave.model.GetLeaveAuthority;
+import com.ats.hrmgt.leave.model.Holiday;
 import com.ats.hrmgt.leave.model.LeaveStructureDetails;
 import com.ats.hrmgt.leave.model.LeaveStructureHeader;
+import com.ats.hrmgt.leave.repo.HolidayRepo;
 import com.ats.hrmgt.model.ClaimAuthority;
 import com.ats.hrmgt.model.ClaimType;
 import com.ats.hrmgt.model.GetWeeklyOff;
@@ -27,8 +30,12 @@ public class WeeklyOffApiController {
 
 	@Autowired
 	WeeklyOffRepo weeklyOffRepo;
+	
 	@Autowired
 	GetWeeklyOffRepo getWeeklyOffRepo;
+	
+	@Autowired
+	HolidayRepo holidayRepo;
 
 	@RequestMapping(value = { "/getWeeklyOffList" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetWeeklyOff> getWeeklyOffList(@RequestParam("companyId") int companyId) {
@@ -131,6 +138,41 @@ public class WeeklyOffApiController {
 		}
 
 		return info;
+
+	}
+	
+	@RequestMapping(value = { "/getWeeklyOffListByEmpId" }, method = RequestMethod.POST)
+	public @ResponseBody List<WeeklyOff> getWeeklyOffListByEmpId(@RequestParam("empId") int empId) {
+
+		List<WeeklyOff> list = new ArrayList<WeeklyOff>();
+		try {
+
+			list = weeklyOffRepo.getWeeklyOffListByEmpId(empId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
+	
+	@RequestMapping(value = { "/getHolidayByEmpIdAndFromDateTodate" }, method = RequestMethod.POST)
+	public @ResponseBody List<Holiday> getHolidayByEmpIdAndFromDateTodate(@RequestParam("empId") int empId,
+			@RequestParam("fromDate") String fromDate,@RequestParam("toDate") String toDate) {
+
+		List<Holiday> list = new ArrayList<Holiday>();
+		try {
+
+			list = holidayRepo.getHolidayByEmpIdAndFromDateTodate(empId,fromDate,toDate);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return list;
 
 	}
 
