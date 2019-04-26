@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.hrmgt.common.DateConvertor;
 import com.ats.hrmgt.leave.model.ClaimDetail;
 import com.ats.hrmgt.leave.model.GetClaimTrailStatus;
 import com.ats.hrmgt.leave.model.GetLeaveStatus;
@@ -309,7 +310,10 @@ System.err.println("list "+resList.toString());
 		try {
 
 			employeeInfo = leaveDetailRepo.getLeaveListByLocIdAndEmp(empId, calYrId, 1);
-  
+			 for (int i = 0; i < employeeInfo.size(); i++) {
+				  employeeInfo.get(i).setLeaveFromdt(DateConvertor.convertToDMY(employeeInfo.get(i).getLeaveFromdt()));
+				  employeeInfo.get(i).setLeaveTodt(DateConvertor.convertToDMY(employeeInfo.get(i).getLeaveTodt()));
+						  }
 		} catch (Exception e) {
 
 			e.printStackTrace();
