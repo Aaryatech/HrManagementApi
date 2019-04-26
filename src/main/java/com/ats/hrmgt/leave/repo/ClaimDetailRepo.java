@@ -29,7 +29,7 @@ public interface ClaimDetailRepo extends JpaRepository<ClaimDetail, Integer>{
 			+ "project_Type as p\n" + 
 			"WHERE \n" + 
 			"ca.emp_id =:empId AND ca.ex_int1 IN(:status) AND ca.emp_id = e.emp_id AND ca.del_status = 1 AND d.emp_dept_id = e.emp_dept_id AND ca.claim_type_id = ct.claim_type_id AND ca.project_id=p.project_id ", nativeQuery = true)
-	List<ClaimDetail> getClaimStatus(@Param("empId") int empId,@Param("status") String status);
+	List<ClaimDetail> getClaimStatus(@Param("empId") int empId,@Param("status") List<Integer> status);
 
 	
 }

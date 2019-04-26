@@ -257,7 +257,7 @@ System.err.println("list "+resList.toString());
 
 	@RequestMapping(value = { "/getClaimStatusList" }, method = RequestMethod.POST)
 	public @ResponseBody List<ClaimDetail> getClaimStatusList(@RequestParam("empId") int empId,
-			@RequestParam("status") String status) {
+			@RequestParam("status") List<Integer> status) {
 
 		List<ClaimDetail> list = new ArrayList<ClaimDetail>();
 		// List<LeaveDetail> result = new ArrayList<LeaveDetail>();
