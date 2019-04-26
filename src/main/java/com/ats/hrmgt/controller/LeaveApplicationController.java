@@ -22,6 +22,7 @@ import com.ats.hrmgt.leave.repo.LeaveHistoryRepo;
 import com.ats.hrmgt.model.Info;
 import com.ats.hrmgt.model.LeaveApply;
 import com.ats.hrmgt.model.LeaveTrail;
+import com.ats.hrmgt.model.LeaveType;
 import com.ats.hrmgt.repository.LeaveApplyRepository;
 import com.ats.hrmgt.repository.LeaveTrailRepository;
 
@@ -72,6 +73,15 @@ public class LeaveApplicationController {
 		try {
 
 			save = leaveTrailRepository.saveAndFlush(leaveTrail);
+			
+			if (save == null) {
+
+				save = new LeaveTrail();
+				save.setError(true);
+
+			} else {
+				save.setError(false);
+			}
 
 		} catch (Exception e) {
 
@@ -143,6 +153,15 @@ public class LeaveApplicationController {
 		try {
 
 			save = leaveApplyRepository.saveAndFlush(leave);
+			if (save == null) {
+
+				save = new LeaveApply();
+				save.setError(true);
+
+			} else {
+				save.setError(false);
+			}
+
 
 		} catch (Exception e) {
 

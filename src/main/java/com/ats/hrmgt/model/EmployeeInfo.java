@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "emp_info")
@@ -122,6 +123,18 @@ public class EmployeeInfo {
 	
 	@Column(name="ex_var3")
 	private String exVar3;
+	
+	@Transient
+	private boolean error;
+
+
+	public boolean isError() {
+		return error;
+	}
+
+	public void setError(boolean error) {
+		this.error = error;
+	}
 
 	public int getEmpId() {
 		return empId;

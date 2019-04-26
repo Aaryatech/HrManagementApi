@@ -102,6 +102,15 @@ public class ClaimApplicationApiController {
 		try {
 
 			save = claimApplyRepository.saveAndFlush(claim);
+			if (save == null) {
+
+				save = new ClaimApply();
+				save.setError(true);
+
+			} else {
+				save.setError(false);
+			}
+
 
 		} catch (Exception e) {
 
@@ -124,6 +133,14 @@ public class ClaimApplicationApiController {
 		try {
 
 			save = claimTrailRepository.saveAndFlush(claim);
+			if (save == null) {
+
+				save = new ClaimTrail();
+				save.setError(true);
+
+			} else {
+				save.setError(false);
+			}
 
 		} catch (Exception e) {
 

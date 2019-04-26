@@ -612,6 +612,15 @@ public class MasterRestController {
 		try {
 
 			save = employeeInfoRepository.saveAndFlush(employeeDepartment);
+			
+			if (save == null) {
+
+				save = new EmployeeInfo();
+				save.setError(true);
+
+			} else {
+				save.setError(false);
+			}
 
 		} catch (Exception e) {
 
@@ -629,6 +638,16 @@ public class MasterRestController {
 		try {
 
 			save = userRepo.saveAndFlush(userInfo);
+			
+			if (save == null) {
+
+				save = new User();
+				save.setError(true);
+
+			} else {
+				save.setError(false);
+			}
+
 
 		} catch (Exception e) {
 
@@ -941,6 +960,15 @@ public class MasterRestController {
 		try {
 
 			save = leaveTypeRepository.saveAndFlush(leaveType);
+			if (save == null) {
+
+				save = new LeaveType();
+				save.setError(true);
+
+			} else {
+				save.setError(false);
+			}
+		
 
 		} catch (Exception e) {
 
