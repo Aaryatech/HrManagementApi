@@ -282,6 +282,24 @@ System.err.println("list "+resList.toString());
 		return list;
 
 	}
+	
+	
+	@RequestMapping(value = { "/getClaimTrailList" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetClaimTrailStatus> getClaimTrailList(@RequestParam("claimId") int claimId) {
+
+		List<GetClaimTrailStatus> trailList = new ArrayList<GetClaimTrailStatus>();
+		try {
+			trailList = getClaimTrailStatusRepo.getClaimTrailByClaimId(claimId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return trailList;
+
+	}
+	
 
 	@RequestMapping(value = { "getEmpInfoByLocId" }, method = RequestMethod.POST)
 	public @ResponseBody List<EmployeeInfo> getEmpInfoByLocId(@RequestParam("locationId") List<Integer> locationId) {
