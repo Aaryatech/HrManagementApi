@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.ats.hrmgt.leave.model.GetLeaveStatus;
 
@@ -29,7 +30,7 @@ public interface GetLeaveStatusRepo extends JpaRepository<GetLeaveStatus, Intege
 			"    leave_trail AS t\n" + 
 			"WHERE\n" + 
 			"    e.emp_id = t.emp_id and t.leave_id=:leaveId ORDER BY t.trail_pkey DESC", nativeQuery = true)
-	List<GetLeaveStatus> getLeaveTrailByLeaveId(int leaveId);
+	List<GetLeaveStatus> getLeaveTrailByLeaveId(@Param("leaveId") int leaveId);
 
 
 	@Query(value = "SELECT\n" + 
@@ -49,7 +50,7 @@ public interface GetLeaveStatusRepo extends JpaRepository<GetLeaveStatus, Intege
 			"    emp_info AS e,\n" + 
 			"    leave_trail AS t\n" + 
 			"WHERE\n" + 
-			"    e.emp_id = t.emp_id And t.emp_id=:empId", nativeQuery = true)
-	List<GetLeaveStatus> getEmpInfoByEmpId(int empId);
+			"    e.emp_id = t.emp_id And t.leave_id=:leaveId", nativeQuery = true)
+	List<GetLeaveStatus> getEmpInfoByLeaveId(@Param("leaveId") int leaveId);
 
 }

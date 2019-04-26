@@ -60,8 +60,8 @@ public class MasterAppController {
 	@Autowired
 	CalculateYearRepository calculateYearRepository;
 
-	@RequestMapping(value = { "/updateClaimStatus" }, method = RequestMethod.POST)
-	public @ResponseBody Info updateClaimStatus(@RequestParam("empId") int empId, @RequestParam("claimId") int claimId,
+	@RequestMapping(value = { "/updateClaimStatusApp" }, method = RequestMethod.POST)
+	public @ResponseBody Info updateClaimStatusApp(@RequestParam("empId") int empId, @RequestParam("claimId") int claimId,
 			@RequestParam("status") int status,
 
 			@RequestParam("remark") String remark) {
@@ -300,33 +300,33 @@ System.err.println("list "+resList.toString());
 
 	}
  
-	@RequestMapping(value = { "getEmpInfoByLocIdAndEmp" }, method = RequestMethod.POST)
-	public @ResponseBody List<EmployeeInfo> getEmpInfoByLocIdAndEmp(@RequestParam("empId") int empId,
+	@RequestMapping(value = { "getLeaveListByLocIdAndEmp" }, method = RequestMethod.POST)
+	public @ResponseBody List<LeaveDetail> getLeaveListByLocIdAndEmp(@RequestParam("empId") int empId,
 			@RequestParam("calYrId") int calYrId) {
 
-		List<EmployeeInfo> employeeInfo = new ArrayList<EmployeeInfo>();
+		List<LeaveDetail> employeeInfo = new ArrayList<LeaveDetail>();
 
 		try {
 
-			employeeInfo = employeeInfoRepository.findByEmpIdAndLocIdAndDelStatus(empId, calYrId, 1);
+			employeeInfo = leaveDetailRepo.getLeaveListByLocIdAndEmp(empId, calYrId, 1);
   
 		} catch (Exception e) {
 
 			e.printStackTrace();
 		} 
 
-		return employeeInfo;
+		return employeeInfo; 
 
 	}
-	
+	 
 	@RequestMapping(value = { "/getEmpInfoListByTrailEmpId" }, method = RequestMethod.POST)
-	public @ResponseBody List<GetLeaveStatus> getEmpInfoListByTrailEmpId(@RequestParam("empId") int empId) {
+	public @ResponseBody List<GetLeaveStatus> getEmpInfoListByTrailEmpId(@RequestParam("leaveId") int leaveId) {
 
 		List<GetLeaveStatus> leaveStatus = new ArrayList<GetLeaveStatus>();
 		try {
-			leaveStatus = getLeaveStatusRepo.getEmpInfoByEmpId(empId);
+			leaveStatus = getLeaveStatusRepo.getEmpInfoByLeaveId(leaveId);
 
-		} catch (Exception e) {
+		} catch (Exception e) { 
 
 			e.printStackTrace();
 		}
