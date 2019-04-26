@@ -15,7 +15,7 @@ public interface GetClaimTrailStatusRepo extends JpaRepository<GetClaimTrailStat
 			"    e.emp_mname,\n" + 
 			"    e.emp_sname,\n" + 
 			"    e.emp_photo,   \n" + 
-			"    t.emp_remarks,\n" + 
+			"    ct.emp_remarks,\n" + 
 			"    ct.claim_trail_pkey,\n" + 
 			"    ct.emp_id,\n" + 
 			"    ct.claim_id,\n" + 

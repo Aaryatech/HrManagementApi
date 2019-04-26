@@ -252,7 +252,7 @@ System.err.println("list "+resList.toString());
 		}
 
 		return list;
-
+  
 	}
 
 	@RequestMapping(value = { "/getClaimStatusList" }, method = RequestMethod.POST)

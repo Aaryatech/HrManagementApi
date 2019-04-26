@@ -9,7 +9,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Table(name = "project_Type")
+@Table(name = "project_type")
 public class ProjectType {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
