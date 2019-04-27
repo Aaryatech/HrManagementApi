@@ -98,6 +98,34 @@ public class ClaimApiController {
 
 	}
 
+	@RequestMapping(value = { "/deleteClaimProof" }, method = RequestMethod.POST)
+	public @ResponseBody Info deleteClaimProof(@RequestParam("cpId") int cpId) {
+
+		Info info = new Info();
+
+		try {
+
+			int delete = claimProofRepo.deleteClaimProof(cpId);
+
+			if (delete > 0) {
+				info.setError(false);
+				info.setMsg("deleted");
+			} else {
+				info.setError(true);
+				info.setMsg("failed");
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			info.setError(true);
+			info.setMsg("failed");
+		}
+
+		return info;
+
+	}
+
 	@RequestMapping(value = { "/saveCustomer" }, method = RequestMethod.POST)
 	public @ResponseBody Customer saveCustomer(@RequestBody Customer customer) {
 
