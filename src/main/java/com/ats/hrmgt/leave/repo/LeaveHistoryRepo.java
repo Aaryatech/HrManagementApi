@@ -15,7 +15,7 @@ public interface LeaveHistoryRepo  extends JpaRepository<LeaveHistory, Integer>{
 	@Query(value = " SELECT\n" + 
 			"    leave_type.lv_type_id,\n" + 
 			"    leave_type.lv_title_short,leave_type.lv_title, \n" + 
-			"    leave_structure_details.lvs_alloted_leaves,\n" + 
+			"    leave_structure_details.lvs_alloted_leaves,leave_structure_header.lvs_id, \n" + 
 			"    coalesce((select b.op_bal from leave_balance_cal b, dm_cal_year y where b.emp_id=emp_info.emp_id and leave_type.lv_type_id=b.lv_type_id and y.cal_yr_id=b.cal_yr_id and y.is_current=1),0) as bal_leave,\n" + 
 			"    coalesce((select sum(b.leave_num_days) from leave_apply b, dm_cal_year y where b.emp_id=emp_info.emp_id and leave_type.lv_type_id=b.lv_type_id and y.cal_yr_id=b.cal_yr_id and y.is_current=1 and b.ex_int1=3),0) as saction_leave,\n" + 
 			"    coalesce((select sum(b.leave_num_days) from leave_apply b, dm_cal_year y where b.emp_id=emp_info.emp_id and leave_type.lv_type_id=b.lv_type_id and y.cal_yr_id=b.cal_yr_id and y.is_current=1 and b.ex_int1 in (1,2)),0) as apllied_leaeve\n" + 
@@ -32,6 +32,18 @@ public interface LeaveHistoryRepo  extends JpaRepository<LeaveHistory, Integer>{
 			+ "leave_structure_allotment.cal_yr_id=:currYrId", nativeQuery = true)
 
 	List<LeaveHistory> getLeaveHistoryByEmpId(@Param("empId") int empId,@Param("currYrId") int currYrId);
+	
+	
+	@Query(value = " SELECT\n" + 
+			"    leave_structure_details.lvs_alloted_leaves as bal_leave,0 as lv_type_id,0 as lv_title_short, 0 as lv_title,0 as lvs_alloted_leaves,"
+			+ " 0 as saction_leave, 0 as apllied_leaeve,0 as lvs_id  \n" + 
+			"FROM\n" + 
+			"    leave_structure_details\n" + 
+			"WHERE\n" + 
+			"    leave_structure_details.lv_type_id =:leaveTypeId AND leave_structure_details.lvs_id =:lvsId", nativeQuery = true)
+
+
+	LeaveHistory getLeaveEarnedByLeaveTypeId(@Param("leaveTypeId") int leaveTypeId,@Param("lvsId") int lvsId);
 		
 
 	

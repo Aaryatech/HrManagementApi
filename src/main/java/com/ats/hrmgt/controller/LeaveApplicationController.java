@@ -66,6 +66,28 @@ public class LeaveApplicationController {
 		return list;
 
 	}
+	
+	
+	@RequestMapping(value = { "/getLeaveHistoryByLeaveTypeId" }, method = RequestMethod.POST)
+	public @ResponseBody LeaveHistory getLeaveHistoryByLeaveTyprId(@RequestParam("leaveTypeId") int leaveTypeId,@RequestParam("lvsId") int lvsId) {
+
+		 
+	LeaveHistory list = new LeaveHistory();
+		try {
+			 
+			
+				list = leaveHistoryRepo.getLeaveEarnedByLeaveTypeId(leaveTypeId,lvsId);
+			
+				System.err.println("LeaveHistory"+list.toString());
+
+		} catch (Exception e) {
+ 
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
 	@RequestMapping(value = { "/saveLeaveTrail" }, method = RequestMethod.POST)
 	public @ResponseBody LeaveTrail saveLeaveTrail(@RequestBody LeaveTrail leaveTrail) {
 

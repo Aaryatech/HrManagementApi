@@ -11,6 +11,8 @@ public class LeaveHistory {
 	@Id
     private int lvTypeId;
 	
+	private int lvsId;
+	
 	private String lvTitleShort;
 	
 	private String lvTitle;
@@ -24,6 +26,14 @@ public class LeaveHistory {
 	private int sactionLeave;
 	
 	
+
+	public int getLvsId() {
+		return lvsId;
+	}
+
+	public void setLvsId(int lvsId) {
+		this.lvsId = lvsId;
+	}
 
 	public String getLvTitle() {
 		return lvTitle;
