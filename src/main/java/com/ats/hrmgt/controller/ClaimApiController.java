@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.hrmgt.claim.repo.ClaimProofRepo;
 import com.ats.hrmgt.leave.model.GetClaimApplyAuthWise;
 import com.ats.hrmgt.leave.model.GetEmployeeAuthorityWise;
 import com.ats.hrmgt.leave.model.GetLeaveApplyAuthwise;
@@ -23,6 +24,7 @@ import com.ats.hrmgt.leave.repo.GetClaimApplyAuthRepo;
 import com.ats.hrmgt.leave.repo.GetClaimAuthorityRepo;
 import com.ats.hrmgt.leave.repo.GetEmployeeAuthorityWiseRepo;
 import com.ats.hrmgt.model.ClaimAuthority;
+import com.ats.hrmgt.model.ClaimProof;
 import com.ats.hrmgt.model.ClaimType;
 import com.ats.hrmgt.model.Customer;
 import com.ats.hrmgt.model.GetClaimAuthority;
@@ -49,6 +51,52 @@ public class ClaimApiController {
 
 	@Autowired
 	CustomerRepo customerRepo;
+
+	@Autowired
+
+	ClaimProofRepo claimProofRepo;
+
+	@RequestMapping(value = { "/saveClaimProof" }, method = RequestMethod.POST)
+	public @ResponseBody ClaimProof saveClaimProof(@RequestBody ClaimProof claimProof) {
+
+		ClaimProof save = new ClaimProof();
+		try {
+
+			save = claimProofRepo.saveAndFlush(claimProof);
+
+			if (save != null) {
+				save.setError(false);
+			} else {
+
+				save = new ClaimProof();
+				save.setError(true);
+			}
+
+		} catch (Exception e) {
+			save = new ClaimProof();
+			save.setError(true);
+			e.printStackTrace();
+		}
+
+		return save;
+	}
+
+	@RequestMapping(value = { "/getClaimProofByClaimId" }, method = RequestMethod.POST)
+	public @ResponseBody List<ClaimProof> getClaimProofByClaimId(@RequestParam("claimId") int claimId) {
+
+		List<ClaimProof> list = new ArrayList<ClaimProof>();
+		try {
+
+			list = claimProofRepo.findByClaimIdAndDelStatus(claimId, 1);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
 
 	@RequestMapping(value = { "/saveCustomer" }, method = RequestMethod.POST)
 	public @ResponseBody Customer saveCustomer(@RequestBody Customer customer) {
@@ -329,15 +377,5 @@ public class ClaimApiController {
 		return list;
 
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 }

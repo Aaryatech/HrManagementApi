@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 
 @Entity
@@ -54,6 +55,9 @@ public class ClaimProof {
 	
 	@Column(name="ex_var3")
 	private String exVar3;
+	
+	@Transient
+	private boolean error;
 
 	
 	public int getCpId() {
@@ -195,13 +199,26 @@ public class ClaimProof {
 		this.exVar3 = exVar3;
 	}
 
+	
+	
+
+	public boolean isError() {
+		return error;
+	}
+
+
+	public void setError(boolean error) {
+		this.error = error;
+	}
+
 
 	@Override
 	public String toString() {
 		return "ClaimProof [cpId=" + cpId + ", claimId=" + claimId + ", cpDocPath=" + cpDocPath + ", cpDocRemark="
 				+ cpDocRemark + ", delStatus=" + delStatus + ", isActive=" + isActive + ", makerUserId=" + makerUserId
 				+ ", makerEnterDatetime=" + makerEnterDatetime + ", exInt1=" + exInt1 + ", exInt2=" + exInt2
-				+ ", exInt3=" + exInt3 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", exVar3=" + exVar3 + "]";
+				+ ", exInt3=" + exInt3 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", exVar3=" + exVar3 + ", error="
+				+ error + "]";
 	}
 	
 	
