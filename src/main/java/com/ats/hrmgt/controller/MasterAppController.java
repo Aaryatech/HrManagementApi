@@ -347,7 +347,9 @@ System.err.println("list "+resList.toString());
 		List<GetLeaveStatus> leaveStatus = new ArrayList<GetLeaveStatus>();
 		try {
 			leaveStatus = getLeaveStatusRepo.getEmpInfoByLeaveId(leaveId);
-
+			  
+			 
+			System.out.println("List :"+leaveStatus.toString());
 		} catch (Exception e) { 
 
 			e.printStackTrace();

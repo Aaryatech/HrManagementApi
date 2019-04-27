@@ -1,7 +1,11 @@
 package com.ats.hrmgt.leave.model;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 @Entity
 public class GetLeaveStatus {
 
@@ -15,8 +19,10 @@ public class GetLeaveStatus {
 	private String empRemarks;
 	
 	private int leaveStatus;
+	
+	private int makerUserId ;
 		
-	private String makerEnterDatetime;
+	private Date makerEnterDatetime;
 	
 	private String empFname;
 	
@@ -25,6 +31,8 @@ public class GetLeaveStatus {
 	private String empSname;
 	
 	private String empPhoto;
+	
+	private String userName;
 
 	public int getTrailPkey() {
 		return trailPkey;
@@ -65,12 +73,13 @@ public class GetLeaveStatus {
 	public void setLeaveStatus(int leaveStatus) {
 		this.leaveStatus = leaveStatus;
 	}
-
-	public String getMakerEnterDatetime() {
+ 
+ 	@JsonFormat(locale = "Locale.ENGLISH", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy hh:mm:ss a")// 
+	public Date getMakerEnterDatetime() {
 		return makerEnterDatetime;
 	}
 
-	public void setMakerEnterDatetime(String makerEnterDatetime) {
+	public void setMakerEnterDatetime(Date makerEnterDatetime) {
 		this.makerEnterDatetime = makerEnterDatetime;
 	}
 
@@ -106,17 +115,30 @@ public class GetLeaveStatus {
 		this.empPhoto = empPhoto;
 	}
 
+	public int getMakerUserId() {
+		return makerUserId;
+	}
+
+	public void setMakerUserId(int makerUserId) {
+		this.makerUserId = makerUserId;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
 	@Override
 	public String toString() {
 		return "GetLeaveStatus [trailPkey=" + trailPkey + ", leaveId=" + leaveId + ", empId=" + empId + ", empRemarks="
-				+ empRemarks + ", leaveStatus=" + leaveStatus + ", makerEnterDatetime=" + makerEnterDatetime
-				+ ", empFname=" + empFname + ", empMname=" + empMname + ", empSname=" + empSname + ", empPhoto="
-				+ empPhoto + "]";
+				+ empRemarks + ", leaveStatus=" + leaveStatus + ", makerUserId=" + makerUserId + ", makerEnterDatetime="
+				+ makerEnterDatetime + ", empFname=" + empFname + ", empMname=" + empMname + ", empSname=" + empSname
+				+ ", empPhoto=" + empPhoto + ", userName=" + userName + "]";
 	}
 
-	
-	
-	
 }
 
 
