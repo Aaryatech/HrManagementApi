@@ -13,12 +13,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.hrmgt.claim.repo.ClaimTrailRepo;
 import com.ats.hrmgt.claim.repo.GetClaimApplyAuthwiseRepo;
+import com.ats.hrmgt.leave.model.ClaimDetail;
 import com.ats.hrmgt.leave.model.GetAuthorityIds;
+import com.ats.hrmgt.leave.model.GetClaimTrailStatus;
 import com.ats.hrmgt.leave.model.GetEmployeeAuthorityWise;
 import com.ats.hrmgt.leave.model.GetLeaveApplyAuthwise;
 import com.ats.hrmgt.leave.repo.ClaimApplyRepo;
+import com.ats.hrmgt.leave.repo.ClaimDetailRepo;
 import com.ats.hrmgt.leave.repo.ClaimRepository;
 import com.ats.hrmgt.leave.repo.GetAuthorityIdsRepo;
+import com.ats.hrmgt.leave.repo.GetClaimTrailStatusRepo;
 import com.ats.hrmgt.leave.repo.GetEmployeeAuthorityWiseRepo;
 import com.ats.hrmgt.model.ClaimApply;
 import com.ats.hrmgt.model.ClaimTrail;
@@ -45,7 +49,41 @@ public class ClaimApplicationApiController {
 
 	@Autowired
 	ClaimTrailRepo claimTrailRepository;
+	
+	@Autowired
+	ClaimDetailRepo claimDetailRepo;
+	
+	@Autowired
+	GetClaimTrailStatusRepo getClaimTrailStatusRepo;
 
+	
+	
+	@RequestMapping(value = { "/getClaimListByEmpId" }, method = RequestMethod.POST)
+	public @ResponseBody List<ClaimDetail> getClaimStatusList(@RequestParam("empId") int empId
+			) {
+
+		List<ClaimDetail> list = new ArrayList<ClaimDetail>();
+
+		try {
+
+			list = claimDetailRepo.getClaimList(empId);
+			if (list != null) {
+				for (int i = 0; i < list.size(); i++) {
+					List<GetClaimTrailStatus> leaveStatus = new ArrayList<GetClaimTrailStatus>();
+					leaveStatus = getClaimTrailStatusRepo.getClaimTrailByClaimId(list.get(i).getClaimId());
+					list.get(i).setGetClaimTrailStatus(leaveStatus);
+				}
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
+	
 
 	@RequestMapping(value = { "/getEmpInfoClaimAuthWise" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetEmployeeInfo> getEmpInfoClaimAuthWise(@RequestParam("companyId") int companyId,
