@@ -1,6 +1,7 @@
 package com.ats.hrmgt.controller;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +28,11 @@ import com.ats.hrmgt.model.ClaimAuthority;
 import com.ats.hrmgt.model.ClaimProof;
 import com.ats.hrmgt.model.ClaimType;
 import com.ats.hrmgt.model.Customer;
+import com.ats.hrmgt.model.EmployeeInfo;
 import com.ats.hrmgt.model.GetClaimAuthority;
 import com.ats.hrmgt.model.Info;
 import com.ats.hrmgt.repository.CustomerRepo;
+import com.ats.hrmgt.repository.EmployeeInfoRepository;
 
 @RestController
 public class ClaimApiController {
@@ -55,6 +58,26 @@ public class ClaimApiController {
 	@Autowired
 
 	ClaimProofRepo claimProofRepo;
+
+	@Autowired
+	EmployeeInfoRepository employeeInfoRepository;
+
+	@RequestMapping(value = { "/getUserInfoByContcAndEmail" }, method = RequestMethod.POST)
+	public @ResponseBody EmployeeInfo getUserInfoByConAndEmail(@RequestParam int checkValue,
+			@RequestParam String inputValue) {
+
+		EmployeeInfo employeeInfo = null;
+		if (checkValue == 1) {
+			// Its Contact no check
+			employeeInfo = employeeInfoRepository.findByDelStatusAndIsActiveAndEmpMobile1(1, 1, inputValue);
+		} else {
+
+			// Its Email check
+			employeeInfo = employeeInfoRepository.findByDelStatusAndIsActiveAndEmpEmail(1, 1, inputValue);
+		}
+		return employeeInfo;
+
+	}
 
 	@RequestMapping(value = { "/saveClaimProof" }, method = RequestMethod.POST)
 	public @ResponseBody ClaimProof saveClaimProof(@RequestBody ClaimProof claimProof) {
