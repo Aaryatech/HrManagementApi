@@ -30,10 +30,10 @@ public class WeeklyOffApiController {
 
 	@Autowired
 	WeeklyOffRepo weeklyOffRepo;
-	
+
 	@Autowired
 	GetWeeklyOffRepo getWeeklyOffRepo;
-	
+
 	@Autowired
 	HolidayRepo holidayRepo;
 
@@ -53,6 +53,8 @@ public class WeeklyOffApiController {
 		return list;
 
 	}
+
+	// ----------------------Weekly Off --------------
 
 	@RequestMapping(value = { "/saveWeeklyOff" }, method = RequestMethod.POST)
 	public @ResponseBody WeeklyOff saveWeeklyOff(@RequestBody WeeklyOff weeklyOff) {
@@ -140,7 +142,7 @@ public class WeeklyOffApiController {
 		return info;
 
 	}
-	
+
 	@RequestMapping(value = { "/getWeeklyOffListByEmpId" }, method = RequestMethod.POST)
 	public @ResponseBody List<WeeklyOff> getWeeklyOffListByEmpId(@RequestParam("empId") int empId) {
 
@@ -157,15 +159,15 @@ public class WeeklyOffApiController {
 		return list;
 
 	}
-	
+
 	@RequestMapping(value = { "/getHolidayByEmpIdAndFromDateTodate" }, method = RequestMethod.POST)
 	public @ResponseBody List<Holiday> getHolidayByEmpIdAndFromDateTodate(@RequestParam("empId") int empId,
-			@RequestParam("fromDate") String fromDate,@RequestParam("toDate") String toDate) {
+			@RequestParam("fromDate") String fromDate, @RequestParam("toDate") String toDate) {
 
 		List<Holiday> list = new ArrayList<Holiday>();
 		try {
 
-			list = holidayRepo.getHolidayByEmpIdAndFromDateTodate(empId,fromDate,toDate);
+			list = holidayRepo.getHolidayByEmpIdAndFromDateTodate(empId, fromDate, toDate);
 
 		} catch (Exception e) {
 

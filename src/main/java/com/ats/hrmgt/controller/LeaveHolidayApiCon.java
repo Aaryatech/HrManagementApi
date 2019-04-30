@@ -45,6 +45,7 @@ public class LeaveHolidayApiCon {
 	@Autowired
 	LocationRepository locationRepository;
 
+	// -----------Holiday-----------------------
 	@RequestMapping(value = { "/saveHoliday" }, method = RequestMethod.POST)
 	public @ResponseBody Holiday saveHoliday(@RequestBody Holiday holiday) {
 
@@ -155,6 +156,8 @@ public class LeaveHolidayApiCon {
 		return info;
 
 	}
+
+	// -----------Leave Authority-----------------------
 
 	@RequestMapping(value = { "/saveLeaveAuthority" }, method = RequestMethod.POST)
 	public @ResponseBody LeaveAuthority saveLeaveAuthority(@RequestBody LeaveAuthority leavesAllotment) {

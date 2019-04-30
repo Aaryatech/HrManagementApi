@@ -148,6 +148,7 @@ public class ClaimApiController {
 		return info;
 
 	}
+	// -------------------Customer --------------------
 
 	@RequestMapping(value = { "/saveCustomer" }, method = RequestMethod.POST)
 	public @ResponseBody Customer saveCustomer(@RequestBody Customer customer) {
@@ -236,6 +237,7 @@ public class ClaimApiController {
 
 	}
 
+//-------------------Claim Authority--------------------
 	@RequestMapping(value = { "/getClaimAuthorityListByEmpId" }, method = RequestMethod.POST)
 	public @ResponseBody ClaimAuthority getLeaveAuthorityListByEmpId(@RequestParam("empId") int empId) {
 
@@ -381,6 +383,7 @@ public class ClaimApiController {
 		return info;
 
 	}
+	// -------------------Claim Type---------- --------------------
 
 	@RequestMapping(value = { "/getClaimById" }, method = RequestMethod.POST)
 	public @ResponseBody ClaimType getClaimById(@RequestParam("claimTypeId") int claimTypeId) {

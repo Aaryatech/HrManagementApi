@@ -51,6 +51,8 @@ public class LeaveStructureApiController {
 	@Autowired
 	LeaveBalanceCalRepo leaveBalanceCalRepo;
 
+	// ----------------------Leave balance Cal---------------------
+
 	@RequestMapping(value = { "/saveLeaveBalanceCal" }, method = RequestMethod.POST)
 	public @ResponseBody LeaveBalanceCal saveLeaveBalanceCal(@RequestBody LeaveBalanceCal leaveBalanceCal) {
 
@@ -117,6 +119,8 @@ public class LeaveStructureApiController {
 		return list;
 
 	}
+
+	// ----------------------Leave balance Structure--------------------
 
 	@RequestMapping(value = { "/saveLeaveStruture" }, method = RequestMethod.POST)
 	public @ResponseBody LeaveStructureHeader saveLeaveStruture(

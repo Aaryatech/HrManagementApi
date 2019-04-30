@@ -25,6 +25,8 @@ public class ProjectApiController {
 	@Autowired
 	ProjectRepository projectRepository;
 
+	// -------------Project Type------------------------
+
 	@RequestMapping(value = { "/saveProjectType" }, method = RequestMethod.POST)
 	public @ResponseBody ProjectType saveProjectType(@RequestBody ProjectType projectType) {
 
@@ -128,11 +130,13 @@ public class ProjectApiController {
 		return list;
 
 	}
-	//harsha
-	
-    @Autowired
-    ProjectHeaderRpo projectHeaderRpo;
-    
+	// harsha
+
+	// -----------------Project Header------------------
+
+	@Autowired
+	ProjectHeaderRpo projectHeaderRpo;
+
 	@RequestMapping(value = { "/getProjectsListByCompanyId" }, method = RequestMethod.POST)
 	public @ResponseBody List<ProjectHeader> getProjectsListByCompanyId(@RequestParam("companyId") int companyId) {
 		System.out.println(companyId);
