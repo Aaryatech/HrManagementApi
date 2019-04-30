@@ -290,7 +290,7 @@ System.err.println("list "+resList.toString());
 		List<GetClaimTrailStatus> trailList = new ArrayList<GetClaimTrailStatus>();
 		try {
 			trailList = getClaimTrailStatusRepo.getClaimTrailByClaimId(claimId);
-
+ 
 		} catch (Exception e) {
 
 			e.printStackTrace();

@@ -1,7 +1,11 @@
 package com.ats.hrmgt.leave.model;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 public class GetClaimTrailStatus {
@@ -16,8 +20,10 @@ public class GetClaimTrailStatus {
 	private String empRemarks;
 	
 	private int claimStatus;
-		
-	private String makerEnterDatetime;
+	
+	private String userName;
+	
+	private Date makerEnterDatetime;
 	
 	private String empFname;
 	
@@ -66,12 +72,21 @@ public class GetClaimTrailStatus {
 	public void setClaimStatus(int claimStatus) {
 		this.claimStatus = claimStatus;
 	}
+	
+	public String getUserName() {
+		return userName;
+	}
 
-	public String getMakerEnterDatetime() {
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	@JsonFormat(locale = "Locale.ENGLISH", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy hh:mm:ss a")// 
+	public Date getMakerEnterDatetime() {
 		return makerEnterDatetime;
 	}
 
-	public void setMakerEnterDatetime(String makerEnterDatetime) {
+	public void setMakerEnterDatetime(Date makerEnterDatetime) {
 		this.makerEnterDatetime = makerEnterDatetime;
 	}
 
