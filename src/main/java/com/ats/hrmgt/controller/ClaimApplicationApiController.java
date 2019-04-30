@@ -321,10 +321,15 @@ public class ClaimApplicationApiController {
 
 						leaveApply = claimApplyRepository.findByClaimIdAndDelStatus(claimId, 1);
 						int empId=leaveApply.getEmpId();
-
 						
 						
+						EmployeeInfo empInfo = new EmployeeInfo();
 						
+						empInfo = employeeInfoRepository.findByEmpIdAndDelStatus(empId, 1);
+						
+							
+							  Firebase.sendPushNotification(empInfo.getExVar1(), "HRMS",
+			                             " "+empInfo.getEmpFname()+" "+claimMsg+" ", 1);
 						
 						
 					} else {

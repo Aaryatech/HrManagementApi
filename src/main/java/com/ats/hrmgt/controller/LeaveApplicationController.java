@@ -24,6 +24,7 @@ import com.ats.hrmgt.leave.repo.GetAuthorityIdsRepo;
 import com.ats.hrmgt.leave.repo.GetEmployeeAuthorityWiseRepo;
 import com.ats.hrmgt.leave.repo.GetLeaveApplyAuthwiseRepo;
 import com.ats.hrmgt.leave.repo.LeaveHistoryRepo;
+import com.ats.hrmgt.model.ClaimApply;
 import com.ats.hrmgt.model.EmployeeInfo;
 import com.ats.hrmgt.model.Info;
 import com.ats.hrmgt.model.LeaveApply;
@@ -385,6 +386,32 @@ public class LeaveApplicationController {
 				if (delete > 0) {
 					info.setError(false);
 					info.setMsg("updated status");
+					
+					String claimMsg=new String();
+					if(status==2) {
+						claimMsg="Your Leave Approved By Initial Authority";
+					}else if(status==3) {
+						claimMsg="Your Leave Approved By Final Authority";
+					}else if(status==8) {
+						claimMsg="Your Leave Rejected By Initial Authority";
+					}else if(status==9) {
+						claimMsg="Your Leave Rejected By Final Authority";
+					}
+					
+					LeaveApply leaveApply = new LeaveApply();
+
+					leaveApply = leaveApplyRepository.findByLeaveIdAndDelStatus(leaveId, 1);
+					int empId=leaveApply.getEmpId();
+					
+					
+					EmployeeInfo empInfo = new EmployeeInfo();
+					
+					empInfo = employeeInfoRepository.findByEmpIdAndDelStatus(empId, 1);
+					
+						
+						  Firebase.sendPushNotification(empInfo.getExVar1(), "HRMS",
+		                             " "+empInfo.getEmpFname()+" "+claimMsg+" ", 1);
+					
 				} else {
 					info.setError(true);
 					info.setMsg("failed");
