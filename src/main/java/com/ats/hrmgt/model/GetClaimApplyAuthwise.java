@@ -37,6 +37,19 @@ public class GetClaimApplyAuthwise {
 	private int caIniAuthEmpId;
 
 	private int caFinAuthEmpId;
+	
+	
+	private String empPhoto;
+
+	
+
+	public String getEmpPhoto() {
+		return empPhoto;
+	}
+
+	public void setEmpPhoto(String empPhoto) {
+		this.empPhoto = empPhoto;
+	}
 
 	public int getClaimId() {
 		return claimId;

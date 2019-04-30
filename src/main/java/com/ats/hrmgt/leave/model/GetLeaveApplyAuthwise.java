@@ -41,6 +41,19 @@ public class GetLeaveApplyAuthwise {
  	private String leaveEmpReason;
  	
  	private String circulatedTo;
+ 	
+ 	private String empPhoto;
+ 	
+ 	
+ 	
+
+	public String getEmpPhoto() {
+		return empPhoto;
+	}
+
+	public void setEmpPhoto(String empPhoto) {
+		this.empPhoto = empPhoto;
+	}
 
 	public int getLeaveId() {
 		return leaveId;

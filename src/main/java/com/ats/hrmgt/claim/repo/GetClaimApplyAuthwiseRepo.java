@@ -21,7 +21,7 @@ public interface GetClaimApplyAuthwiseRepo   extends JpaRepository<GetClaimApply
 			"    la.claim_remarks,\n" + 
 			"    la.claim_date,\n" + 
 			"    la.circulated_to,\n" + 
-			"    e.emp_code,\n" + 
+			"    e.emp_code,e.emp_photo,  \n" + 
 			"    CONCAT(e.emp_fname, \" \", e.emp_sname) AS emp_name,\n" + 
 			"    le.ca_ini_auth_emp_id,\n" + 
 			"    le.ca_fin_auth_emp_id,\n" + 
@@ -53,7 +53,7 @@ public interface GetClaimApplyAuthwiseRepo   extends JpaRepository<GetClaimApply
 			"    la.claim_remarks,\n" + 
 			"    la.claim_date,\n" + 
 			"    la.circulated_to,\n" + 
-			"    e.emp_code,\n" + 
+			"    e.emp_code,e.emp_photo, \n" + 
 			"    CONCAT(e.emp_fname, \" \", e.emp_sname) AS emp_name,\n" + 
 			"    le.ca_ini_auth_emp_id,\n" + 
 			"    le.ca_fin_auth_emp_id,\n" + 

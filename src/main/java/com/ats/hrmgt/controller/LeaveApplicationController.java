@@ -182,6 +182,12 @@ public class LeaveApplicationController {
 
 			} else {
 				save.setError(false);
+				int empId=save.getEmpId();
+				
+				
+				
+				
+				
 			}
 
 
