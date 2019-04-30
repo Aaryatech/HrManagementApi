@@ -21,10 +21,8 @@ import com.ats.hrmgt.leave.model.ClaimDetail;
 import com.ats.hrmgt.leave.model.GetAuthorityIds;
 import com.ats.hrmgt.leave.model.GetClaimTrailStatus;
 import com.ats.hrmgt.leave.model.GetEmployeeAuthorityWise;
-import com.ats.hrmgt.leave.model.GetLeaveApplyAuthwise;
 import com.ats.hrmgt.leave.repo.ClaimApplyRepo;
 import com.ats.hrmgt.leave.repo.ClaimDetailRepo;
-import com.ats.hrmgt.leave.repo.ClaimRepository;
 import com.ats.hrmgt.leave.repo.GetAuthorityIdsRepo;
 import com.ats.hrmgt.leave.repo.GetClaimTrailStatusRepo;
 import com.ats.hrmgt.leave.repo.GetEmployeeAuthorityWiseRepo;
@@ -34,7 +32,6 @@ import com.ats.hrmgt.model.EmployeeInfo;
 import com.ats.hrmgt.model.GetClaimApplyAuthwise;
 import com.ats.hrmgt.model.GetEmployeeInfo;
 import com.ats.hrmgt.model.Info;
-import com.ats.hrmgt.model.LeaveApply;
 import com.ats.hrmgt.repository.EmployeeInfoRepository;
 import com.ats.hrmgt.repository.GetEmpInfoRepo;
 
@@ -172,8 +169,6 @@ public class ClaimApplicationApiController {
 				System.err.println("emp ids for notification are::"+empIds);
 				 List<String> al = 
 				            new ArrayList<String>(Arrays.asList(values)); 
-				
-				
 				
 				
 				Set<String> set = new HashSet<>(al);

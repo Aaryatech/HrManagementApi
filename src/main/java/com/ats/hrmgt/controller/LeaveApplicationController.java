@@ -428,7 +428,6 @@ public class LeaveApplicationController {
 
 		}
 		
-		
 		@RequestMapping(value = { "/updateTrailId" }, method = RequestMethod.POST)
 		public @ResponseBody Info updateTrailId(@RequestParam("leaveId") int leaveId,@RequestParam("trailId") int trailId) {
 
