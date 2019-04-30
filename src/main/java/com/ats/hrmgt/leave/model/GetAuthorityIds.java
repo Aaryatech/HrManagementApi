@@ -13,6 +13,18 @@ public class GetAuthorityIds {
 	private int iniAuthEmpId;
 	
 	private int finAuthEmpId;
+	
+	private String repToEmpIds;
+	
+	
+
+	public String getRepToEmpIds() {
+		return repToEmpIds;
+	}
+
+	public void setRepToEmpIds(String repToEmpIds) {
+		this.repToEmpIds = repToEmpIds;
+	}
 
 	public int getEmpId() {
 		return empId;

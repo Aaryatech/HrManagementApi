@@ -1,8 +1,12 @@
 package com.ats.hrmgt.controller;
 
 import java.util.ArrayList;
-
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.hrmgt.common.Firebase;
 import com.ats.hrmgt.leave.model.GetAuthorityIds;
 import com.ats.hrmgt.leave.model.GetLeaveApplyAuthwise;
 import com.ats.hrmgt.leave.model.LeaveHistory;
@@ -19,10 +24,12 @@ import com.ats.hrmgt.leave.repo.GetAuthorityIdsRepo;
 import com.ats.hrmgt.leave.repo.GetEmployeeAuthorityWiseRepo;
 import com.ats.hrmgt.leave.repo.GetLeaveApplyAuthwiseRepo;
 import com.ats.hrmgt.leave.repo.LeaveHistoryRepo;
+import com.ats.hrmgt.model.EmployeeInfo;
 import com.ats.hrmgt.model.Info;
 import com.ats.hrmgt.model.LeaveApply;
 import com.ats.hrmgt.model.LeaveTrail;
 import com.ats.hrmgt.model.LeaveType;
+import com.ats.hrmgt.repository.EmployeeInfoRepository;
 import com.ats.hrmgt.repository.LeaveApplyRepository;
 import com.ats.hrmgt.repository.LeaveTrailRepository;
 
@@ -168,6 +175,10 @@ public class LeaveApplicationController {
 	 * 
 	 * }
 	 */
+	
+	@Autowired
+	EmployeeInfoRepository employeeInfoRepository;
+	
 	@RequestMapping(value = { "/saveLeaveApply" }, method = RequestMethod.POST)
 	public @ResponseBody LeaveApply saveLeaveApply(@RequestBody LeaveApply leave) {
 
@@ -180,13 +191,47 @@ public class LeaveApplicationController {
 				save = new LeaveApply();
 				save.setError(true);
 
+				
 			} else {
 				save.setError(false);
 				int empId=save.getEmpId();
+		
+
+				EmployeeInfo empInfo1 = new EmployeeInfo();
+				
+				empInfo1 = employeeInfoRepository.findByEmpIdAndDelStatus(empId, 1);
+				String name=empInfo1.getEmpFname();
+				
+				
+				GetAuthorityIds leaveApply = new GetAuthorityIds();
+				leaveApply = getAuthorityIdsRepo.getAuthIdsDict(empId);
+
+				String empIds=leaveApply.getRepToEmpIds();
+				String[] values = empIds.split(",");
+				System.err.println("emp ids for notification are::"+empIds);
+				 List<String> al = 
+				            new ArrayList<String>(Arrays.asList(values)); 
 				
 				
 				
 				
+				Set<String> set = new HashSet<>(al);
+				al.clear();
+				al.addAll(set);
+				System.err.println("emp ids for notification are:--------------:"+al.toString());
+				
+				for(int i=0;i<al.size();i++) {
+					
+					EmployeeInfo empInfo = new EmployeeInfo();
+					
+					empInfo = employeeInfoRepository.findByEmpIdAndDelStatus(Integer.parseInt(al.get(i)), 1);
+					
+						
+						  Firebase.sendPushNotification(empInfo.getExVar1(), "HRMS",
+		                             " "+name+" has applied for leave Please check for Approval", 1);
+
+				}
+
 				
 			}
 

@@ -29,10 +29,11 @@ public interface ClaimApplyRepo extends JpaRepository<ClaimApply, Integer>{
 	int updateClaimStatus(int claimId,int status);
 
 
+
+	ClaimApply findByClaimIdAndDelStatus(int claimId, int delStatus);
+
+
 }
-/*SELECT l.*,e.emp_fname,e.emp_mname,e.emp_sname, e.emp_photo,d.emp_dept_name,lt.lv_title FROM leave_apply as l, emp_info as e ,m_emp_department d,leave_type lt 
- * WHERE  l.del_status=1 and l.ex_int1=1 and l.emp_id=e.emp_id and d.emp_dept_id=e.emp_dept_id and lt.lv_type_id=l.lv_type_id 
- * and l.emp_id IN(SELECT emp_id FROM `leave_authority` WHERE ini_auth_emp_id=1 OR fin_auth_emp_id=1) */
- 
+
 
 
