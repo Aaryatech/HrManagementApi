@@ -5,12 +5,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Table(name = "project_header")
-public class ProjectHeader {
+public class GetProjectHeader {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "project_id")
@@ -94,8 +93,14 @@ public class ProjectHeader {
 	@Column(name = "project_manager_emp_id")
 	private int projectManagerEmpId;
 
-	@Transient
-	private boolean error;
+	private String empCode;
+	private String locName;
+	private String custName;
+	private String empFname;
+	private String empMname;
+	private String empSname;
+	private String projectTypeTitle;
+	private String projectTypeTitleShort;
 
 	public int getProjectId() {
 		return projectId;
@@ -305,14 +310,6 @@ public class ProjectHeader {
 		this.projectCity = projectCity;
 	}
 
-	public boolean isError() {
-		return error;
-	}
-
-	public void setError(boolean error) {
-		this.error = error;
-	}
-
 	public int getProjectManagerEmpId() {
 		return projectManagerEmpId;
 	}
@@ -321,9 +318,73 @@ public class ProjectHeader {
 		this.projectManagerEmpId = projectManagerEmpId;
 	}
 
+	public String getEmpCode() {
+		return empCode;
+	}
+
+	public void setEmpCode(String empCode) {
+		this.empCode = empCode;
+	}
+
+	public String getLocName() {
+		return locName;
+	}
+
+	public void setLocName(String locName) {
+		this.locName = locName;
+	}
+
+	public String getCustName() {
+		return custName;
+	}
+
+	public void setCustName(String custName) {
+		this.custName = custName;
+	}
+
+	public String getEmpFname() {
+		return empFname;
+	}
+
+	public void setEmpFname(String empFname) {
+		this.empFname = empFname;
+	}
+
+	public String getEmpMname() {
+		return empMname;
+	}
+
+	public void setEmpMname(String empMname) {
+		this.empMname = empMname;
+	}
+
+	public String getEmpSname() {
+		return empSname;
+	}
+
+	public void setEmpSname(String empSname) {
+		this.empSname = empSname;
+	}
+
+	public String getProjectTypeTitle() {
+		return projectTypeTitle;
+	}
+
+	public void setProjectTypeTitle(String projectTypeTitle) {
+		this.projectTypeTitle = projectTypeTitle;
+	}
+
+	public String getProjectTypeTitleShort() {
+		return projectTypeTitleShort;
+	}
+
+	public void setProjectTypeTitleShort(String projectTypeTitleShort) {
+		this.projectTypeTitleShort = projectTypeTitleShort;
+	}
+
 	@Override
 	public String toString() {
-		return "ProjectHeader [projectId=" + projectId + ", companyId=" + companyId + ", locId=" + locId
+		return "GetProjectHeader [projectId=" + projectId + ", companyId=" + companyId + ", locId=" + locId
 				+ ", projectTypeId=" + projectTypeId + ", custId=" + custId + ", projectTitle=" + projectTitle
 				+ ", projectDesc=" + projectDesc + ", projectEstStartdt=" + projectEstStartdt + ", projectEstEnddt="
 				+ projectEstEnddt + ", projectEstManhrs=" + projectEstManhrs + ", projectEstBudget=" + projectEstBudget
@@ -332,7 +393,10 @@ public class ProjectHeader {
 				+ delStatus + ", isActive=" + isActive + ", makerUserId=" + makerUserId + ", makerEnterDatetime="
 				+ makerEnterDatetime + ", exInt1=" + exInt1 + ", exInt2=" + exInt2 + ", exInt3=" + exInt3 + ", exVar1="
 				+ exVar1 + ", exVar2=" + exVar2 + ", exVar3=" + exVar3 + ", projectCity=" + projectCity
-				+ ", projectManagerEmpId=" + projectManagerEmpId + ", error=" + error + "]";
+				+ ", projectManagerEmpId=" + projectManagerEmpId + ", empCode=" + empCode + ", locName=" + locName
+				+ ", custName=" + custName + ", empFname=" + empFname + ", empMname=" + empMname + ", empSname="
+				+ empSname + ", projectTypeTitle=" + projectTypeTitle + ", projectTypeTitleShort="
+				+ projectTypeTitleShort + "]";
 	}
 
 }

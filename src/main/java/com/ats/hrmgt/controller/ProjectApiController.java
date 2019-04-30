@@ -14,16 +14,22 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ats.hrmgt.leave.repo.ProjectRepository;
 import com.ats.hrmgt.model.ClaimAuthority;
 import com.ats.hrmgt.model.ClaimType;
+import com.ats.hrmgt.model.GetProjectHeader;
 import com.ats.hrmgt.model.Info;
 import com.ats.hrmgt.model.ProjectHeader;
+import com.ats.hrmgt.model.ProjectTrail;
 import com.ats.hrmgt.model.ProjectType;
+import com.ats.hrmgt.repository.GetProjectHeaderRepo;
 import com.ats.hrmgt.repository.ProjectHeaderRpo;
+import com.ats.hrmgt.repository.ProjectTrailRepo;
 
 @RestController
 public class ProjectApiController {
 
 	@Autowired
 	ProjectRepository projectRepository;
+	@Autowired
+	GetProjectHeaderRepo getProjectHeaderRepo;
 
 	// -------------Project Type------------------------
 
@@ -137,6 +143,103 @@ public class ProjectApiController {
 	@Autowired
 	ProjectHeaderRpo projectHeaderRpo;
 
+	@Autowired
+	ProjectTrailRepo projectTrailRepo;
+
+	@RequestMapping(value = { "/saveProjectTrail" }, method = RequestMethod.POST)
+	public @ResponseBody ProjectTrail saveProjectTrail(@RequestBody ProjectTrail projectTrail) {
+
+		ProjectTrail save = new ProjectTrail();
+		try {
+
+			save = projectTrailRepo.saveAndFlush(projectTrail);
+			if (save != null) {
+				save.setError(false);
+			} else {
+
+				save = new ProjectTrail();
+				save.setError(true);
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return save;
+
+	}
+
+	@RequestMapping(value = { "/saveProjectHeader" }, method = RequestMethod.POST)
+	public @ResponseBody ProjectHeader saveProjectHeader(@RequestBody ProjectHeader projectHeader) {
+		System.out.println(projectHeader.toString());
+
+		ProjectHeader save = new ProjectHeader();
+		try {
+
+			save = projectHeaderRpo.saveAndFlush(projectHeader);
+			if (save != null) {
+				save.setError(false);
+			} else {
+
+				save = new ProjectHeader();
+				save.setError(true);
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return save;
+
+	}
+
+	@RequestMapping(value = { "/deleteProjectHeader" }, method = RequestMethod.POST)
+	public @ResponseBody Info deleteProjectHeader(@RequestParam("projectId") int projectId) {
+
+		Info info = new Info();
+
+		try {
+
+			int delete = projectHeaderRpo.deleteProjectHeader(projectId);
+
+			if (delete > 0) {
+				info.setError(false);
+				info.setMsg("deleted");
+			} else {
+				info.setError(true);
+				info.setMsg("failed");
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			info.setError(true);
+			info.setMsg("failed");
+		}
+
+		return info;
+
+	}
+
+	@RequestMapping(value = { "/getProjectHeaderByProjectId" }, method = RequestMethod.POST)
+	public @ResponseBody ProjectHeader getProjectHeaderByProjectId(@RequestParam("projectId") int projectId) {
+
+		ProjectHeader projectHeader = new ProjectHeader();
+		try {
+
+			projectHeader = projectHeaderRpo.findByProjectIdAndDelStatus(projectId, 1);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return projectHeader;
+
+	}
+
 	@RequestMapping(value = { "/getProjectsListByCompanyId" }, method = RequestMethod.POST)
 	public @ResponseBody List<ProjectHeader> getProjectsListByCompanyId(@RequestParam("companyId") int companyId) {
 		System.out.println(companyId);
@@ -144,6 +247,24 @@ public class ProjectApiController {
 		try {
 
 			list = projectHeaderRpo.findByDelStatusAndCompanyId(1, companyId);
+			System.out.println(list.toString());
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
+
+	@RequestMapping(value = { "/getProjectAllListByCompanyId" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetProjectHeader> getProjectAllListByCompanyId(@RequestParam("companyId") int companyId) {
+		System.out.println(companyId);
+		List<GetProjectHeader> list = new ArrayList<GetProjectHeader>();
+		try {
+
+			list = getProjectHeaderRepo.getProListByCompanyId(companyId);
 			System.out.println(list.toString());
 
 		} catch (Exception e) {
