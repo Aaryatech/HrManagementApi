@@ -630,6 +630,36 @@ public class MasterRestController {
 		return save;
 
 	}
+	
+	
+	@RequestMapping(value = { "/updateToken" }, method = RequestMethod.POST)
+	public @ResponseBody Info updateToken(@RequestParam("empId") int empId, @RequestParam("token") String token) {
+
+		Info info = new Info();
+
+		try {
+			int res = employeeInfoRepository.updateUserToken(empId, token);
+
+			if (res == 1) {
+				info.setError(false);
+				info.setMsg("Successfully Updated Token");
+			} else {
+				info.setError(true);
+				info.setMsg(" Error Failed to Update Token");
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			info.setError(true);
+			info.setMsg("Exce Failed to Update Token ");
+
+		}
+		return info;
+
+	}
+	
+	
 
 	@RequestMapping(value = { "/saveUserInfo" }, method = RequestMethod.POST)
 	public @ResponseBody User saveUserInfo(@RequestBody User userInfo) {

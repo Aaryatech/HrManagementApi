@@ -47,5 +47,12 @@ public interface EmployeeInfoRepository extends JpaRepository<EmployeeInfo, Inte
 	EmployeeInfo findByDelStatusAndIsActiveAndEmpEmail(int i, int j, String inputValue);
 
 	EmployeeInfo findByDelStatusAndIsActiveAndEmpMobile1(int i, int j, String inputValue);
+	
+	
+	@Transactional
+	@Modifying
+	@Query("update EmployeeInfo set ex_var1=:token  WHERE emp_id=:empId")
+	int updateUserToken(@Param("empId") int empId,@Param("token") String token);
+	
 
 }
