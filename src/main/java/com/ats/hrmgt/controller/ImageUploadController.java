@@ -18,11 +18,14 @@ import com.ats.hrmgt.model.Info;
 @RestController
 public class ImageUploadController {
 	
-	private static String DOC_URL=	"/home/tomcataaryatechi/tomcat.aaryatechindia.in/tomcat-8.0.18/webapps/rtodocupload/";
+	//private static String DOC_URL=	"/home/tomcataaryatechi/tomcat.aaryatechindia.in/tomcat-8.0.18/webapps/rtodocupload/";
+	private static String DOC_URL=	"C:/Users/MAXADMIN/Desktop/uploads/";
 	
 	@RequestMapping(value = { "/photoUpload" }, method = RequestMethod.POST)
 	public @ResponseBody Info photoUpload(@RequestParam("file") MultipartFile[] uploadfile , 
 			@RequestParam("imageName") List<String> imageName,@RequestParam("type") String type) {
+		
+		System.out.println("HELLO------------------------" );
 		
 		System.err.println(" no  of files to push " +uploadfile.length);
 		Info info = new Info();
