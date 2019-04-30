@@ -34,7 +34,7 @@ public class DateConvertor {
 				SimpleDateFormat ymdSDF2 = new SimpleDateFormat("yyyy-mm-dd");
 
 				
-				SimpleDateFormat dmySDF = new SimpleDateFormat("dd-mm-yyyy");
+				SimpleDateFormat dmySDF = new SimpleDateFormat("dd-MM-yyyy");
 
 				Date ymdDate = ymdSDF2.parse(utildate);
 				

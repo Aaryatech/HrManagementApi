@@ -3,13 +3,11 @@ package com.ats.hrmgt.controller;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.ats.hrmgt.common.DateConvertor;
 import com.ats.hrmgt.leave.model.ClaimDetail;
 import com.ats.hrmgt.leave.model.GetClaimTrailStatus;
@@ -21,13 +19,10 @@ import com.ats.hrmgt.leave.repo.ClaimRepository;
 import com.ats.hrmgt.leave.repo.GetClaimTrailStatusRepo;
 import com.ats.hrmgt.leave.repo.GetLeaveStatusRepo;
 import com.ats.hrmgt.leave.repo.LeaveDetailRepo;
-import com.ats.hrmgt.leave.repo.ProjectRepository;
 import com.ats.hrmgt.model.CalenderYear;
 import com.ats.hrmgt.model.DashboardCount;
 import com.ats.hrmgt.model.EmployeeInfo;
 import com.ats.hrmgt.model.Info;
-import com.ats.hrmgt.model.LeaveApply;
-import com.ats.hrmgt.model.ProjectType;
 import com.ats.hrmgt.repository.CalculateYearRepository;
 import com.ats.hrmgt.repository.DashboardRepo;
 import com.ats.hrmgt.repository.EmployeeInfoRepository;
@@ -114,8 +109,7 @@ public class MasterAppController {
 			@RequestParam("status") List<Integer> status) {
 
 		List<LeaveDetail> resList = new ArrayList<LeaveDetail>();
-		// List<LeaveDetail> result = new ArrayList<LeaveDetail>();
-
+		
 		try {
 
 			CalenderYear calendearYear = new CalenderYear();
@@ -126,9 +120,8 @@ public class MasterAppController {
 				curYrId = calendearYear.getCalYrId();
 			}
 			//System.err.println("list "+leaveDetailRepo.getLeaveStatus1(empId, status, curYrId));
-System.err.println("curYrId " +curYrId);
+
 			resList = leaveDetailRepo.getLeaveStatus1(empId, status, curYrId);
-System.err.println("list "+resList.toString());
 			if (resList != null) {
 				for (int i = 0; i < resList.size(); i++) {
 					List<GetLeaveStatus> leaveStatus = new ArrayList<GetLeaveStatus>();
@@ -206,7 +199,6 @@ System.err.println("list "+resList.toString());
 
 			CalenderYear calendearYear = new CalenderYear();
 			calendearYear = calculateYearRepository.findByIsCurrent(1);
-
 			int curYrId = 0;
 			if (calendearYear != null) {
 				curYrId = calendearYear.getCalYrId();
@@ -261,8 +253,7 @@ System.err.println("list "+resList.toString());
 			@RequestParam("status") List<Integer> status) {
 
 		List<ClaimDetail> list = new ArrayList<ClaimDetail>();
-		// List<LeaveDetail> result = new ArrayList<LeaveDetail>();
-
+		
 		try {
 
 			list = claimDetailRepo.getClaimStatus(empId, status);
@@ -347,10 +338,7 @@ System.err.println("list "+resList.toString());
 		List<GetLeaveStatus> leaveStatus = new ArrayList<GetLeaveStatus>();
 		try {
 			leaveStatus = getLeaveStatusRepo.getEmpInfoByLeaveId(leaveId);
-			  
-			 
-			System.out.println("List :"+leaveStatus.toString());
-		} catch (Exception e) { 
+			} catch (Exception e) { 
 
 			e.printStackTrace();
 		}
