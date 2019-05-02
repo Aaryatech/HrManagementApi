@@ -70,6 +70,24 @@ public class MasterWebApiController {
 
 	}
 	
+	
+	@RequestMapping(value = { "/getUserInfoByEmpId" }, method = RequestMethod.POST)
+	public @ResponseBody User getUserInfoByEmpId(@RequestParam("empId") int empId) {
+
+		User user = new User();
+		try {
+
+			user = userRepo.findByEmpIdAndDelStatus(empId,1);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return user;
+
+	}
+	
 	@RequestMapping(value = { "/GetCurrCalYear" }, method = RequestMethod.POST)
 	public @ResponseBody GetEmployeeInfo GetCurrCalYear() {
 

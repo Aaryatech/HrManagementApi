@@ -45,7 +45,10 @@ public interface GetLeaveApplyAuthwiseRepo extends JpaRepository<GetLeaveApplyAu
 			"            le.ini_auth_emp_id=:empId AND la.ex_int1 = 1\n" + 
 			"        ) OR(\n" + 
 			"            le.fin_auth_emp_id=:empId AND la.ex_int1 = 2\n" + 
-			"        )\n" + 
+			"        )   OR(\n" + 
+			"                le.emp_id=:empId \n" + 
+			"                AND  la.ex_int1 in (2,1)         \n" + 
+			"            )   \n" + 
 			"    ) AND la.cal_yr_id = :currYrId ", nativeQuery = true)
 
 	List<GetLeaveApplyAuthwise> getLeaveApplyList(@Param("empId") int empId,@Param("currYrId") int currYrId);

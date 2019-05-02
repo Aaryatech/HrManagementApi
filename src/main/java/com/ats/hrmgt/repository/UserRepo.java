@@ -8,4 +8,6 @@ public interface UserRepo  extends JpaRepository<User, Integer>{
 
 	User findByDelStatusAndIsActiveAndUserNameAndUserPwd(int delStatus, int isActive, String userName, String userPwd);
 
+	User findByEmpIdAndDelStatus(int empId, int delStatus);
+
 }
