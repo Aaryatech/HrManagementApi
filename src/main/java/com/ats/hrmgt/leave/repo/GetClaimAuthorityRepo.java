@@ -25,9 +25,11 @@ public interface GetClaimAuthorityRepo extends JpaRepository<GetClaimAuthority, 
 			+ ",coalesce((SELECT e.emp_mname FROM emp_info e WHERE auth.del_status=1 AND e.emp_id=auth.ca_fin_auth_emp_id),null) as fini_emp_mname\n"
 			+ ",coalesce((SELECT e.emp_sname FROM emp_info e WHERE auth.del_status=1 AND e.emp_id=auth.ca_fin_auth_emp_id),null) as fini_emp_sname\n"
 			+ ",coalesce((SELECT e.emp_sname FROM emp_info e WHERE auth.del_status=1 AND e.emp_id=auth.ca_fin_auth_emp_id),null) as fini_emp_code\n"
-			+ "\n" + "FROM claim_authority auth\n" + "WHERE auth.del_status=1 AND auth.company_id=:companyId\n"
+			+ "\n" + "FROM claim_authority auth ,emp_info ei\n"
+			+ "WHERE auth.del_status=1 AND auth.company_id=:companyId AND  ei.emp_id=auth.emp_id AND ei.loc_id IN(:locIdList) AND ei.del_status=1\n"
 			+ " ", nativeQuery = true)
 
-	List<GetClaimAuthority> getClaimAuth(@Param("companyId") int companyId);
+	List<GetClaimAuthority> getClaimAuth(@Param("companyId") int companyId,
+			@Param("locIdList") List<Integer> locIdList);
 
 }

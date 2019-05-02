@@ -256,12 +256,13 @@ public class ClaimApiController {
 	}
 
 	@RequestMapping(value = { "/getClaimAuthorityList" }, method = RequestMethod.POST)
-	public @ResponseBody List<GetClaimAuthority> getClaimAuthorityList(@RequestParam("companyId") int companyId) {
+	public @ResponseBody List<GetClaimAuthority> getClaimAuthorityList(@RequestParam("companyId") int companyId,
+			@RequestParam("locIdList") List<Integer> locIdList) {
 
 		List<GetClaimAuthority> list = new ArrayList<GetClaimAuthority>();
 		try {
 
-			list = getClaimAuthorityRepo.getClaimAuth(companyId);
+			list = getClaimAuthorityRepo.getClaimAuth(companyId,locIdList);
 
 		} catch (Exception e) {
 

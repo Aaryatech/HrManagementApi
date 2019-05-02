@@ -80,12 +80,13 @@ public class LeaveStructureApiController {
 	}
 
 	@RequestMapping(value = { "/getLeaveAuthorityList" }, method = RequestMethod.POST)
-	public @ResponseBody List<GetLeaveAuthority> getLeaveAuthorityList(@RequestParam("companyId") int companyId) {
+	public @ResponseBody List<GetLeaveAuthority> getLeaveAuthorityList(@RequestParam("companyId") int companyId,
+			@RequestParam("locIdList") List<Integer> locIdList) {
 
 		List<GetLeaveAuthority> list = new ArrayList<GetLeaveAuthority>();
 		try {
 
-			list = getLeaveAuthorityRepo.getLeaveAuth(companyId);
+			list = getLeaveAuthorityRepo.getLeaveAuth(companyId, locIdList);
 
 		} catch (Exception e) {
 
