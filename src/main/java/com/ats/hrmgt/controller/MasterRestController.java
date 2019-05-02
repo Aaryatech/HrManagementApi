@@ -612,7 +612,7 @@ public class MasterRestController {
 		try {
 
 			save = employeeInfoRepository.saveAndFlush(employeeDepartment);
-			
+
 			if (save == null) {
 
 				save = new EmployeeInfo();
@@ -630,8 +630,7 @@ public class MasterRestController {
 		return save;
 
 	}
-	
-	
+
 	@RequestMapping(value = { "/updateToken" }, method = RequestMethod.POST)
 	public @ResponseBody Info updateToken(@RequestParam("empId") int empId, @RequestParam("token") String token) {
 
@@ -658,8 +657,6 @@ public class MasterRestController {
 		return info;
 
 	}
-	
-	
 
 	@RequestMapping(value = { "/saveUserInfo" }, method = RequestMethod.POST)
 	public @ResponseBody User saveUserInfo(@RequestBody User userInfo) {
@@ -668,7 +665,7 @@ public class MasterRestController {
 		try {
 
 			save = userRepo.saveAndFlush(userInfo);
-			
+
 			if (save == null) {
 
 				save = new User();
@@ -677,7 +674,6 @@ public class MasterRestController {
 			} else {
 				save.setError(false);
 			}
-
 
 		} catch (Exception e) {
 
@@ -750,12 +746,13 @@ public class MasterRestController {
 	}
 
 	@RequestMapping(value = { "/getEmpInfoListForLeaveAuth" }, method = RequestMethod.POST)
-	public @ResponseBody List<GetEmployeeInfo> getEmpInfoListForLeaveAuth(@RequestParam("companyId") int companyId) {
+	public @ResponseBody List<GetEmployeeInfo> getEmpInfoListForLeaveAuth(@RequestParam("companyId") int companyId,
+			@RequestParam("locIdList") List<Integer> locIdList) {
 
 		List<GetEmployeeInfo> list = new ArrayList<GetEmployeeInfo>();
 		try {
 
-			list = getEmpInfo.getEmpListByCompanyIdForAuth(companyId);
+			list = getEmpInfo.getEmpListByCompanyIdForAuth(companyId, locIdList);
 
 		} catch (Exception e) {
 
@@ -767,12 +764,13 @@ public class MasterRestController {
 	}
 
 	@RequestMapping(value = { "/getEmpInfoListForClaimAuth" }, method = RequestMethod.POST)
-	public @ResponseBody List<GetEmployeeInfo> getEmpInfoListForClaimAuth(@RequestParam("companyId") int companyId) {
+	public @ResponseBody List<GetEmployeeInfo> getEmpInfoListForClaimAuth(@RequestParam("companyId") int companyId,
+			@RequestParam("locIdList") List<Integer> locIdList) {
 
 		List<GetEmployeeInfo> list = new ArrayList<GetEmployeeInfo>();
 		try {
 
-			list = getEmpInfo.getEmpListByCompanyIdForAuthClaim(companyId);
+			list = getEmpInfo.getEmpListByCompanyIdForAuthClaim(companyId, locIdList);
 
 		} catch (Exception e) {
 
@@ -998,7 +996,6 @@ public class MasterRestController {
 			} else {
 				save.setError(false);
 			}
-		
 
 		} catch (Exception e) {
 

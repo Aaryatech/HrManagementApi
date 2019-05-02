@@ -68,11 +68,11 @@ public interface GetEmpInfoRepo extends JpaRepository<GetEmployeeInfo, Integer> 
 			+ "        emp_info.emp_dept_id=m_emp_department.emp_dept_id \n"
 			+ "        and emp_info.emp_cat_id= m_emp_category.emp_cat_id  \n"
 			+ "        and emp_info.emp_type_id=m_emp_type.emp_type_id \n" + "        and emp_info.del_status=1    \n"
-			+ "        and emp_info.is_active=1 \n" + "        and emp_info.company_id=:companyId\n" + "       \n"
+			+ "        and emp_info.is_active=1 and emp_info.loc_id IN(:locIdList) \n" + "        and emp_info.company_id=:companyId\n" + "       \n"
 			+ "        and emp_info.company_id=m_company.company_id\n"
 			+ "         AND emp_info.emp_id NOT IN(SELECT auth.emp_id FROM leave_authority auth  WHERE auth.del_status=1 )   ", nativeQuery = true)
 
-	List<GetEmployeeInfo> getEmpListByCompanyIdForAuth(@Param("companyId") int companyId);
+	List<GetEmployeeInfo> getEmpListByCompanyIdForAuth(@Param("companyId") int companyId,@Param("locIdList") List<Integer> locIdList);
 
 	@Query(value = "  SELECT\n" + "        emp_info.emp_code ,\n" + "        emp_info.emp_id,\n"
 			+ "        emp_info.emp_fname,\n" + "        emp_info.emp_mname     ,\n" + "        emp_info.emp_sname ,\n"
@@ -108,11 +108,11 @@ public interface GetEmpInfoRepo extends JpaRepository<GetEmployeeInfo, Integer> 
 			+ "        emp_info.emp_dept_id=m_emp_department.emp_dept_id \n"
 			+ "        and emp_info.emp_cat_id= m_emp_category.emp_cat_id  \n"
 			+ "        and emp_info.emp_type_id=m_emp_type.emp_type_id \n" + "        and emp_info.del_status=1    \n"
-			+ "        and emp_info.is_active=1 \n" + "        and emp_info.company_id=:companyId\n" + "       \n"
+			+ "        and emp_info.is_active=1 and emp_info.loc_id IN(:locIdList) \n" + "        and emp_info.company_id=:companyId\n" + "       \n"
 			+ "        and emp_info.company_id=m_company.company_id\n"
 			+ "         AND emp_info.emp_id NOT IN(SELECT claim.emp_id FROM claim_authority claim  WHERE claim.del_status=1 )   ", nativeQuery = true)
 
-	List<GetEmployeeInfo> getEmpListByCompanyIdForAuthClaim(@Param("companyId") int companyId);
+	List<GetEmployeeInfo> getEmpListByCompanyIdForAuthClaim(@Param("companyId") int companyId,@Param("locIdList") List<Integer> locIdList);
 	/*
 	 * @Query(value =
 	 * "SELECT emp.* FROM emp_info emp ,leave_authority auth WHERE emp.del_status=1 AND emp.is_active=1 AND auth.emp_id NOT IN(emp.emp_id)  AND emp.company_id=:companyId "
