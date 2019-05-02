@@ -18,7 +18,17 @@ import com.google.android.gcm.server.MulticastResult;
 import com.google.android.gcm.server.Result;
 import com.google.android.gcm.server.Sender;
 
+
+
+
 public class Firebase {
+	
+	/*
+	 * <dependency> <groupId>com.ganyo</groupId> <artifactId>gcm-server</artifactId>
+	 * <version>1.0.2</version> </dependency> <dependency>
+	 * <groupId>org.json</groupId> <artifactId>org.json</artifactId>
+	 * <version>chargebee-1.0</version> </dependency>
+	 */
 	// Method to send Notifications from server to client end.
 		public final static String AUTH_KEY_FCM = "AAAA1UxWRjk:APA91bH-CRjip_O089lrtJLtiSobfqlsOFFs__u0yl3GBNduiXWijlvJjQmD694QqicAojH_TrLIMifI_YFMg56uvLdCN-Zbbv6nJHMRWjoLXeVNmWfxIhgpsBBFzXvAWdFQGdb-HqTz";
 
