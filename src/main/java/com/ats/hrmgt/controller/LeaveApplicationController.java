@@ -36,8 +36,7 @@ import com.ats.hrmgt.repository.LeaveTrailRepository;
 
 @RestController
 public class LeaveApplicationController {
-	
-	
+
 	@Autowired
 	LeaveHistoryRepo leaveHistoryRepo;
 	@Autowired
@@ -49,53 +48,50 @@ public class LeaveApplicationController {
 	GetAuthorityIdsRepo getAuthorityIdsRepo;
 	@Autowired
 	GetEmployeeAuthorityWiseRepo getEmployeeAuthorityWise;
-	
-	
+
 	@Autowired
 	GetLeaveApplyAuthwiseRepo getLeaveApplyAuthwiseRepo;
-	
-	@RequestMapping(value = { "/getLeaveHistoryList" }, method = RequestMethod.POST)
-	public @ResponseBody List<LeaveHistory> getLeaveHistoryList(@RequestParam("empId") int empId,@RequestParam("currYrId") int currYrId) {
 
-		 
+	@RequestMapping(value = { "/getLeaveHistoryList" }, method = RequestMethod.POST)
+	public @ResponseBody List<LeaveHistory> getLeaveHistoryList(@RequestParam("empId") int empId,
+			@RequestParam("currYrId") int currYrId) {
+
 		List<LeaveHistory> list = new ArrayList<LeaveHistory>();
 		try {
-			 
-			
-				list = leaveHistoryRepo.getLeaveHistoryByEmpId(empId,currYrId);
-			
-				System.err.println("LeaveHistory"+list.toString());
+
+			list = leaveHistoryRepo.getLeaveHistoryByEmpId(empId, currYrId);
+
+			System.err.println("LeaveHistory" + list.toString());
 
 		} catch (Exception e) {
- 
+
 			e.printStackTrace();
 		}
 
 		return list;
 
 	}
-	
-	
+
 	@RequestMapping(value = { "/getLeaveHistoryByLeaveTypeId" }, method = RequestMethod.POST)
-	public @ResponseBody LeaveHistory getLeaveHistoryByLeaveTyprId(@RequestParam("leaveTypeId") int leaveTypeId,@RequestParam("lvsId") int lvsId) {
+	public @ResponseBody LeaveHistory getLeaveHistoryByLeaveTyprId(@RequestParam("leaveTypeId") int leaveTypeId,
+			@RequestParam("lvsId") int lvsId) {
 
-		 
-	LeaveHistory list = new LeaveHistory();
+		LeaveHistory list = new LeaveHistory();
 		try {
-			 
-			
-				list = leaveHistoryRepo.getLeaveEarnedByLeaveTypeId(leaveTypeId,lvsId);
-			
-				System.err.println("LeaveHistory"+list.toString());
+
+			list = leaveHistoryRepo.getLeaveEarnedByLeaveTypeId(leaveTypeId, lvsId);
+
+			System.err.println("LeaveHistory" + list.toString());
 
 		} catch (Exception e) {
- 
+
 			e.printStackTrace();
 		}
 
 		return list;
 
 	}
+
 	@RequestMapping(value = { "/saveLeaveTrail" }, method = RequestMethod.POST)
 	public @ResponseBody LeaveTrail saveLeaveTrail(@RequestBody LeaveTrail leaveTrail) {
 
@@ -103,7 +99,7 @@ public class LeaveApplicationController {
 		try {
 
 			save = leaveTrailRepository.saveAndFlush(leaveTrail);
-			
+
 			if (save == null) {
 
 				save = new LeaveTrail();
@@ -176,10 +172,10 @@ public class LeaveApplicationController {
 	 * 
 	 * }
 	 */
-	
+
 	@Autowired
 	EmployeeInfoRepository employeeInfoRepository;
-	
+
 	@RequestMapping(value = { "/saveLeaveApply" }, method = RequestMethod.POST)
 	public @ResponseBody LeaveApply saveLeaveApply(@RequestBody LeaveApply leave) {
 
@@ -192,50 +188,40 @@ public class LeaveApplicationController {
 				save = new LeaveApply();
 				save.setError(true);
 
-				
 			} else {
 				save.setError(false);
-				int empId=save.getEmpId();
-		
+				int empId = save.getEmpId();
 
 				EmployeeInfo empInfo1 = new EmployeeInfo();
-				
+
 				empInfo1 = employeeInfoRepository.findByEmpIdAndDelStatus(empId, 1);
-				String name=empInfo1.getEmpFname();
-				
-				
+				String name = empInfo1.getEmpFname();
+
 				GetAuthorityIds leaveApply = new GetAuthorityIds();
 				leaveApply = getAuthorityIdsRepo.getAuthIdsDict(empId);
 
-				String empIds=leaveApply.getRepToEmpIds();
+				String empIds = leaveApply.getRepToEmpIds();
 				String[] values = empIds.split(",");
-				System.err.println("emp ids for notification are::"+empIds);
-				 List<String> al = 
-				            new ArrayList<String>(Arrays.asList(values)); 
-				
-				
-				
-				
+				System.err.println("emp ids for notification are::" + empIds);
+				List<String> al = new ArrayList<String>(Arrays.asList(values));
+
 				Set<String> set = new HashSet<>(al);
 				al.clear();
 				al.addAll(set);
-				System.err.println("emp ids for notification are:--------------:"+al.toString());
-				
-				for(int i=0;i<al.size();i++) {
-					
+				System.err.println("emp ids for notification are:--------------:" + al.toString());
+
+				for (int i = 0; i < al.size(); i++) {
+
 					EmployeeInfo empInfo = new EmployeeInfo();
-					
+
 					empInfo = employeeInfoRepository.findByEmpIdAndDelStatus(Integer.parseInt(al.get(i)), 1);
-					
-						
-						  Firebase.sendPushNotification(empInfo.getExVar1(), "HRMS",
-		                             " "+name+" has applied for leave Please check for Approval", 1);
+
+					Firebase.sendPushNotification(empInfo.getExVar1(), "HRMS",
+							" " + name + " has applied for leave Please check for Approval", 1);
 
 				}
 
-				
 			}
-
 
 		} catch (Exception e) {
 
@@ -262,9 +248,6 @@ public class LeaveApplicationController {
 		return list;
 
 	}
-
-	
-	
 
 	@RequestMapping(value = { "/deleteLeaveApply" }, method = RequestMethod.POST)
 	public @ResponseBody Info deleteLeaveApply(@RequestParam("leaveId") int leaveId) {
@@ -294,8 +277,6 @@ public class LeaveApplicationController {
 
 	}
 
-	
-
 	@RequestMapping(value = { "getLeaveApplyById" }, method = RequestMethod.POST)
 	public @ResponseBody LeaveApply getLeaveApplyById(@RequestParam("leaveId") int leaveId) {
 
@@ -312,12 +293,11 @@ public class LeaveApplicationController {
 		return leaveApply;
 
 	}
-	
 
 	@RequestMapping(value = { "getAuthIdByEmpId" }, method = RequestMethod.POST)
 	public @ResponseBody GetAuthorityIds getAuthIdByEmpId(@RequestParam("empId") int empId) {
 
-		System.out.println("emp id is "+empId);
+		System.out.println("emp id is " + empId);
 		GetAuthorityIds leaveApply = new GetAuthorityIds();
 		try {
 
@@ -331,131 +311,131 @@ public class LeaveApplicationController {
 		return leaveApply;
 
 	}
-	
 
-	
-	   //*************WS for leave approvals and updations and rejections*******************************
-	
-		@RequestMapping(value = { "/getLeaveApplyListForPending" }, method = RequestMethod.POST)
-		public @ResponseBody List<GetLeaveApplyAuthwise> getLeaveApplyAuthwiseList(@RequestParam("empId") int empId,
-				@RequestParam("currYrId") int currYrId) {
-			List<GetLeaveApplyAuthwise> list = new ArrayList<GetLeaveApplyAuthwise>();
-			
-			try {
+	// *************WS for leave approvals and updations and
+	// rejections*******************************
 
-				list = getLeaveApplyAuthwiseRepo.getLeaveApplyList(empId,currYrId);
+	@RequestMapping(value = { "/getLeaveApplyListForPending" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetLeaveApplyAuthwise> getLeaveApplyAuthwiseList(@RequestParam("empId") int empId,
+			@RequestParam("currYrId") int currYrId) {
+		List<GetLeaveApplyAuthwise> list = new ArrayList<GetLeaveApplyAuthwise>();
 
-			} catch (Exception e) {
+		try {
 
-				e.printStackTrace();
-			}
+			list = getLeaveApplyAuthwiseRepo.getLeaveApplyList(empId, currYrId);
 
-			return list;
+		} catch (Exception e) {
 
+			e.printStackTrace();
 		}
-		
-		
-		@RequestMapping(value = { "/getLeaveApplyListForInformation" }, method = RequestMethod.POST)
-		public @ResponseBody List<GetLeaveApplyAuthwise> getLeaveApplyListForInformation(@RequestParam("empId") int empId,
-				@RequestParam("currYrId") int currYrId) {
-			List<GetLeaveApplyAuthwise> list = new ArrayList<GetLeaveApplyAuthwise>();
-			
-			
-			try {
 
-				list = getLeaveApplyAuthwiseRepo.getLeaveApplyList2(empId,currYrId);
+		return list;
 
-			} catch (Exception e) {
+	}
 
-				e.printStackTrace();
-			}
+	@RequestMapping(value = { "/getLeaveApplyListForInformation" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetLeaveApplyAuthwise> getLeaveApplyListForInformation(@RequestParam("empId") int empId,
+			@RequestParam("currYrId") int currYrId) {
+		List<GetLeaveApplyAuthwise> list = new ArrayList<GetLeaveApplyAuthwise>();
 
-			return list;
+		try {
 
+			list = getLeaveApplyAuthwiseRepo.getLeaveApplyList2(empId, currYrId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
 		}
-	
-		@RequestMapping(value = { "/updateLeaveStatus" }, method = RequestMethod.POST)
-		public @ResponseBody Info updateLeaveStatus(@RequestParam("leaveId") int leaveId,@RequestParam("status") int status) {
 
-			Info info = new Info();
-         System.err.println("in updateLeaveStatus"+status+leaveId);
-			try {
+		return list;
 
-				int delete = leaveApplyRepository.updateLeaveStatus(leaveId,status);
+	}
 
-				if (delete > 0) {
-					info.setError(false);
-					info.setMsg("updated status");
-					
-					String claimMsg=new String();
-					if(status==2) {
-						claimMsg="Your Leave Approved By Initial Authority";
-					}else if(status==3) {
-						claimMsg="Your Leave Approved By Final Authority";
-					}else if(status==8) {
-						claimMsg="Your Leave Rejected By Initial Authority";
-					}else if(status==9) {
-						claimMsg="Your Leave Rejected By Final Authority";
-					}
-					
-					LeaveApply leaveApply = new LeaveApply();
+	@RequestMapping(value = { "/updateLeaveStatus" }, method = RequestMethod.POST)
+	public @ResponseBody Info updateLeaveStatus(@RequestParam("leaveId") int leaveId,
+			@RequestParam("status") int status) {
 
-					leaveApply = leaveApplyRepository.findByLeaveIdAndDelStatus(leaveId, 1);
-					int empId=leaveApply.getEmpId();
-					
-					
-					EmployeeInfo empInfo = new EmployeeInfo();
-					
-					empInfo = employeeInfoRepository.findByEmpIdAndDelStatus(empId, 1);
-					
-						
-						  Firebase.sendPushNotification(empInfo.getExVar1(), "HRMS",
-		                             " "+empInfo.getEmpFname()+" "+claimMsg+" ", 1);
-					
-				} else {
-					info.setError(true);
-					info.setMsg("failed");
+		Info info = new Info();
+		System.err.println("in updateLeaveStatus" + status + leaveId);
+		try {
+
+			int delete = leaveApplyRepository.updateLeaveStatus(leaveId, status);
+
+			if (delete > 0) {
+				info.setError(false);
+				info.setMsg("updated status");
+
+				LeaveApply leaveApply = new LeaveApply();
+
+				leaveApply = leaveApplyRepository.findByLeaveIdAndDelStatus(leaveId, 1);
+				int empId = leaveApply.getEmpId();
+
+				EmployeeInfo empInfo = new EmployeeInfo();
+
+				empInfo = employeeInfoRepository.findByEmpIdAndDelStatus(empId, 1);
+
+				String claimMsg = new String();
+				if (status == 2) {
+					claimMsg = "Your Leave Approved By Initial Authority";
+					Firebase.sendPushNotification(empInfo.getExVar1(), "HRMS",
+							" " + empInfo.getEmpFname() + " " + claimMsg + " ", 1);
+				} else if (status == 3) {
+					claimMsg = "Your Leave Approved By Final Authority";
+					Firebase.sendPushNotification(empInfo.getExVar1(), "HRMS",
+							" " + empInfo.getEmpFname() + " " + claimMsg + " ", 1);
+				} else if (status == 8) {
+					claimMsg = "Your Leave Rejected By Initial Authority";
+					Firebase.sendPushNotification(empInfo.getExVar1(), "HRMS",
+							" " + empInfo.getEmpFname() + " " + claimMsg + " ", 1);
+				} else if (status == 9) {
+					claimMsg = "Your Leave Rejected By Final Authority";
+					Firebase.sendPushNotification(empInfo.getExVar1(), "HRMS",
+							" " + empInfo.getEmpFname() + " " + claimMsg + " ", 1);
 				}
 
-			} catch (Exception e) {
-
-				e.printStackTrace();
+			} else {
 				info.setError(true);
 				info.setMsg("failed");
 			}
 
-			return info;
+		} catch (Exception e) {
 
+			e.printStackTrace();
+			info.setError(true);
+			info.setMsg("failed");
 		}
-		
-		@RequestMapping(value = { "/updateTrailId" }, method = RequestMethod.POST)
-		public @ResponseBody Info updateTrailId(@RequestParam("leaveId") int leaveId,@RequestParam("trailId") int trailId) {
 
-			Info info = new Info();
+		return info;
 
-			try {
+	}
 
-				int delete = leaveApplyRepository.updateLeaveApply(leaveId,trailId);
+	@RequestMapping(value = { "/updateTrailId" }, method = RequestMethod.POST)
+	public @ResponseBody Info updateTrailId(@RequestParam("leaveId") int leaveId,
+			@RequestParam("trailId") int trailId) {
 
-				if (delete > 0) {
-					info.setError(false);
-					info.setMsg("updated status");
-				} else {
-					info.setError(true);
-					info.setMsg("failed");
-				}
+		Info info = new Info();
 
-			} catch (Exception e) {
+		try {
 
-				e.printStackTrace();
+			int delete = leaveApplyRepository.updateLeaveApply(leaveId, trailId);
+
+			if (delete > 0) {
+				info.setError(false);
+				info.setMsg("updated status");
+			} else {
 				info.setError(true);
 				info.setMsg("failed");
 			}
 
-			return info;
+		} catch (Exception e) {
 
+			e.printStackTrace();
+			info.setError(true);
+			info.setMsg("failed");
 		}
-		
-		
-		
+
+		return info;
+
+	}
+
 }
