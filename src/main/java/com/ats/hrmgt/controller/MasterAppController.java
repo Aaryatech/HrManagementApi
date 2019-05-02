@@ -3,6 +3,7 @@ package com.ats.hrmgt.controller;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,12 +21,15 @@ import com.ats.hrmgt.leave.repo.GetClaimTrailStatusRepo;
 import com.ats.hrmgt.leave.repo.GetLeaveStatusRepo;
 import com.ats.hrmgt.leave.repo.LeaveDetailRepo;
 import com.ats.hrmgt.model.CalenderYear;
+import com.ats.hrmgt.model.Company;
 import com.ats.hrmgt.model.DashboardCount;
 import com.ats.hrmgt.model.EmployeeInfo;
 import com.ats.hrmgt.model.Info;
+import com.ats.hrmgt.model.Setting;
 import com.ats.hrmgt.repository.CalculateYearRepository;
 import com.ats.hrmgt.repository.DashboardRepo;
 import com.ats.hrmgt.repository.EmployeeInfoRepository;
+import com.ats.hrmgt.repository.SettingRepo;
 
 @RestController
 public class MasterAppController {
@@ -49,6 +53,9 @@ public class MasterAppController {
 
 	@Autowired
 	ClaimDetailRepo claimDetailRepo;
+	
+	@Autowired
+	SettingRepo settingRepo;
 
 	@Autowired
 	GetClaimTrailStatusRepo getClaimTrailStatusRepo;
@@ -344,6 +351,41 @@ public class MasterAppController {
 		}
 
 		return leaveStatus;
+
+	}
+	@RequestMapping(value = { "/getSettingByKey" }, method = RequestMethod.POST)
+	public @ResponseBody Setting getSettingByKey(@RequestParam("key") String key) {
+
+		Setting setting = new Setting();
+		 
+		try {  
+					
+			setting = settingRepo.findByKey(key);
+		
+			
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			 
+
+		}
+		return setting;
+
+	}
+	@RequestMapping(value = { "/saveSetting" }, method = RequestMethod.POST)
+	public @ResponseBody Setting saveSetting(@RequestBody Setting setting) {
+
+		Setting save = new Setting();
+		try {
+
+			save = settingRepo.saveAndFlush(setting);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return save;
 
 	}
 
