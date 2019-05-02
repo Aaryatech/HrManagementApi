@@ -35,7 +35,7 @@ public interface DashboardRepo extends JpaRepository<DashboardCount, Integer> {
 			"                    la.ini_auth_emp_id = :empId AND le.ex_int1 = 1\n" + 
 			"                ) OR(\n" + 
 			"                    la.fin_auth_emp_id = :empId AND le.ex_int1 = 2\n" + 
-			"                )\n" + 
+			"                ) OR ( la.emp_id=:empId AND le.ex_int1 in (2,1) )\n" + 
 			"            ) AND le.cal_yr_id = :curYrId AND le.emp_id = la.emp_id\n" + 
 			"    ),\n" + 
 			"    0\n" + 
