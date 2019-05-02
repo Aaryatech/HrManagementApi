@@ -43,12 +43,13 @@ public class WeeklyOffApiController {
 	HolidayRepo holidayRepo;
 
 	@RequestMapping(value = { "/getWeeklyOffList" }, method = RequestMethod.POST)
-	public @ResponseBody List<GetWeeklyOff> getWeeklyOffList(@RequestParam("companyId") int companyId) {
+	public @ResponseBody List<GetWeeklyOff> getWeeklyOffList(@RequestParam("companyId") int companyId,
+			@RequestParam("locIdList") List<Integer> locIdList) {
 
 		List<GetWeeklyOff> list = new ArrayList<GetWeeklyOff>();
 		try {
 
-			list = getWeeklyOffRepo.getListByCompanyId(companyId);
+			list = getWeeklyOffRepo.getListByCompanyId(companyId, locIdList);
 
 		} catch (Exception e) {
 
@@ -191,23 +192,20 @@ public class WeeklyOffApiController {
 		List<Holiday> holidayList = new ArrayList<Holiday>();
 		List<WeeklyOff> weeklyList = new ArrayList<WeeklyOff>();
 		int totalcount = 0;
-		int diff = difffun(fromDate,toDate);
-		
+		int diff = difffun(fromDate, toDate);
+
 		LeaveCount leaveCount = new LeaveCount();
-		
+
 		try {
 
-			
-			
-			
 			SimpleDateFormat yydate = new SimpleDateFormat("yyyy-MM-dd");
 			SimpleDateFormat dddate = new SimpleDateFormat("dd-MM-yyyy");
 			SimpleDateFormat yearfrmt = new SimpleDateFormat("yyyy");
 			SimpleDateFormat ddfrmt = new SimpleDateFormat("dd");
 
-			arryadate.clear();  
+			arryadate.clear();
 			datearry = new String();
-			
+
 			weeklyList = weeklyOffRepo.getWeeklyOffListByEmpId(empId);
 			holidayList = holidayRepo.getHolidayByEmpIdAndFromDateTodate(empId, fromDate, toDate);
 			arryadate = new ArrayList<>();
@@ -227,8 +225,8 @@ public class WeeklyOffApiController {
 						if (dayOfWeek == Integer.parseInt(weeklyList.get(i).getWoDay())) {
 
 							arryadate.add(j);
-							datearry=datearry+","+dddate.format(j);
-							 //System.out.println("add in all" + dddate.format(j));
+							datearry = datearry + "," + dddate.format(j);
+							// System.out.println("add in all" + dddate.format(j));
 							totalcount++;
 						}
 						j.setTime(j.getTime() + 1000 * 60 * 60 * 24);
@@ -246,7 +244,7 @@ public class WeeklyOffApiController {
 					tc.setTime(todt);
 
 					int year = fc.get(Calendar.YEAR);
-					//System.out.println("year " + year);
+					// System.out.println("year " + year);
 
 					for (int k = fc.get(Calendar.MONTH) + 1; k <= tc.get(Calendar.MONTH) + 1; k++) {
 
@@ -256,7 +254,7 @@ public class WeeklyOffApiController {
 						Date wkfstdt = yydate.parse(fd);
 						Date wklstdt = yydate.parse(ld);
 
-						//System.out.println(wkfstdt + " " + fd + " " + wklstdt + " " + ld);
+						// System.out.println(wkfstdt + " " + fd + " " + wklstdt + " " + ld);
 
 						for (Date m = yydate.parse(fromDate); m.compareTo(yydate.parse(toDate)) <= 0;) {
 
@@ -273,8 +271,10 @@ public class WeeklyOffApiController {
 											&& m.compareTo(yydate.parse(toDate)) <= 0) {
 
 										arryadate.add(m);
-										datearry=datearry+","+dddate.format(m);
-										//System.out.println("dayOfWeek"+dayOfWeek+"Integer.parseInt(weeklyList.get(i).getWoDay())" + Integer.parseInt(weeklyList.get(i).getWoDay())+"add in 1st" + dddate.format(m) + " " +m);
+										datearry = datearry + "," + dddate.format(m);
+										// System.out.println("dayOfWeek"+dayOfWeek+"Integer.parseInt(weeklyList.get(i).getWoDay())"
+										// + Integer.parseInt(weeklyList.get(i).getWoDay())+"add in 1st" +
+										// dddate.format(m) + " " +m);
 										totalcount++;
 									}
 
@@ -285,7 +285,7 @@ public class WeeklyOffApiController {
 							m.setTime(m.getTime() + 1000 * 60 * 60 * 24);
 						}
 
-						String dt = year + "-" + (k+1) + "-0";
+						String dt = year + "-" + (k + 1) + "-0";
 						Date lastDay = yydate.parse(dt);
 						lastDay.setTime(lastDay.getTime() + 1000 * 60 * 60 * 24);
 						Calendar a = Calendar.getInstance();
@@ -303,7 +303,7 @@ public class WeeklyOffApiController {
 					tc.setTime(todt);
 
 					int year = fc.get(Calendar.YEAR);
-					//System.out.println("year " + year);
+					// System.out.println("year " + year);
 
 					for (int k = fc.get(Calendar.MONTH) + 1; k <= tc.get(Calendar.MONTH) + 1; k++) {
 
@@ -313,7 +313,7 @@ public class WeeklyOffApiController {
 						Date wkfstdt = yydate.parse(fd);
 						Date wklstdt = yydate.parse(ld);
 
-						//System.out.println(wkfstdt + " " + fd + " " + wklstdt + " " + ld);
+						// System.out.println(wkfstdt + " " + fd + " " + wklstdt + " " + ld);
 
 						for (Date m = yydate.parse(fromDate); m.compareTo(yydate.parse(toDate)) <= 0;) {
 
@@ -330,8 +330,8 @@ public class WeeklyOffApiController {
 											&& m.compareTo(yydate.parse(toDate)) <= 0) {
 
 										arryadate.add(m);
-										datearry=datearry+","+dddate.format(m);
-										//System.out.println("add in 2nd" + dddate.format(m));
+										datearry = datearry + "," + dddate.format(m);
+										// System.out.println("add in 2nd" + dddate.format(m));
 										totalcount++;
 									}
 
@@ -342,7 +342,7 @@ public class WeeklyOffApiController {
 							m.setTime(m.getTime() + 1000 * 60 * 60 * 24);
 						}
 
-						String dt = year + "-" + (k+1) + "-0";
+						String dt = year + "-" + (k + 1) + "-0";
 						Date lastDay = yydate.parse(dt);
 						lastDay.setTime(lastDay.getTime() + 1000 * 60 * 60 * 24);
 						Calendar a = Calendar.getInstance();
@@ -360,7 +360,7 @@ public class WeeklyOffApiController {
 					tc.setTime(todt);
 
 					int year = fc.get(Calendar.YEAR);
-					//System.out.println("year " + year);
+					// System.out.println("year " + year);
 
 					for (int k = fc.get(Calendar.MONTH) + 1; k <= tc.get(Calendar.MONTH) + 1; k++) {
 
@@ -370,7 +370,7 @@ public class WeeklyOffApiController {
 						Date wkfstdt = yydate.parse(fd);
 						Date wklstdt = yydate.parse(ld);
 
-						//System.out.println(wkfstdt + " " + fd + " " + wklstdt + " " + ld);
+						// System.out.println(wkfstdt + " " + fd + " " + wklstdt + " " + ld);
 
 						for (Date m = yydate.parse(fromDate); m.compareTo(yydate.parse(toDate)) <= 0;) {
 
@@ -387,8 +387,8 @@ public class WeeklyOffApiController {
 											&& m.compareTo(yydate.parse(toDate)) <= 0) {
 
 										arryadate.add(m);
-										datearry=datearry+","+dddate.format(m);
-										//System.out.println("add in 3rd" + dddate.format(m));
+										datearry = datearry + "," + dddate.format(m);
+										// System.out.println("add in 3rd" + dddate.format(m));
 										totalcount++;
 									}
 
@@ -399,7 +399,7 @@ public class WeeklyOffApiController {
 							m.setTime(m.getTime() + 1000 * 60 * 60 * 24);
 						}
 
-						String dt = year + "-" + (k+1) + "-0";
+						String dt = year + "-" + (k + 1) + "-0";
 						Date lastDay = yydate.parse(dt);
 						lastDay.setTime(lastDay.getTime() + 1000 * 60 * 60 * 24);
 						Calendar a = Calendar.getInstance();
@@ -417,7 +417,7 @@ public class WeeklyOffApiController {
 					tc.setTime(todt);
 
 					int year = fc.get(Calendar.YEAR);
-					//System.out.println("year " + year);
+					// System.out.println("year " + year);
 
 					for (int k = fc.get(Calendar.MONTH) + 1; k <= tc.get(Calendar.MONTH) + 1; k++) {
 
@@ -427,7 +427,7 @@ public class WeeklyOffApiController {
 						Date wkfstdt = yydate.parse(fd);
 						Date wklstdt = yydate.parse(ld);
 
-						//System.out.println(wkfstdt + " " + fd + " " + wklstdt + " " + ld);
+						// System.out.println(wkfstdt + " " + fd + " " + wklstdt + " " + ld);
 
 						for (Date m = yydate.parse(fromDate); m.compareTo(yydate.parse(toDate)) <= 0;) {
 
@@ -444,8 +444,8 @@ public class WeeklyOffApiController {
 											&& m.compareTo(yydate.parse(toDate)) <= 0) {
 
 										arryadate.add(m);
-										datearry=datearry+","+dddate.format(m);
-										//System.out.println("add in 4th" + dddate.format(m));
+										datearry = datearry + "," + dddate.format(m);
+										// System.out.println("add in 4th" + dddate.format(m));
 										totalcount++;
 									}
 
@@ -456,7 +456,7 @@ public class WeeklyOffApiController {
 							m.setTime(m.getTime() + 1000 * 60 * 60 * 24);
 						}
 
-						String dt = year + "-" + (k+1) + "-0";
+						String dt = year + "-" + (k + 1) + "-0";
 						Date lastDay = yydate.parse(dt);
 						lastDay.setTime(lastDay.getTime() + 1000 * 60 * 60 * 24);
 						Calendar a = Calendar.getInstance();
@@ -464,7 +464,7 @@ public class WeeklyOffApiController {
 						year = a.get(Calendar.YEAR);
 
 					}
-				}else if (Integer.parseInt(weeklyList.get(i).getWoType()) == 1) {
+				} else if (Integer.parseInt(weeklyList.get(i).getWoType()) == 1) {
 
 					Date frmdt = yydate.parse(fromDate);
 					Date todt = yydate.parse(toDate);
@@ -475,7 +475,7 @@ public class WeeklyOffApiController {
 					tc.setTime(todt);
 
 					int year = fc.get(Calendar.YEAR);
-					//System.out.println("year " + year);
+					// System.out.println("year " + year);
 
 					for (int k = fc.get(Calendar.MONTH) + 1; k <= tc.get(Calendar.MONTH) + 1; k++) {
 
@@ -486,7 +486,7 @@ public class WeeklyOffApiController {
 						Date wklstdt = yydate.parse(ld);
 						frmdt = yydate.parse(fromDate);
 						todt = yydate.parse(toDate);
-						
+
 						int cnt1 = diffrence(wkfstdt, wklstdt, frmdt, todt,
 								Integer.parseInt(weeklyList.get(i).getWoDay()));
 
@@ -497,22 +497,23 @@ public class WeeklyOffApiController {
 						Date wklstdt1 = yydate.parse(ld1);
 						frmdt = yydate.parse(fromDate);
 						todt = yydate.parse(toDate);
-						
+
 						int cnt2 = diffrence(wkfstdt1, wklstdt1, frmdt, todt,
 								Integer.parseInt(weeklyList.get(i).getWoDay()));
 
-						totalcount=totalcount+cnt1+cnt2;
-						
-						//System.out.println("cnt1 " + cnt1 + "cnt2 " + cnt2 + " wkfstdt1 " + wkfstdt1 + " wklstdt1 " + wklstdt1 + " " + weeklyList.get(i).getWoType());
-						
-						String dt = year + "-" + (k+1) + "-0";
+						totalcount = totalcount + cnt1 + cnt2;
+
+						// System.out.println("cnt1 " + cnt1 + "cnt2 " + cnt2 + " wkfstdt1 " + wkfstdt1
+						// + " wklstdt1 " + wklstdt1 + " " + weeklyList.get(i).getWoType());
+
+						String dt = year + "-" + (k + 1) + "-0";
 						Date lastDay = yydate.parse(dt);
 						lastDay.setTime(lastDay.getTime() + 1000 * 60 * 60 * 24);
 						Calendar a = Calendar.getInstance();
 						a.setTime(lastDay);
 						year = a.get(Calendar.YEAR);
 					}
-				}else if (Integer.parseInt(weeklyList.get(i).getWoType()) == 2) {
+				} else if (Integer.parseInt(weeklyList.get(i).getWoType()) == 2) {
 
 					Date frmdt = yydate.parse(fromDate);
 					Date todt = yydate.parse(toDate);
@@ -534,8 +535,7 @@ public class WeeklyOffApiController {
 						Date wklstdt = yydate.parse(ld);
 						frmdt = yydate.parse(fromDate);
 						todt = yydate.parse(toDate);
-						
-						
+
 						int cnt1 = diffrence(wkfstdt, wklstdt, frmdt, todt,
 								Integer.parseInt(weeklyList.get(i).getWoDay()));
 
@@ -546,30 +546,26 @@ public class WeeklyOffApiController {
 						Date wklstdt1 = yydate.parse(ld1);
 						frmdt = yydate.parse(fromDate);
 						todt = yydate.parse(toDate);
-						
-						
+
 						int cnt2 = diffrence(wkfstdt1, wklstdt1, frmdt, todt,
 								Integer.parseInt(weeklyList.get(i).getWoDay()));
-						 
-						String fd3 = year + "-" + k + "-29";
-						String ld3 = year + "-" + (k+1) + "-0";
 
-						
+						String fd3 = year + "-" + k + "-29";
+						String ld3 = year + "-" + (k + 1) + "-0";
+
 						Date wkfstdt3 = yydate.parse(fd3);
 						Date wklstdt3 = yydate.parse(ld3);
-						  
+
 						frmdt = yydate.parse(fromDate);
 						todt = yydate.parse(toDate);
-						
-						 
-						
+
 						int cnt3 = diffrence(wkfstdt3, wklstdt3, frmdt, todt,
 								Integer.parseInt(weeklyList.get(i).getWoDay()));
 
-						totalcount=totalcount+cnt1+cnt2+cnt3;
-						
-						String dt = year + "-" + (k+1) + "-0";
-						Date lastDay = yydate.parse(dt); 
+						totalcount = totalcount + cnt1 + cnt2 + cnt3;
+
+						String dt = year + "-" + (k + 1) + "-0";
+						Date lastDay = yydate.parse(dt);
 						lastDay.setTime(lastDay.getTime() + 1000 * 60 * 60 * 24);
 						Calendar a = Calendar.getInstance();
 						a.setTime(lastDay);
@@ -578,45 +574,45 @@ public class WeeklyOffApiController {
 				}
 
 			}
-			
-			
+
 			for (int i = 0; i < holidayList.size(); i++) {
 
-				//alert("Data  " +JSON.stringify(data.holidayList[i]));
+				// alert("Data " +JSON.stringify(data.holidayList[i]));
 
 				Date frmdt = yydate.parse(fromDate);
 				Date todt = yydate.parse(toDate);
-				
+
 				int tempdiff = difffun(holidayList.get(i).getHolidayFromdt(), holidayList.get(i).getHolidayTodt());
 
 				String[] a = {};
-				//datearry.substring(1 ,datearry.length());
-				
-				//System.out.println(datearry);
+				// datearry.substring(1 ,datearry.length());
+
+				// System.out.println(datearry);
 				try {
-					
+
 					a = datearry.split(",");
-					
-				}catch(Exception e) {
-					
+
+				} catch (Exception e) {
+
 				}
-				
-				
+
 				for (int j = 1; j < a.length; j++) {
- 
-					System.out.println(dddate.parse(a[j]) + " arryadate.get(j) " + yydate.parse(holidayList.get(i).getHolidayFromdt()) + " " + yydate.parse(holidayList.get(i).getHolidayTodt()));
-					
-					if (dddate.parse(a[j]).compareTo(yydate.parse(holidayList.get(i).getHolidayFromdt())) >= 0 && dddate.parse(a[j]).compareTo(yydate.parse(holidayList.get(i).getHolidayTodt()))<= 0) {
-						
-						 
+
+					System.out.println(dddate.parse(a[j]) + " arryadate.get(j) "
+							+ yydate.parse(holidayList.get(i).getHolidayFromdt()) + " "
+							+ yydate.parse(holidayList.get(i).getHolidayTodt()));
+
+					if (dddate.parse(a[j]).compareTo(yydate.parse(holidayList.get(i).getHolidayFromdt())) >= 0
+							&& dddate.parse(a[j]).compareTo(yydate.parse(holidayList.get(i).getHolidayTodt())) <= 0) {
+
 						tempdiff--;
 					}
 				}
 
 				totalcount = totalcount + tempdiff;
 			}
-			
-			diff=diff-totalcount;
+
+			diff = diff - totalcount;
 
 			leaveCount.setHolidaycount(totalcount);
 			leaveCount.setLeavecount(diff);
@@ -633,8 +629,9 @@ public class WeeklyOffApiController {
 
 		int totalcount = 0;
 		SimpleDateFormat dddate = new SimpleDateFormat("dd-MM-yyyy");
-		//System.out.println("date1 " + date1 + "date2 " + date2 + " holfrstdt " + holfrstdt + " holseconddt " + holseconddt + " day " + day);
-		
+		// System.out.println("date1 " + date1 + "date2 " + date2 + " holfrstdt " +
+		// holfrstdt + " holseconddt " + holseconddt + " day " + day);
+
 		for (Date m = holfrstdt; m.compareTo(holseconddt) <= 0;) {
 
 			if (m.compareTo(date1) >= 0 && m.compareTo(date2) <= 0) {
@@ -648,7 +645,7 @@ public class WeeklyOffApiController {
 					if (dayOfWeek == day && m.compareTo(holfrstdt) >= 0 && m.compareTo(holseconddt) <= 0) {
 
 						arryadate.add(m);
-						datearry=datearry+","+dddate.format(m);
+						datearry = datearry + "," + dddate.format(m);
 						System.out.println("add in odd even" + dddate.format(m));
 						totalcount++;
 					}
@@ -662,24 +659,23 @@ public class WeeklyOffApiController {
 
 		return totalcount;
 	}
-	
+
 	public int difffun(String date1, String date2) {
 
-		 
 		SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-	    int result = 0;
+		int result = 0;
 
-	  try {
-	        Date date3 = myFormat.parse(date1);
-	        Date date4 = myFormat.parse(date2);
-	        long diff = date4.getTime() - date3.getTime(); 
-	        result = (int) TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
-	  }catch(Exception e) {
-		  
-	  }
-	     
-	    return result+1; 
+		try {
+			Date date3 = myFormat.parse(date1);
+			Date date4 = myFormat.parse(date2);
+			long diff = date4.getTime() - date3.getTime();
+			result = (int) TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+		} catch (Exception e) {
+
+		}
+
+		return result + 1;
 	}
 
 }
