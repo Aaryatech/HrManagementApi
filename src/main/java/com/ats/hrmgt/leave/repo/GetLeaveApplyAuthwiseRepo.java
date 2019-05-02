@@ -30,7 +30,7 @@ public interface GetLeaveApplyAuthwiseRepo extends JpaRepository<GetLeaveApplyAu
 			"    la.leave_emp_reason,\n" + 
 			"    e.emp_code,e.emp_photo, \n" + 
 			"    lt.lv_title AS leave_title,\n" + 
-			"    CONCAT(e.emp_fname, \" \", e.emp_sname) AS emp_name,\n" + 
+			"    CONCAT(e.emp_sname, \" \", e.emp_fname) AS emp_name,\n" + 
 			"    le.ini_auth_emp_id,\n" + 
 			"    le.fin_auth_emp_id,\n" + 
 			"    la.ex_int1 ,0 AS leave_type_name\n" + 
@@ -69,7 +69,7 @@ public interface GetLeaveApplyAuthwiseRepo extends JpaRepository<GetLeaveApplyAu
 			"    la.leave_emp_reason,\n" + 
 			"    e.emp_code,e.emp_photo, \n" + 
 			"    lt.lv_title AS leave_title,\n" + 
-			"    CONCAT(e.emp_fname, \" \", e.emp_sname) AS emp_name,\n" + 
+			"    CONCAT(e.emp_sname, \\\" \\\", e.emp_fname) AS emp_name,\n" + 
 			"    le.ini_auth_emp_id,\n" + 
 			"    le.fin_auth_emp_id,\n" + 
 			"    la.ex_int1,\n" + 
