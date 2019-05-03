@@ -45,10 +45,7 @@ public interface GetLeaveApplyAuthwiseRepo extends JpaRepository<GetLeaveApplyAu
 			"            le.ini_auth_emp_id=:empId AND la.ex_int1 = 1\n" + 
 			"        ) OR(\n" + 
 			"            le.fin_auth_emp_id=:empId AND la.ex_int1 = 2\n" + 
-			"        )   OR(\n" + 
-			"                le.emp_id=:empId \n" + 
-			"                AND  la.ex_int1 in (2,1)         \n" + 
-			"            )   \n" + 
+			"        )     \n" + 
 			"    ) AND la.cal_yr_id = :currYrId ", nativeQuery = true)
 
 	List<GetLeaveApplyAuthwise> getLeaveApplyList(@Param("empId") int empId,@Param("currYrId") int currYrId);
@@ -85,7 +82,10 @@ public interface GetLeaveApplyAuthwiseRepo extends JpaRepository<GetLeaveApplyAu
 			"            le.ini_auth_emp_id=:empId  AND la.ex_int1=2 \n" + 
 			"        ) OR(\n" + 
 			"            le.fin_auth_emp_id=:empId AND la.ex_int1=1 \n" + 
-			"        )\n" + 
+			"        )   OR(\\n\" + \n" + 
+			"			\"                le.emp_id=:empId \\n\" + \n" + 
+			"			\"                AND  la.ex_int1 in (2,1)         \\n\" + \n" + 
+			"			\"            )\n" + 
 			"    ) AND le.fin_auth_emp_id != le.ini_auth_emp_id AND la.cal_yr_id =:currYrId ORDER BY la.ex_int1 DESC  ", nativeQuery = true)
 
 	List<GetLeaveApplyAuthwise> getLeaveApplyList2(@Param("empId") int empId,@Param("currYrId") int currYrId);
