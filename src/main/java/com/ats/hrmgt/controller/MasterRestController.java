@@ -1023,13 +1023,13 @@ public class MasterRestController {
 
 	}
 
-	@RequestMapping(value = { "/getLeaveTypeListIsStructure" }, method = RequestMethod.GET)
-	public @ResponseBody List<LeaveType> getLeaveTypeListIsStructure() {
+	@RequestMapping(value = { "/getLeaveTypeListIsStructure" }, method = RequestMethod.POST)
+	public @ResponseBody List<LeaveType> getLeaveTypeListIsStructure(@RequestParam("companyId") int companyId) {
 
 		List<LeaveType> list = new ArrayList<LeaveType>();
 		try {
 
-			list = leaveTypeRepository.findByDelStatusAndIsStructured(1, 1);
+			list = leaveTypeRepository.findByDelStatusAndIsStructuredAndCompanyId(1, 1,companyId);
 
 		} catch (Exception e) {
 

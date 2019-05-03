@@ -21,6 +21,7 @@ public interface LeaveTypeRepository extends JpaRepository<LeaveType, Integer> {
 
 	LeaveType findByLvTypeIdAndDelStatus(int lvTypeId, int i);
 
-	List<LeaveType> findByDelStatusAndIsStructured(int i, int j);
+
+	List<LeaveType> findByDelStatusAndIsStructuredAndCompanyId(int i, int j, int companyId);
 
 }
