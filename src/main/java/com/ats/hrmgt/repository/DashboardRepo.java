@@ -35,11 +35,12 @@ public interface DashboardRepo extends JpaRepository<DashboardCount, Integer> {
 			"                    la.ini_auth_emp_id = :empId AND le.ex_int1 = 1\n" + 
 			"                ) OR(\n" + 
 			"                    la.fin_auth_emp_id = :empId AND le.ex_int1 = 2\n" + 
-			"                ) OR ( la.emp_id=:empId AND le.ex_int1 in (2,1) )\n" + 
+			"                )\n" + 
 			"            ) AND le.cal_yr_id = :curYrId AND le.emp_id = la.emp_id\n" + 
 			"    ),\n" + 
 			"    0\n" + 
 			"    ) AS pending_request,\n" + 
+			
 			"    COALESCE(\n" + 
 			"        (\n" + 
 			"            (\n" + 
@@ -49,7 +50,7 @@ public interface DashboardRepo extends JpaRepository<DashboardCount, Integer> {
 			"                leave_authority la,\n" + 
 			"                leave_apply le\n" + 
 			"            WHERE\n" + 
-			"                (la.ini_auth_emp_id = :empId) AND le.cal_yr_id = :curYrId AND le.emp_id = la.emp_id AND le.ex_int1 IN(2) AND la.fin_auth_emp_id != la.ini_auth_emp_id\n" + 
+			"                ((la.ini_auth_emp_id = :empId)  OR ( la.emp_id=:empId AND le.ex_int1 in (2,1) ) ) AND le.cal_yr_id = :curYrId AND le.emp_id = la.emp_id AND le.ex_int1 IN(2) AND la.fin_auth_emp_id != la.ini_auth_emp_id\n" + 
 			"        ) +(\n" + 
 			"        SELECT\n" + 
 			"            COUNT(DISTINCT(le.leave_id))\n" + 
@@ -57,11 +58,12 @@ public interface DashboardRepo extends JpaRepository<DashboardCount, Integer> {
 			"            leave_authority la,\n" + 
 			"            leave_apply le\n" + 
 			"        WHERE\n" + 
-			"            (la.fin_auth_emp_id = :empId) AND le.cal_yr_id = :curYrId AND le.emp_id = la.emp_id AND le.ex_int1 IN(1) AND la.fin_auth_emp_id != la.ini_auth_emp_id\n" + 
+			"            (la.fin_auth_emp_id =:empId) AND le.cal_yr_id = :curYrId AND le.emp_id = la.emp_id AND le.ex_int1 IN(1) AND la.fin_auth_emp_id != la.ini_auth_emp_id\n" + 
 			"    )\n" + 
 			"        ),\n" + 
 			"        0\n" + 
 			"    ) AS info,\n" + 
+			
 			"    COALESCE(\n" + 
 			"        (\n" + 
 			"        SELECT\n" + 
@@ -74,6 +76,7 @@ public interface DashboardRepo extends JpaRepository<DashboardCount, Integer> {
 			"    ),\n" + 
 			"    0\n" + 
 			"    ) AS my_leave,\n" + 
+			
 			"    (\n" + 
 			"        CASE WHEN(\n" + 
 			"            COALESCE(\n" + 
@@ -92,6 +95,7 @@ public interface DashboardRepo extends JpaRepository<DashboardCount, Integer> {
 			"        ) THEN 1 ELSE 0\n" + 
 			"    END\n" + 
 			") AS is_authorized,\n" + 
+			
 			"COALESCE(\n" + 
 			"    (\n" + 
 			"    SELECT\n" + 
@@ -110,6 +114,7 @@ public interface DashboardRepo extends JpaRepository<DashboardCount, Integer> {
 			"),\n" + 
 			"0\n" + 
 			") AS pending_claim,\n" + 
+			
 			"COALESCE(\n" + 
 			"    (\n" + 
 			"        (\n" + 
@@ -119,7 +124,7 @@ public interface DashboardRepo extends JpaRepository<DashboardCount, Integer> {
 			"            claim_authority ca,\n" + 
 			"            claim_apply cp\n" + 
 			"        WHERE\n" + 
-			"            (ca.ca_ini_auth_emp_id = :empId) AND cp.emp_id = ca.emp_id AND cp.ex_int1 IN(2) AND ca.ca_fin_auth_emp_id != ca.ca_ini_auth_emp_id\n" + 
+			"            ((ca.ca_ini_auth_emp_id = :empId) OR ( ca.emp_id=:empId AND cp.ex_int1 in (2,1) )) AND cp.emp_id = ca.emp_id AND cp.ex_int1 IN(2) AND ca.ca_fin_auth_emp_id != ca.ca_ini_auth_emp_id\n" + 
 			"    ) +(\n" + 
 			"    SELECT\n" + 
 			"        COUNT(DISTINCT(cp.claim_id))\n" + 
@@ -132,6 +137,7 @@ public interface DashboardRepo extends JpaRepository<DashboardCount, Integer> {
 			"    ),\n" + 
 			"    0\n" + 
 			") AS info_claim,\n" + 
+			
 			"COALESCE(\n" + 
 			"    (\n" + 
 			"    SELECT\n" + 
@@ -143,6 +149,7 @@ public interface DashboardRepo extends JpaRepository<DashboardCount, Integer> {
 			"),\n" + 
 			"0\n" + 
 			") AS my_claim,\n" + 
+			
 			"COALESCE(\n" + 
 			"    CASE WHEN(\n" + 
 			"        COALESCE(\n" + 
