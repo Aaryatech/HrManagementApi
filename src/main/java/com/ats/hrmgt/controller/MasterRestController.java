@@ -316,6 +316,7 @@ public class MasterRestController {
 		Location location = new Location();
 		try {
 
+			
 			location = locationRepository.findByLocIdAndDelStatus(locId, 1);
 
 		} catch (Exception e) {
