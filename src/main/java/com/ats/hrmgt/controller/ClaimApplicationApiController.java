@@ -153,7 +153,7 @@ public class ClaimApplicationApiController {
 				EmployeeInfo empInfo1 = new EmployeeInfo();
 
 				empInfo1 = employeeInfoRepository.findByEmpIdAndDelStatus(empId, 1);
-				String name = empInfo1.getEmpFname();
+				String name = empInfo1.getEmpFname()+" "+empInfo1.getEmpSname();
 
 				GetAuthorityIds claimApply = new GetAuthorityIds();
 				claimApply = getAuthorityIdsRepo.getClaimAuthIdsDict(empId);
@@ -175,7 +175,7 @@ public class ClaimApplicationApiController {
 					empInfo = employeeInfoRepository.findByEmpIdAndDelStatus(Integer.parseInt(al.get(i)), 1);
 
 					Firebase.sendPushNotification(empInfo.getExVar1(), "HRMS",
-							" " + name + " has applied for Claim Please check for Approval", 1);
+							" " + name + " has applied for Claim Please check for Approval", 21);
 
 				}
 
@@ -288,30 +288,56 @@ public class ClaimApplicationApiController {
 				info.setError(false);
 				info.setMsg("updated status");
 
-				EmployeeInfo empInfo = new EmployeeInfo();
+				// EmployeeInfo empInfo = new EmployeeInfo();
 				ClaimApply leaveApply = new ClaimApply();
 
 				leaveApply = claimApplyRepository.findByClaimIdAndDelStatus(claimId, 1);
 				int empId = leaveApply.getEmpId();
 
-				empInfo = employeeInfoRepository.findByEmpIdAndDelStatus(empId, 1);
-				String claimMsg = new String();
-				if (status == 2) {
-					claimMsg = "Your Claim Approved By Initial Authority";
-					Firebase.sendPushNotification(empInfo.getExVar1(), "HRMS",
-							" " + empInfo.getEmpFname() + " " + claimMsg + " ", 1);
-				} else if (status == 3) {
-					claimMsg = "Your Claim Approved By Final Authority";
-					Firebase.sendPushNotification(empInfo.getExVar1(), "HRMS",
-							" " + empInfo.getEmpFname() + " " + claimMsg + " ", 1);
-				} else if (status == 8) {
-					claimMsg = "Your Claim Rejected By Initial Authority";
-					Firebase.sendPushNotification(empInfo.getExVar1(), "HRMS",
-							" " + empInfo.getEmpFname() + " " + claimMsg + " ", 1);
-				} else if (status == 9) {
-					claimMsg = "Your Claim Rejected By Final Authority";
-					Firebase.sendPushNotification(empInfo.getExVar1(), "HRMS",
-							" " + empInfo.getEmpFname() + " " + claimMsg + " ", 1);
+				// empInfo = employeeInfoRepository.findByEmpIdAndDelStatus(empId, 1);
+
+				GetAuthorityIds claimApply = new GetAuthorityIds();
+				claimApply = getAuthorityIdsRepo.getClaimAuthIdsDict(empId);
+
+				String empIds = claimApply.getRepToEmpIds();
+				String[] values = empIds.split(",");
+				System.err.println("emp ids for notification are::" + empIds);
+				List<String> al = new ArrayList<String>(Arrays.asList(values));
+
+				Set<String> set = new HashSet<>(al);
+				al.clear();
+				al.addAll(set);
+				System.err.println("emp ids for notification are:--------------:" + al.toString());
+
+				for (int i = 0; i < al.size(); i++) {
+
+					EmployeeInfo empInfo = new EmployeeInfo();
+
+					empInfo = employeeInfoRepository.findByEmpIdAndDelStatus(Integer.parseInt(al.get(i)), 1);
+
+					// Firebase.sendPushNotification(empInfo.getExVar1(), "HRMS",
+					// " " + empInfo.getEmpFname()+" "+empInfo.getEmpSname() + " has applied for
+					// Claim Please check for Approval", 1);
+
+					String claimMsg = new String();
+					if (status == 2) {
+						claimMsg = " Claim Approved By Initial Authority";
+						Firebase.sendPushNotification(empInfo.getExVar1(), "HRMS",
+								" " + empInfo.getEmpFname() + " " + empInfo.getEmpSname() + " " + claimMsg + " ", 2);
+					} else if (status == 3) {
+						claimMsg = " Claim Approved By Final Authority";
+						Firebase.sendPushNotification(empInfo.getExVar1(), "HRMS",
+								" " + empInfo.getEmpFname() + " " + empInfo.getEmpSname() + " " + claimMsg + " ", 2);
+					} else if (status == 8) {
+						claimMsg = " Claim Rejected By Initial Authority";
+						Firebase.sendPushNotification(empInfo.getExVar1(), "HRMS",
+								" " + empInfo.getEmpFname() + " " + empInfo.getEmpSname() + " " + claimMsg + " ", 2);
+					} else if (status == 9) {
+						claimMsg = " Claim Rejected By Final Authority";
+						Firebase.sendPushNotification(empInfo.getExVar1(), "HRMS",
+								" " + empInfo.getEmpFname() + " " + empInfo.getEmpSname() + " " + claimMsg + " ", 2);
+					}
+
 				}
 
 			} else {
