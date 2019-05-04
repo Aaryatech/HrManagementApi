@@ -41,16 +41,8 @@ public interface GetClaimTrailStatusRepo extends JpaRepository<GetClaimTrailStat
 			"    emp_info AS e,\n" + 
 			"    claim_trail AS t\n" + 
 			"WHERE\n" + 
-			"    e.emp_id = t.emp_id AND t.claim_id =:claimId", nativeQuery = true)
+			"    e.emp_id = t.emp_id AND t.claim_id =:claimId ORDER BY t.claim_id DESC"  , nativeQuery = true)
 	List<GetClaimTrailStatus> getClaimTrailByClaimId(@Param("claimId") int claimId);
 
-//	List<GetLeaveStatus> getClaimTrailByClaimId(int claimId);
-	/*
-	 * SELECT e.emp_fname, e.emp_mname, e.emp_sname, e.emp_photo, t.emp_remarks,
-	 * t.emp_id, t.claim_status, t.maker_user_id, t.maker_enter_datetime, COALESCE(
-	 * ( SELECT DISTINCT CONCAT( e.emp_fname, " ", e.emp_mname, " ", e.emp_sname )
-	 * AS user_name FROM emp_info AS e, m_user u WHERE u.user_id = t.maker_user_id
-	 * AND e.emp_id = u.emp_id ), NULL ) AS user_name FROM emp_info AS e,
-	 * claim_trail AS t WHERE e.emp_id = t.emp_id AND t.claim_id = 1
-	 */
+
 }

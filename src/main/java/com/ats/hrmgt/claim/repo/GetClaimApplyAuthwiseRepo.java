@@ -67,15 +67,15 @@ public interface GetClaimApplyAuthwiseRepo   extends JpaRepository<GetClaimApply
 			"WHERE\n" + 
 			"   la.claim_type_id = lt.claim_type_id AND le.emp_id = la.emp_id AND e.emp_id = le.emp_id AND(\n" + 
 			"        (\n" + 
-			"            le.ca_ini_auth_emp_id=:empId AND la.ex_int1 = 2\n" + 
+			"            le.ca_ini_auth_emp_id=:empId AND la.ex_int1 = 2  AND le.ca_fin_auth_emp_id != le.ca_ini_auth_emp_id \n" + 
 			"        ) OR(\n" + 
-			"            le.ca_fin_auth_emp_id=:empId AND la.ex_int1 = 1\n" + 
+			"            le.ca_fin_auth_emp_id=:empId AND la.ex_int1 = 1  AND le.ca_fin_auth_emp_id != le.ca_ini_auth_emp_id \n" + 
 			"        )  OR(\n" + 
 			"                le.emp_id=:empId \n" + 
 			"                AND  la.ex_int1 in (2,1)         \n" + 
 			"            )\n" + 
 			"  \n" + 
-			"    ) AND la.project_id=h.project_id AND le.ca_fin_auth_emp_id != le.ca_ini_auth_emp_id ", nativeQuery = true)
+			"    ) AND la.project_id=h.project_id ", nativeQuery = true)
 
 	List<GetClaimApplyAuthwise> getClaimApplyList2(@Param("empId") int empId);
 	
