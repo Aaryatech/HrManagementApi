@@ -30,6 +30,8 @@ public interface LocationRepository extends JpaRepository<Location, Integer>{
 	
 	Location findByLocHrContactNumberAndDelStatus(String mobileNo, int i);
 
-	List<Location> findByDelStatusAndIsActiveAndLocIdIn(int i, int j, List<Integer> locIds);	
+	List<Location> findByDelStatusAndIsActiveAndLocIdIn(int i, int j, List<Integer> locIds);
+
+	List<Location> findByDelStatusAndCompIdOrderByLocIdDesc(int i, int companyId);	
 
 }

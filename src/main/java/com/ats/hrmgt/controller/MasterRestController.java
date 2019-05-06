@@ -268,7 +268,7 @@ public class MasterRestController {
 		try {
 
 			if (companyId != 0) {
-				list = locationRepository.findByDelStatusAndCompId(1, companyId);
+				list = locationRepository.findByDelStatusAndCompIdOrderByLocIdDesc(1, companyId);
 			} else {
 				list = locationRepository.findByDelStatus(1);
 			}
