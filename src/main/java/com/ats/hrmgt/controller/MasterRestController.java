@@ -733,7 +733,7 @@ public class MasterRestController {
 		System.err.println("empIdList" + empIdList.size());
 		try {
 
-			list = getEmpInfo.getEmpIdListByCompanyId(companyId, locIdList, empIdList);
+			list = getEmpInfo.getEmpIdListByCompanyId(companyId,empIdList);
 
 			System.err.println("GetEmployeeAuthorityWise::::" + list.size());
 

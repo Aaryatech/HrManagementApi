@@ -49,11 +49,11 @@ public interface GetEmpInfoRepo extends JpaRepository<GetEmployeeInfo, Integer> 
 			+ "		emp_info.emp_cat_id,emp_info.emp_type_id,emp_info.emp_dept_id  from emp_info,m_emp_department,m_emp_type, \n"
 			+ "		m_emp_category,m_company where emp_info.emp_dept_id=m_emp_department.emp_dept_id and emp_info.emp_cat_id= \n"
 			+ "	    m_emp_category.emp_cat_id  and emp_info.emp_type_id=m_emp_type.emp_type_id and emp_info.del_status=1 \n"
-			+ "		and emp_info.is_active=1 and emp_info.company_id=:companyId  and emp_info.loc_id IN(:locIdList) and emp_info.company_id=m_company.company_id "
+			+ "		and emp_info.is_active=1 and emp_info.company_id=:companyId and emp_info.company_id=m_company.company_id "
 			+ "    and emp_info.company_id=m_company.company_id  and emp_info.emp_id IN(:empIdList) ", nativeQuery = true)
 
 	List<GetEmployeeInfo> getEmpIdListByCompanyId(@Param("companyId") int companyId,
-			@Param("locIdList") List<Integer> locIdList, @Param("empIdList") List<GetEmployeeAuthorityWise> empIdList);
+			  @Param("empIdList") List<GetEmployeeAuthorityWise> empIdList);
 
 	@Query(value = "  SELECT\n" + "        emp_info.emp_code ,\n" + "        emp_info.emp_id,\n"
 			+ "        emp_info.emp_fname,\n" + "        emp_info.emp_mname     ,\n" + "        emp_info.emp_sname ,\n"
