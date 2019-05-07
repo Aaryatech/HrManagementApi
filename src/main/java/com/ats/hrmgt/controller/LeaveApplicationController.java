@@ -323,11 +323,10 @@ public class LeaveApplicationController {
 		return leaveApply;
 
 	}
-//new
-	
+	// new
+
 	@RequestMapping(value = { "/getLeaveApplyDetailsByLeaveId" }, method = RequestMethod.POST)
-	public @ResponseBody GetLeaveApplyAuthwise getLeaveApplyDetailsByLeaveId(@RequestParam("leaveId") int leaveId
-		) {
+	public @ResponseBody GetLeaveApplyAuthwise getLeaveApplyDetailsByLeaveId(@RequestParam("leaveId") int leaveId) {
 		GetLeaveApplyAuthwise list = new GetLeaveApplyAuthwise();
 		System.out.println("inside getLeaveApplyDetailsByLeaveId");
 
@@ -343,28 +342,28 @@ public class LeaveApplicationController {
 		return list;
 
 	}
+
 	@Autowired
 	LeaveDetailRepo leaveDetailRepo;
 
 	@RequestMapping(value = { "getLeaveListByEmp" }, method = RequestMethod.POST)
 	public @ResponseBody List<LeaveDetail> getLeaveListByLocIdAndEmp(@RequestParam("empId") int empId) {
-		
 
 		List<LeaveDetail> employeeInfo = new ArrayList<LeaveDetail>();
 
 		try {
 
 			employeeInfo = leaveDetailRepo.getLeaveListByEmp(empId);
-			 for (int i = 0; i < employeeInfo.size(); i++) {
-				  employeeInfo.get(i).setLeaveFromdt(DateConvertor.convertToDMY(employeeInfo.get(i).getLeaveFromdt()));
-				  employeeInfo.get(i).setLeaveTodt(DateConvertor.convertToDMY(employeeInfo.get(i).getLeaveTodt()));
-						  }
+			for (int i = 0; i < employeeInfo.size(); i++) {
+				employeeInfo.get(i).setLeaveFromdt(DateConvertor.convertToDMY(employeeInfo.get(i).getLeaveFromdt()));
+				employeeInfo.get(i).setLeaveTodt(DateConvertor.convertToDMY(employeeInfo.get(i).getLeaveTodt()));
+			}
 		} catch (Exception e) {
 
 			e.printStackTrace();
-		} 
+		}
 
-		return employeeInfo; 
+		return employeeInfo;
 
 	}
 	// *************WS for leave approvals and updations and
@@ -445,6 +444,46 @@ public class LeaveApplicationController {
 				EmployeeInfo emp = new EmployeeInfo();
 
 				emp = employeeInfoRepository.findByEmpIdAndDelStatus(empId, 1);
+
+				try {
+
+					if (status == 2) {
+
+						String msg = emp.getEmpFname() + " " + emp.getEmpSname() + " your Leave from "
+								+ leaveApply.getLeaveFromdt() + " to " + leaveApply.getLeaveTodt() + " for "
+								+ leaveApply.getLeaveNumDays() + " days has been Approved By Initial Authority";
+
+						Firebase.sendPushNotification(emp.getExVar1(), "HRMS", msg, 1);
+
+					} else if (status == 3) {
+
+						String msg = emp.getEmpFname() + " " + emp.getEmpSname() + " your Leave from "
+								+ leaveApply.getLeaveFromdt() + " to " + leaveApply.getLeaveTodt() + " for "
+								+ leaveApply.getLeaveNumDays() + " days has been Approved By Final Authority";
+
+						Firebase.sendPushNotification(emp.getExVar1(), "HRMS", msg, 1);
+
+					} else if (status == 8) {
+
+						String msg = emp.getEmpFname() + " " + emp.getEmpSname() + " your Leave from "
+								+ leaveApply.getLeaveFromdt() + " to " + leaveApply.getLeaveTodt() + " for "
+								+ leaveApply.getLeaveNumDays() + " days has been Rejected By Initial Authority";
+
+						Firebase.sendPushNotification(emp.getExVar1(), "HRMS", msg, 1);
+
+					} else if (status == 9) {
+
+						String msg = emp.getEmpFname() + " " + emp.getEmpSname() + " your Leave from "
+								+ leaveApply.getLeaveFromdt() + " to " + leaveApply.getLeaveTodt() + " for "
+								+ leaveApply.getLeaveNumDays() + " days has been Rejected By Final Authority";
+
+						Firebase.sendPushNotification(emp.getExVar1(), "HRMS", msg, 1);
+
+					}
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 
 				for (int i = 0; i < al.size(); i++) {
 

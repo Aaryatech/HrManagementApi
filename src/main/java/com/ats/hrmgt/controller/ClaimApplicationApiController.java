@@ -319,6 +319,51 @@ public class ClaimApplicationApiController {
 
 				EmployeeInfo emp = new EmployeeInfo();
 				emp = employeeInfoRepository.findByEmpIdAndDelStatus(empId, 1);
+				
+				
+				try {
+					
+					
+					if (status == 2) {
+						
+						String claimMsg = emp.getEmpFname() + " " + emp.getEmpSname() + " your Claim for Rs. "
+								+ leaveApply.getClaimAmount() + " on " + leaveApply.getClaimDate()
+								+ " Approved By Initial Authority";
+						
+						Firebase.sendPushNotification(emp.getExVar1(), "HRMS", claimMsg, 2);
+						
+					} else if (status == 3) {
+						
+						String claimMsg = emp.getEmpFname() + " " + emp.getEmpSname() + " your Claim for Rs. "
+								+ leaveApply.getClaimAmount() + " on " + leaveApply.getClaimDate()
+								+ " Approved By Final Authority";
+						
+						Firebase.sendPushNotification(emp.getExVar1(), "HRMS", claimMsg, 2);
+						
+					} else if (status == 8) {
+
+						String claimMsg = emp.getEmpFname() + " " + emp.getEmpSname() + " your Claim for Rs. "
+								+ leaveApply.getClaimAmount() + " on " + leaveApply.getClaimDate()
+								+ " Rejected By Initial Authority";
+						
+						Firebase.sendPushNotification(emp.getExVar1(), "HRMS", claimMsg, 2);
+						
+						
+					} else if (status == 9) {
+
+						String claimMsg = emp.getEmpFname() + " " + emp.getEmpSname() + " your Claim for Rs. "
+								+ leaveApply.getClaimAmount() + " on " + leaveApply.getClaimDate()
+								+ " Rejected By Final Authority";
+						
+						Firebase.sendPushNotification(emp.getExVar1(), "HRMS", claimMsg, 2);
+						
+					}
+					
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+				
+				
 
 				for (int i = 0; i < al.size(); i++) {
 
