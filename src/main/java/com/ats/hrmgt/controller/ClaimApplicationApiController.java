@@ -16,16 +16,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.hrmgt.claim.repo.ClaimTrailRepo;
 import com.ats.hrmgt.claim.repo.GetClaimApplyAuthwiseRepo;
+import com.ats.hrmgt.common.DateConvertor;
 import com.ats.hrmgt.common.Firebase;
 import com.ats.hrmgt.leave.model.ClaimDetail;
 import com.ats.hrmgt.leave.model.GetAuthorityIds;
 import com.ats.hrmgt.leave.model.GetClaimTrailStatus;
 import com.ats.hrmgt.leave.model.GetEmployeeAuthorityWise;
+import com.ats.hrmgt.leave.model.GetLeaveApplyAuthwise;
+import com.ats.hrmgt.leave.model.GetLeaveStatus;
+import com.ats.hrmgt.leave.model.LeaveDetail;
 import com.ats.hrmgt.leave.repo.ClaimApplyRepo;
 import com.ats.hrmgt.leave.repo.ClaimDetailRepo;
 import com.ats.hrmgt.leave.repo.GetAuthorityIdsRepo;
 import com.ats.hrmgt.leave.repo.GetClaimTrailStatusRepo;
 import com.ats.hrmgt.leave.repo.GetEmployeeAuthorityWiseRepo;
+import com.ats.hrmgt.leave.repo.GetLeaveStatusRepo;
+import com.ats.hrmgt.leave.repo.LeaveDetailRepo;
 import com.ats.hrmgt.model.ClaimApply;
 import com.ats.hrmgt.model.ClaimTrail;
 import com.ats.hrmgt.model.EmployeeInfo;
@@ -81,6 +87,22 @@ public class ClaimApplicationApiController {
 		}
 
 		return list;
+
+	}
+	
+	
+	@RequestMapping(value = { "/getEmpClaimInfoListByTrailEmpId" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetClaimTrailStatus> getEmpClaimInfoListByTrailEmpId(@RequestParam("claimId") int claimId) {
+
+		List<GetClaimTrailStatus> leaveStatus = new ArrayList<GetClaimTrailStatus>();
+		try {
+			leaveStatus = getClaimTrailStatusRepo.getClaimTrailByClaimId(claimId);
+			} catch (Exception e) { 
+
+			e.printStackTrace();
+		}
+
+		return leaveStatus;
 
 	}
 
@@ -463,5 +485,30 @@ public class ClaimApplicationApiController {
 		return info;
 
 	}
+	
+	
+
+	@RequestMapping(value = { "/getClaimApplyDetailsByClaimId" }, method = RequestMethod.POST)
+	public @ResponseBody GetClaimApplyAuthwise getLeaveApplyDetailsByLeaveId(@RequestParam("claimId") int claimId) {
+		GetClaimApplyAuthwise list = new GetClaimApplyAuthwise();
+		System.out.println("inside getLeaveApplyDetailsByLeaveId");
+
+		try {
+
+			list = getClaimApplyAuthwiseRepo.getClaimApplyDetails(claimId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
+
+	
+
+	
+	
 
 }

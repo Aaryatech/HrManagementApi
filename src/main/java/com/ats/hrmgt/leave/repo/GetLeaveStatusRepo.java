@@ -82,5 +82,7 @@ public interface GetLeaveStatusRepo extends JpaRepository<GetLeaveStatus, Intege
 			"WHERE\n" + 
 			"    e.emp_id = t.emp_id AND t.leave_id =:leaveId", nativeQuery = true)
 	List<GetLeaveStatus> getEmpInfoByLeaveId(@Param("leaveId") int leaveId);
+	
+
 
 }
