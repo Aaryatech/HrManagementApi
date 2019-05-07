@@ -31,6 +31,12 @@ private int empId;
 	
 	private String empDept;
 	
+	private String empDeptShortName;
+	
+	private String empTypeShortName;
+	
+	private String empCatShortName;
+	
 	private String empFname;
 	
 	private String empMname;
@@ -131,6 +137,34 @@ private int empId;
 	public String getEmpFname() {
 		return empFname;
 	}
+	
+	
+
+	public String getEmpDeptShortName() {
+		return empDeptShortName;
+	}
+
+	public void setEmpDeptShortName(String empDeptShortName) {
+		this.empDeptShortName = empDeptShortName;
+	}
+	
+	
+
+	public String getEmpTypeShortName() {
+		return empTypeShortName;
+	}
+
+	public void setEmpTypeShortName(String empTypeShortName) {
+		this.empTypeShortName = empTypeShortName;
+	}
+
+	public String getEmpCatShortName() {
+		return empCatShortName;
+	}
+
+	public void setEmpCatShortName(String empCatShortName) {
+		this.empCatShortName = empCatShortName;
+	}
 
 	public void setEmpFname(String empFname) {
 		this.empFname = empFname;
@@ -199,23 +233,13 @@ private int empId;
 		return "GetEmployeeInfo [empId=" + empId + ", empCode=" + empCode + ", companyName=" + companyName
 				+ ", companyId=" + companyId + ", empCatId=" + empCatId + ", empCategory=" + empCategory
 				+ ", empTypeId=" + empTypeId + ", empType=" + empType + ", empDeptId=" + empDeptId + ", empDept="
-				+ empDept + ", empFname=" + empFname + ", empMname=" + empMname + ", empSname=" + empSname
-				+ ", empMobile1=" + empMobile1 + ", empEmail=" + empEmail + ", empPrevExpYrs=" + empPrevExpYrs
-				+ ", empRatePerhr=" + empRatePerhr + ", exVar1=" + exVar1 + ", getEmpId()=" + getEmpId()
-				+ ", getEmpCode()=" + getEmpCode() + ", getCompanyName()=" + getCompanyName() + ", getCompanyId()="
-				+ getCompanyId() + ", getEmpCatId()=" + getEmpCatId() + ", getEmpCategory()=" + getEmpCategory()
-				+ ", getEmpTypeId()=" + getEmpTypeId() + ", getEmpType()=" + getEmpType() + ", getEmpDeptId()="
-				+ getEmpDeptId() + ", getEmpDept()=" + getEmpDept() + ", getEmpFname()=" + getEmpFname()
-				+ ", getEmpMname()=" + getEmpMname() + ", getEmpSname()=" + getEmpSname() + ", getEmpMobile1()="
-				+ getEmpMobile1() + ", getEmpEmail()=" + getEmpEmail() + ", getEmpPrevExpYrs()=" + getEmpPrevExpYrs()
-				+ ", getEmpRatePerhr()=" + getEmpRatePerhr() + ", getExVar1()=" + getExVar1() + ", getClass()="
-				+ getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
+				+ empDept + ", empDeptShortName=" + empDeptShortName + ", empTypeShortName=" + empTypeShortName
+				+ ", empCatShortName=" + empCatShortName + ", empFname=" + empFname + ", empMname=" + empMname
+				+ ", empSname=" + empSname + ", empMobile1=" + empMobile1 + ", empEmail=" + empEmail
+				+ ", empPrevExpYrs=" + empPrevExpYrs + ", empRatePerhr=" + empRatePerhr + ", exVar1=" + exVar1 + "]";
 	}
 
-	
-	
-	
-	
+		
 }
 
 

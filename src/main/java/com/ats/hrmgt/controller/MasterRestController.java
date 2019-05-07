@@ -725,12 +725,13 @@ public class MasterRestController {
 			@RequestParam("locIdList") List<Integer> locIdList, @RequestParam("empId") int empId) {
 
 		List<GetEmployeeInfo> list = new ArrayList<GetEmployeeInfo>();
-
+		System.err.println("empId" + empId);
 		List<GetEmployeeAuthorityWise> empIdList = new ArrayList<GetEmployeeAuthorityWise>();
 
 		empIdList = getEmployeeAuthorityWise.getEmpIdList(empId);
 
-		System.err.println("empIdList" + empIdList.size());
+		System.err.println("empIdList" + empIdList.toString());
+		if(empIdList.size() > 0) {
 		try {
 
 			list = getEmpInfo.getEmpIdListByCompanyId(companyId,empIdList);
@@ -740,8 +741,8 @@ public class MasterRestController {
 		} catch (Exception e) {
 
 			e.printStackTrace();
+		} 
 		}
-
 		return list;
 
 	}
