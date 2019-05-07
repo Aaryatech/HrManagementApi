@@ -16,13 +16,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.hrmgt.common.DateConvertor;
 import com.ats.hrmgt.common.Firebase;
 import com.ats.hrmgt.leave.model.GetAuthorityIds;
 import com.ats.hrmgt.leave.model.GetLeaveApplyAuthwise;
+import com.ats.hrmgt.leave.model.LeaveDetail;
 import com.ats.hrmgt.leave.model.LeaveHistory;
 import com.ats.hrmgt.leave.repo.GetAuthorityIdsRepo;
 import com.ats.hrmgt.leave.repo.GetEmployeeAuthorityWiseRepo;
 import com.ats.hrmgt.leave.repo.GetLeaveApplyAuthwiseRepo;
+import com.ats.hrmgt.leave.repo.LeaveDetailRepo;
 import com.ats.hrmgt.leave.repo.LeaveHistoryRepo;
 import com.ats.hrmgt.model.ClaimApply;
 import com.ats.hrmgt.model.EmployeeInfo;
@@ -320,7 +323,50 @@ public class LeaveApplicationController {
 		return leaveApply;
 
 	}
+//new
+	
+	@RequestMapping(value = { "/getLeaveApplyDetailsByLeaveId" }, method = RequestMethod.POST)
+	public @ResponseBody GetLeaveApplyAuthwise getLeaveApplyDetailsByLeaveId(@RequestParam("leaveId") int leaveId
+		) {
+		GetLeaveApplyAuthwise list = new GetLeaveApplyAuthwise();
+		System.out.println("inside getLeaveApplyDetailsByLeaveId");
 
+		try {
+
+			list = getLeaveApplyAuthwiseRepo.getLeaveApplyDetails(leaveId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
+	@Autowired
+	LeaveDetailRepo leaveDetailRepo;
+
+	@RequestMapping(value = { "getLeaveListByEmp" }, method = RequestMethod.POST)
+	public @ResponseBody List<LeaveDetail> getLeaveListByLocIdAndEmp(@RequestParam("empId") int empId) {
+		
+
+		List<LeaveDetail> employeeInfo = new ArrayList<LeaveDetail>();
+
+		try {
+
+			employeeInfo = leaveDetailRepo.getLeaveListByEmp(empId);
+			 for (int i = 0; i < employeeInfo.size(); i++) {
+				  employeeInfo.get(i).setLeaveFromdt(DateConvertor.convertToDMY(employeeInfo.get(i).getLeaveFromdt()));
+				  employeeInfo.get(i).setLeaveTodt(DateConvertor.convertToDMY(employeeInfo.get(i).getLeaveTodt()));
+						  }
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		} 
+
+		return employeeInfo; 
+
+	}
 	// *************WS for leave approvals and updations and
 	// rejections*******************************
 
