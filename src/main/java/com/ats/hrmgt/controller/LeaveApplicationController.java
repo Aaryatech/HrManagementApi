@@ -1,9 +1,11 @@
 package com.ats.hrmgt.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -219,12 +221,30 @@ public class LeaveApplicationController {
 
 					empInfo = employeeInfoRepository.findByEmpIdAndDelStatus(Integer.parseInt(al.get(i)), 1);
 
+					SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+					SimpleDateFormat sdf2 = new SimpleDateFormat("dd-MM-yyyy");
+
+					String fromDate = "", toDate = "";
+
+					try {
+
+						Date d1 = sdf1.parse(save.getLeaveFromdt());
+						Date d2 = sdf1.parse(save.getLeaveTodt());
+
+						fromDate = sdf2.format(d1.getTime());
+						toDate = sdf2.format(d2.getTime());
+
+					} catch (Exception e) {
+						fromDate = save.getLeaveFromdt();
+						toDate = save.getLeaveTodt();
+						e.printStackTrace();
+					}
+
 					try {
 
 						Firebase.sendPushNotification(empInfo.getExVar1(), "HRMS",
-								" " + name + " has applied for leave from " + save.getLeaveFromdt() + " to "
-										+ save.getLeaveTodt() + " for " + save.getLeaveNumDays()
-										+ " days, Please check for Approval",
+								" " + name + " has applied for leave from " + fromDate + " to " + toDate + " for "
+										+ save.getLeaveNumDays() + " days, Please check for Approval",
 								11);
 
 					} catch (Exception e) {
@@ -445,37 +465,56 @@ public class LeaveApplicationController {
 
 				emp = employeeInfoRepository.findByEmpIdAndDelStatus(empId, 1);
 
+				SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+				SimpleDateFormat sdf2 = new SimpleDateFormat("dd-MM-yyyy");
+
+				String fromDate = "", toDate = "";
+
+				try {
+
+					Date d1 = sdf1.parse(leaveApply.getLeaveFromdt());
+					Date d2 = sdf1.parse(leaveApply.getLeaveTodt());
+
+					fromDate = sdf2.format(d1.getTime());
+					toDate = sdf2.format(d2.getTime());
+
+				} catch (Exception e) {
+					fromDate = leaveApply.getLeaveFromdt();
+					toDate = leaveApply.getLeaveTodt();
+					e.printStackTrace();
+				}
+
 				try {
 
 					if (status == 2) {
 
-						String msg = emp.getEmpFname() + " " + emp.getEmpSname() + " your Leave from "
-								+ leaveApply.getLeaveFromdt() + " to " + leaveApply.getLeaveTodt() + " for "
-								+ leaveApply.getLeaveNumDays() + " days has been Approved By Initial Authority";
+						String msg = emp.getEmpFname() + " " + emp.getEmpSname() + " your Leave from " + fromDate
+								+ " to " + toDate + " for " + leaveApply.getLeaveNumDays()
+								+ " days has been Approved By Initial Authority";
 
 						Firebase.sendPushNotification(emp.getExVar1(), "HRMS", msg, 1);
 
 					} else if (status == 3) {
 
-						String msg = emp.getEmpFname() + " " + emp.getEmpSname() + " your Leave from "
-								+ leaveApply.getLeaveFromdt() + " to " + leaveApply.getLeaveTodt() + " for "
-								+ leaveApply.getLeaveNumDays() + " days has been Approved By Final Authority";
+						String msg = emp.getEmpFname() + " " + emp.getEmpSname() + " your Leave from " + fromDate
+								+ " to " + toDate + " for " + leaveApply.getLeaveNumDays()
+								+ " days has been Approved By Final Authority";
 
 						Firebase.sendPushNotification(emp.getExVar1(), "HRMS", msg, 1);
 
 					} else if (status == 8) {
 
-						String msg = emp.getEmpFname() + " " + emp.getEmpSname() + " your Leave from "
-								+ leaveApply.getLeaveFromdt() + " to " + leaveApply.getLeaveTodt() + " for "
-								+ leaveApply.getLeaveNumDays() + " days has been Rejected By Initial Authority";
+						String msg = emp.getEmpFname() + " " + emp.getEmpSname() + " your Leave from " + fromDate
+								+ " to " + toDate + " for " + leaveApply.getLeaveNumDays()
+								+ " days has been Rejected By Initial Authority";
 
 						Firebase.sendPushNotification(emp.getExVar1(), "HRMS", msg, 1);
 
 					} else if (status == 9) {
 
-						String msg = emp.getEmpFname() + " " + emp.getEmpSname() + " your Leave from "
-								+ leaveApply.getLeaveFromdt() + " to " + leaveApply.getLeaveTodt() + " for "
-								+ leaveApply.getLeaveNumDays() + " days has been Rejected By Final Authority";
+						String msg = emp.getEmpFname() + " " + emp.getEmpSname() + " your Leave from " + fromDate
+								+ " to " + toDate + " for " + leaveApply.getLeaveNumDays()
+								+ " days has been Rejected By Final Authority";
 
 						Firebase.sendPushNotification(emp.getExVar1(), "HRMS", msg, 1);
 
@@ -501,33 +540,33 @@ public class LeaveApplicationController {
 						String claimMsg = new String();
 						if (status == 2) {
 
-							claimMsg = emp.getEmpFname() + " " + emp.getEmpSname() + " Leave from "
-									+ leaveApply.getLeaveFromdt() + " to " + leaveApply.getLeaveTodt() + " for "
-									+ leaveApply.getLeaveNumDays() + " days has been Approved By Initial Authority";
+							claimMsg = emp.getEmpFname() + " " + emp.getEmpSname() + " Leave from " + fromDate + " to "
+									+ toDate + " for " + leaveApply.getLeaveNumDays()
+									+ " days has been Approved By Initial Authority";
 
 							Firebase.sendPushNotification(empInfo.getExVar1(), "HRMS", claimMsg, 1);
 
 						} else if (status == 3) {
 
-							claimMsg = emp.getEmpFname() + " " + emp.getEmpSname() + " Leave from "
-									+ leaveApply.getLeaveFromdt() + " to " + leaveApply.getLeaveTodt() + " for "
-									+ leaveApply.getLeaveNumDays() + " days has been Approved By Final Authority";
+							claimMsg = emp.getEmpFname() + " " + emp.getEmpSname() + " Leave from " + fromDate + " to "
+									+ toDate + " for " + leaveApply.getLeaveNumDays()
+									+ " days has been Approved By Final Authority";
 
 							Firebase.sendPushNotification(empInfo.getExVar1(), "HRMS", claimMsg, 1);
 
 						} else if (status == 8) {
 
-							claimMsg = emp.getEmpFname() + " " + emp.getEmpSname() + " Leave from "
-									+ leaveApply.getLeaveFromdt() + " to " + leaveApply.getLeaveTodt() + " for "
-									+ leaveApply.getLeaveNumDays() + " days has been Rejected By Initial Authority";
+							claimMsg = emp.getEmpFname() + " " + emp.getEmpSname() + " Leave from " + fromDate + " to "
+									+ toDate + " for " + leaveApply.getLeaveNumDays()
+									+ " days has been Rejected By Initial Authority";
 
 							Firebase.sendPushNotification(empInfo.getExVar1(), "HRMS", claimMsg, 1);
 
 						} else if (status == 9) {
 
-							claimMsg = emp.getEmpFname() + " " + emp.getEmpSname() + " Leave from "
-									+ leaveApply.getLeaveFromdt() + " to " + leaveApply.getLeaveTodt() + " for "
-									+ leaveApply.getLeaveNumDays() + " days has been Rejected By Final Authority";
+							claimMsg = emp.getEmpFname() + " " + emp.getEmpSname() + " Leave from " + fromDate + " to "
+									+ toDate + " for " + leaveApply.getLeaveNumDays()
+									+ " days has been Rejected By Final Authority";
 
 							Firebase.sendPushNotification(empInfo.getExVar1(), "HRMS", claimMsg, 1);
 
