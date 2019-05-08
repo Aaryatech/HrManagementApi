@@ -178,7 +178,7 @@ public interface LeaveDetailRepo extends JpaRepository<LeaveDetail, Integer>{
 			"m_emp_department d,\n" + 
 			"leave_type AS lt  \n" + 
 			"WHERE \n" + 
-			"l.emp_id =:empId AND  l.emp_id =e.emp_id AND l.del_status=1 AND d.emp_dept_id = e.emp_dept_id AND lt.lv_type_id = l.lv_type_id ", nativeQuery = true)
+			"l.emp_id =:empId AND  l.emp_id =e.emp_id AND l.del_status=1 AND d.emp_dept_id = e.emp_dept_id AND lt.lv_type_id = l.lv_type_id ORDER BY l.leave_id DESC ", nativeQuery = true)
 	List<LeaveDetail> getLeaveListByEmp(@Param("empId") int empId);
 
 			
