@@ -1069,7 +1069,30 @@ public class MasterRestController {
 		return info;
 
 	}
+	@RequestMapping(value = { "/checkUniqueShortName" }, method = RequestMethod.POST)
+	public @ResponseBody LeaveType checkUniqueShortName(@RequestParam("valueType") String valueType,@RequestParam("compId") int compId) {
 
+		LeaveType leaveType = new LeaveType();
+
+		try {
+
+			leaveType = leaveTypeRepository.findByCompanyIdAndLvTitleShort(compId,valueType);
+
+			/*
+			 * if (leaveType==null) { info.setError(false); info.setMsg("deleted"); } else {
+			 * info.setError(true); info.setMsg("failed");
+			 * 
+			 * }
+			 */
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			
+		}
+
+		return leaveType;
+
+	}
 	@RequestMapping(value = { "/getLeaveTypeById" }, method = RequestMethod.POST)
 	public @ResponseBody LeaveType getLeaveTypeById(@RequestParam("lvTypeId") int lvTypeId) {
 
