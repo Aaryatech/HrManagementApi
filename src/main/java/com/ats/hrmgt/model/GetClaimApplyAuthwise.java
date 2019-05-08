@@ -1,8 +1,12 @@
 package com.ats.hrmgt.model;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 
 import javax.persistence.Id;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 public class GetClaimApplyAuthwise {
@@ -28,7 +32,7 @@ public class GetClaimApplyAuthwise {
 
 	private String claimRemarks;
 
-	private String claimDate;
+	private Date claimDate;
 	
 	private String circulatedTo ;
 	
@@ -130,12 +134,12 @@ public class GetClaimApplyAuthwise {
 	public void setClaimRemarks(String claimRemarks) {
 		this.claimRemarks = claimRemarks;
 	}
-
-	public String getClaimDate() {
+	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+	public Date getClaimDate() {
 		return claimDate;
 	}
 
-	public void setClaimDate(String claimDate) {
+	public void setClaimDate(Date claimDate) {
 		this.claimDate = claimDate;
 	}
 
