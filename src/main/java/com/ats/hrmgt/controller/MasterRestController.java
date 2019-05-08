@@ -25,6 +25,7 @@ import com.ats.hrmgt.leave.repo.GetEmployeeAuthorityWiseRepo;
 import com.ats.hrmgt.leave.repo.LeaveBalanceCalRepo;
 import com.ats.hrmgt.leave.repo.LeaveStructureDetailsRepo;
 import com.ats.hrmgt.leave.repo.LeaveStructureHeaderRepo;
+import com.ats.hrmgt.model.AuthorityInformation;
 import com.ats.hrmgt.model.CalenderYear;
 import com.ats.hrmgt.model.Company;
 import com.ats.hrmgt.model.EmpDocType;
@@ -43,6 +44,7 @@ import com.ats.hrmgt.model.LeaveType;
 import com.ats.hrmgt.model.LeavesAllotment;
 import com.ats.hrmgt.model.Location;
 import com.ats.hrmgt.model.User;
+import com.ats.hrmgt.repository.AuthorityInformationRepository;
 import com.ats.hrmgt.repository.CalculateYearRepository;
 import com.ats.hrmgt.repository.CompanyRepository;
 import com.ats.hrmgt.repository.EmpTypeRepository;
@@ -108,6 +110,9 @@ public class MasterRestController {
 
 	@Autowired
 	GetEmployeeAuthorityWiseRepo getEmployeeAuthorityWise;
+	
+	@Autowired
+	AuthorityInformationRepository authorityInformationRepository;
 
 	DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	Date now = new Date();
@@ -1359,5 +1364,23 @@ public class MasterRestController {
 		return save;
 
 	}
+	
+	@RequestMapping(value = { "/getAuthorityInfoByEmpId" }, method = RequestMethod.POST)
+	public @ResponseBody AuthorityInformation getAuthorityInfoByEmpId(@RequestParam("empId") int empId) {
 
+		AuthorityInformation authorityInformation = new AuthorityInformation();
+		try {
+
+			authorityInformation = authorityInformationRepository.getAuthorityInfoByEmpId(empId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return authorityInformation;
+
+	}
+	
+	
 }
