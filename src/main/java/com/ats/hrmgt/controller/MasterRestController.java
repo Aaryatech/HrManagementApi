@@ -74,7 +74,7 @@ public class MasterRestController {
 	UserRepo userRepo;
 
 	@Autowired
-	EmpTypeRepository empTypeRepository;
+	EmpTypeRepository empTypeRepository; 
 
 	@Autowired
 	EmployeeCategoryRepository employeeCategoryRepository;
