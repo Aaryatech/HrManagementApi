@@ -1,7 +1,11 @@
 package com.ats.hrmgt.leave.model;
 
+import java.sql.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 public class GetLeaveApplyAuthwise {
@@ -32,9 +36,9 @@ public class GetLeaveApplyAuthwise {
 	
  	private String leaveDuration;
 	
- 	private String leaveFromdt;
+ 	private Date leaveFromdt;
 	
- 	private String leaveTodt ;
+ 	private Date leaveTodt ;
 	
  	private float leaveNumDays;
 	
@@ -150,20 +154,22 @@ public class GetLeaveApplyAuthwise {
 	public void setLeaveDuration(String leaveDuration) {
 		this.leaveDuration = leaveDuration;
 	}
-
-	public String getLeaveFromdt() {
+	
+	@JsonFormat(locale = "Locale.ENGLISH", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy hh:mm:ss a")// 
+	public Date getLeaveFromdt() {
 		return leaveFromdt;
 	}
 
-	public void setLeaveFromdt(String leaveFromdt) {
+	public void setLeaveFromdt(Date leaveFromdt) {
 		this.leaveFromdt = leaveFromdt;
 	}
-
-	public String getLeaveTodt() {
+	
+	@JsonFormat(locale = "Locale.ENGLISH", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy hh:mm:ss a")// 
+ 	public Date getLeaveTodt() {
 		return leaveTodt;
 	}
 
-	public void setLeaveTodt(String leaveTodt) {
+	public void setLeaveTodt(Date leaveTodt) {
 		this.leaveTodt = leaveTodt;
 	}
 

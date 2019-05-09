@@ -23,10 +23,12 @@ import com.ats.hrmgt.leave.repo.GetStructureAllotmentRepo;
 import com.ats.hrmgt.leave.repo.LeaveBalanceCalRepo;
 import com.ats.hrmgt.leave.repo.LeaveStructureDetailsRepo;
 import com.ats.hrmgt.leave.repo.LeaveStructureHeaderRepo;
+import com.ats.hrmgt.leave.repo.LeavesAllotmentRepo;
 import com.ats.hrmgt.model.CalenderYear;
 import com.ats.hrmgt.model.EmployeeInfo;
 import com.ats.hrmgt.model.Info;
 import com.ats.hrmgt.model.LeaveBalanceCal;
+import com.ats.hrmgt.model.LeavesAllotment;
 import com.ats.hrmgt.repository.CalculateYearRepository;
 import com.ats.hrmgt.repository.EmployeeInfoRepository;
 
@@ -167,6 +169,26 @@ public class LeaveStructureApiController {
 		try {
 
 			list = leaveStructureHeaderRepo.findByDelStatusAndCompanyId(1, companyId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
+	
+	@Autowired
+	LeavesAllotmentRepo leavesAllotmentRepo;
+	
+	@RequestMapping(value = { "/getStructureByEmpId" }, method = RequestMethod.POST)
+	public @ResponseBody LeavesAllotment getStructureByEmpId(@RequestParam("empId") int empId,@RequestParam("currYrId") int currYrId) {
+
+		LeavesAllotment list = new LeavesAllotment();
+		try {
+
+			list = leavesAllotmentRepo.findByDelStatusAndEmpIdAndCalYrId(1, empId,currYrId);
 
 		} catch (Exception e) {
 
