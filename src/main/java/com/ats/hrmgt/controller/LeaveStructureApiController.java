@@ -89,6 +89,14 @@ public class LeaveStructureApiController {
 		try {
 
 			list = getLeaveAuthorityRepo.getLeaveAuth(companyId, locIdList);
+			
+			for(int i=0; i<list.size() ; i++) {
+				
+				String[] reportIds = list.get(i).getRepToEmpIds().split(",");
+				
+				List<String> name = getLeaveAuthorityRepo.getEmpReportingName(reportIds);
+				list.get(i).setRePortingName(name);
+			}
 
 		} catch (Exception e) {
 
