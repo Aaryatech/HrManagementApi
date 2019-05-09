@@ -24,6 +24,7 @@ import com.ats.hrmgt.leave.repo.ClaimRepository;
 import com.ats.hrmgt.leave.repo.GetClaimApplyAuthRepo;
 import com.ats.hrmgt.leave.repo.GetClaimAuthorityRepo;
 import com.ats.hrmgt.leave.repo.GetEmployeeAuthorityWiseRepo;
+import com.ats.hrmgt.leave.repo.GetLeaveAuthorityRepo;
 import com.ats.hrmgt.model.ClaimAuthority;
 import com.ats.hrmgt.model.ClaimProof;
 import com.ats.hrmgt.model.ClaimType;
@@ -61,6 +62,9 @@ public class ClaimApiController {
 
 	@Autowired
 	EmployeeInfoRepository employeeInfoRepository;
+	
+	@Autowired
+	GetLeaveAuthorityRepo getLeaveAuthorityRepo;
 
 	@RequestMapping(value = { "/getUserInfoByContcAndEmail" }, method = RequestMethod.POST)
 	public @ResponseBody EmployeeInfo getUserInfoByConAndEmail(@RequestParam int checkValue,
@@ -262,7 +266,15 @@ public class ClaimApiController {
 		List<GetClaimAuthority> list = new ArrayList<GetClaimAuthority>();
 		try {
 
-			list = getClaimAuthorityRepo.getClaimAuth(companyId,locIdList);
+			list = getClaimAuthorityRepo.getClaimAuth(companyId, locIdList);
+
+			for (int i = 0; i < list.size(); i++) {
+
+				String[] reportIds = list.get(i).getCaRepToEmpIds().split(",");
+
+				List<String> name = getLeaveAuthorityRepo.getEmpReportingName(reportIds);
+				list.get(i).setRePortingName(name);
+			}
 
 		} catch (Exception e) {
 

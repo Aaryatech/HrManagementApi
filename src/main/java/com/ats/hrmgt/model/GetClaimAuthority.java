@@ -1,7 +1,10 @@
 package com.ats.hrmgt.model;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 @Entity
 public class GetClaimAuthority {
@@ -61,6 +64,10 @@ public class GetClaimAuthority {
 	private String empCode;
 	private String iniEmpCode;
 	private String finiEmpCode;
+	
+	@Transient
+	List<String> rePortingName;
+	
 	public int getCaPkey() {
 		return caPkey;
 	}
@@ -229,6 +236,13 @@ public class GetClaimAuthority {
 	public void setFiniEmpCode(String finiEmpCode) {
 		this.finiEmpCode = finiEmpCode;
 	}
+	
+	public List<String> getRePortingName() {
+		return rePortingName;
+	}
+	public void setRePortingName(List<String> rePortingName) {
+		this.rePortingName = rePortingName;
+	}
 	@Override
 	public String toString() {
 		return "GetClaimAuthority [caPkey=" + caPkey + ", empId=" + empId + ", companyId=" + companyId
@@ -239,7 +253,8 @@ public class GetClaimAuthority {
 				+ ", empFname=" + empFname + ", empMname=" + empMname + ", empSname=" + empSname + ", iniEmpFname="
 				+ iniEmpFname + ", iniEmpMname=" + iniEmpMname + ", iniEmpSname=" + iniEmpSname + ", finiEmpFname="
 				+ finiEmpFname + ", finiEmpMname=" + finiEmpMname + ", finiEmpSname=" + finiEmpSname + ", empCode="
-				+ empCode + ", iniEmpCode=" + iniEmpCode + ", finiEmpCode=" + finiEmpCode + "]";
+				+ empCode + ", iniEmpCode=" + iniEmpCode + ", finiEmpCode=" + finiEmpCode + ", rePortingName="
+				+ rePortingName + "]";
 	}
 	
 	
