@@ -36,9 +36,9 @@ public class GetLeaveApplyAuthwise {
 	
  	private String leaveDuration;
 	
- 	private Date leaveFromdt;
+ 	private String leaveFromdt;
 	
- 	private Date leaveTodt ;
+ 	private String leaveTodt ;
 	
  	private float leaveNumDays;
 	
@@ -155,21 +155,19 @@ public class GetLeaveApplyAuthwise {
 		this.leaveDuration = leaveDuration;
 	}
 	
-	@JsonFormat(locale = "Locale.ENGLISH", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy hh:mm:ss a")// 
-	public Date getLeaveFromdt() {
+ 	public String getLeaveFromdt() {
 		return leaveFromdt;
 	}
 
-	public void setLeaveFromdt(Date leaveFromdt) {
+	public void setLeaveFromdt(String leaveFromdt) {
 		this.leaveFromdt = leaveFromdt;
 	}
 	
-	@JsonFormat(locale = "Locale.ENGLISH", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy hh:mm:ss a")// 
- 	public Date getLeaveTodt() {
+  	public String getLeaveTodt() {
 		return leaveTodt;
 	}
 
-	public void setLeaveTodt(Date leaveTodt) {
+	public void setLeaveTodt(String leaveTodt) {
 		this.leaveTodt = leaveTodt;
 	}
 
