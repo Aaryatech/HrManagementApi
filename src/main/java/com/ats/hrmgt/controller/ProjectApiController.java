@@ -14,12 +14,16 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ats.hrmgt.leave.repo.ProjectRepository;
 import com.ats.hrmgt.model.ClaimAuthority;
 import com.ats.hrmgt.model.ClaimType;
+import com.ats.hrmgt.model.EmployeeInfo;
 import com.ats.hrmgt.model.GetProjectHeader;
 import com.ats.hrmgt.model.Info;
+import com.ats.hrmgt.model.ProjectAllotment;
 import com.ats.hrmgt.model.ProjectHeader;
 import com.ats.hrmgt.model.ProjectTrail;
 import com.ats.hrmgt.model.ProjectType;
+import com.ats.hrmgt.repository.EmployeeInfoRepository;
 import com.ats.hrmgt.repository.GetProjectHeaderRepo;
+import com.ats.hrmgt.repository.ProjectAllotmentRepository;
 import com.ats.hrmgt.repository.ProjectHeaderRpo;
 import com.ats.hrmgt.repository.ProjectTrailRepo;
 
@@ -28,8 +32,15 @@ public class ProjectApiController {
 
 	@Autowired
 	ProjectRepository projectRepository;
+	
 	@Autowired
 	GetProjectHeaderRepo getProjectHeaderRepo;
+	
+	@Autowired
+	EmployeeInfoRepository employeeInfoRepository;
+	
+	@Autowired
+	ProjectAllotmentRepository projectAllotmentRepository;
 
 	// -------------Project Type------------------------
 
@@ -273,6 +284,56 @@ public class ProjectApiController {
 		}
 
 		return list;
+
+	}
+	
+	@RequestMapping(value = { "/getFullTimeFreeEmpList" }, method = RequestMethod.POST)
+	public @ResponseBody List<EmployeeInfo> getFullTimeFreeEmpList(@RequestParam("fromDate") String fromDate,@RequestParam("toDate") String toDate,
+			@RequestParam("catId") int catId,@RequestParam("locationIds") List<Integer> locationIds) {
+
+		List<EmployeeInfo> list = new ArrayList<EmployeeInfo>();
+		try {
+
+			if(locationIds.get(0)==0) {
+				list = employeeInfoRepository.getFullTimeFreeEmpList(fromDate, toDate,catId);
+			}else {
+				list = employeeInfoRepository.getFullTimeFreeEmpList(fromDate, toDate,catId,locationIds);
+			}
+			
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
+	
+	@RequestMapping(value = { "/projectAllotmentSave" }, method = RequestMethod.POST)
+	public @ResponseBody Info projectAllotmentSave(@RequestBody List<ProjectAllotment> list) {
+
+		Info info = new Info();
+		try {
+
+			 
+				list = projectAllotmentRepository.saveAll(list);
+			if(list==null) {
+				info.setError(true);
+				info.setMsg("failed");
+			}else {
+				info.setError(false);
+				info.setMsg("save successfully");
+			}
+			
+
+		} catch (Exception e) {
+			info.setError(true);
+			info.setMsg("failed");
+			e.printStackTrace();
+		}
+
+		return info;
 
 	}
 

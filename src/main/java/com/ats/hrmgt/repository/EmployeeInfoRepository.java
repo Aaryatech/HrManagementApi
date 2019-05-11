@@ -53,6 +53,17 @@ public interface EmployeeInfoRepository extends JpaRepository<EmployeeInfo, Inte
 	@Modifying
 	@Query("update EmployeeInfo set ex_var1=:token  WHERE emp_id=:empId")
 	int updateUserToken(@Param("empId") int empId,@Param("token") String token);
+
+	@Query(value = "select * from emp_info where emp_id not in (select emp_id from project_allotment where (pallot_fromdt<=:fromDate"
+			+ " and pallot_todt>=:fromDate) or (pallot_fromdt<=:toDate and pallot_todt>=:toDate) ) and del_status=1 and is_active=1 "
+			+ " and loc_id in (:locationIds) and emp_cat_id=:catId", nativeQuery = true)
+	List<EmployeeInfo> getFullTimeFreeEmpList(@Param("fromDate") String fromDate, @Param("toDate") String toDate, @Param("catId") int catId, @Param("locationIds") List<Integer> locationIds);
+
+
+	@Query(value = "select * from emp_info where emp_id not in (select emp_id from project_allotment where (pallot_fromdt<=:fromDate"
+			+ " and pallot_todt>=:fromDate) or (pallot_fromdt<=:toDate and pallot_todt>=:toDate) ) and del_status=1 and is_active=1 "
+			+ "   and emp_cat_id=:catId", nativeQuery = true)
+	List<EmployeeInfo> getFullTimeFreeEmpList(@Param("fromDate") String fromDate, @Param("toDate") String toDate, @Param("catId") int catId);
 	
 
 }
