@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.hrmgt.leave.repo.ProjectRepository;
+import com.ats.hrmgt.model.AllocatedEmpList;
 import com.ats.hrmgt.model.ClaimAuthority;
 import com.ats.hrmgt.model.ClaimType;
 import com.ats.hrmgt.model.EmployeeInfo;
@@ -21,6 +22,7 @@ import com.ats.hrmgt.model.ProjectAllotment;
 import com.ats.hrmgt.model.ProjectHeader;
 import com.ats.hrmgt.model.ProjectTrail;
 import com.ats.hrmgt.model.ProjectType;
+import com.ats.hrmgt.repository.AllocatedEmpListRepository;
 import com.ats.hrmgt.repository.EmployeeInfoRepository;
 import com.ats.hrmgt.repository.GetProjectHeaderRepo;
 import com.ats.hrmgt.repository.ProjectAllotmentRepository;
@@ -41,6 +43,9 @@ public class ProjectApiController {
 	
 	@Autowired
 	ProjectAllotmentRepository projectAllotmentRepository;
+	
+	@Autowired
+	AllocatedEmpListRepository allocatedEmpListRepository;
 
 	// -------------Project Type------------------------
 
@@ -289,18 +294,49 @@ public class ProjectApiController {
 	
 	@RequestMapping(value = { "/getFullTimeFreeEmpList" }, method = RequestMethod.POST)
 	public @ResponseBody List<EmployeeInfo> getFullTimeFreeEmpList(@RequestParam("fromDate") String fromDate,@RequestParam("toDate") String toDate,
-			@RequestParam("catId") int catId,@RequestParam("locationIds") List<Integer> locationIds) {
+			@RequestParam("catId") int catId,@RequestParam("locationIds") List<Integer> locationIds,@RequestParam("companyId") int companyId,
+			@RequestParam("worktime") int worktime) {
 
 		List<EmployeeInfo> list = new ArrayList<EmployeeInfo>();
 		try {
 
-			if(locationIds.get(0)==0) {
-				list = employeeInfoRepository.getFullTimeFreeEmpList(fromDate, toDate,catId);
+			if(worktime==1) {
+				
+				if(locationIds.get(0)==0) {
+					list = employeeInfoRepository.getPartialTimeFreeEmpList(fromDate, toDate,catId,companyId);
+				}else {
+					list = employeeInfoRepository.getPartialTimeFreeEmpList(fromDate, toDate,catId,locationIds);
+				}
+				
 			}else {
-				list = employeeInfoRepository.getFullTimeFreeEmpList(fromDate, toDate,catId,locationIds);
+				
+				if(locationIds.get(0)==0) {
+					list = employeeInfoRepository.getFullTimeFreeEmpList(fromDate, toDate,catId,companyId);
+				}else {
+					list = employeeInfoRepository.getFullTimeFreeEmpList(fromDate, toDate,catId,locationIds);
+				}
 			}
 			
+			
 
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
+	
+	@RequestMapping(value = { "/getAllocatedEmployeeList" }, method = RequestMethod.POST)
+	public @ResponseBody List<AllocatedEmpList> getAllocatedEmployeeList( @RequestParam("projectId") int projectId) {
+
+		List<AllocatedEmpList> list = new ArrayList<AllocatedEmpList>();
+		try {
+
+			 
+				list = allocatedEmpListRepository.getAllocatedEmployeeList(projectId);
+			 
 		} catch (Exception e) {
 
 			e.printStackTrace();
@@ -334,6 +370,23 @@ public class ProjectApiController {
 		}
 
 		return info;
+
+	}
+	
+	@RequestMapping(value = { "/getProjectDetailById" }, method = RequestMethod.POST)
+	public @ResponseBody GetProjectHeader getProjectDetailById(@RequestParam("projectId") int projectId) {
+	 
+		GetProjectHeader detail = new GetProjectHeader();
+		try {
+
+			detail = getProjectHeaderRepo.getProjectDetailByProjectId(projectId);
+			  
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return detail;
 
 	}
 

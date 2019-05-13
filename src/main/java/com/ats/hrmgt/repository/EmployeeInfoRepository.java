@@ -54,16 +54,50 @@ public interface EmployeeInfoRepository extends JpaRepository<EmployeeInfo, Inte
 	@Query("update EmployeeInfo set ex_var1=:token  WHERE emp_id=:empId")
 	int updateUserToken(@Param("empId") int empId,@Param("token") String token);
 
-	@Query(value = "select * from emp_info where emp_id not in (select emp_id from project_allotment where (pallot_fromdt<=:fromDate"
-			+ " and pallot_todt>=:fromDate) or (pallot_fromdt<=:toDate and pallot_todt>=:toDate) ) and del_status=1 and is_active=1 "
-			+ " and loc_id in (:locationIds) and emp_cat_id=:catId", nativeQuery = true)
+	@Query(value = "select * from emp_info where\n" + 
+			"        emp_id not in (\n" + 
+			"            select\n" + 
+			"                emp_id \n" + 
+			"            from\n" + 
+			"                project_allotment \n" + 
+			"            where\n" + 
+			"                 (:fromDate BETWEEN pallot_fromdt and pallot_todt ) or  (:toDate BETWEEN pallot_fromdt and pallot_todt ) or (pallot_fromdt BETWEEN :fromDate and :toDate )\n" + 
+			"                 or (pallot_todt BETWEEN :fromDate and :toDate )) and del_status=1 and is_active=1 and emp_cat_id=:catId and loc_id in (:locationIds)", nativeQuery = true)
 	List<EmployeeInfo> getFullTimeFreeEmpList(@Param("fromDate") String fromDate, @Param("toDate") String toDate, @Param("catId") int catId, @Param("locationIds") List<Integer> locationIds);
 
 
-	@Query(value = "select * from emp_info where emp_id not in (select emp_id from project_allotment where (pallot_fromdt<=:fromDate"
-			+ " and pallot_todt>=:fromDate) or (pallot_fromdt<=:toDate and pallot_todt>=:toDate) ) and del_status=1 and is_active=1 "
-			+ "   and emp_cat_id=:catId", nativeQuery = true)
-	List<EmployeeInfo> getFullTimeFreeEmpList(@Param("fromDate") String fromDate, @Param("toDate") String toDate, @Param("catId") int catId);
+	@Query(value = "select * from emp_info where\n" + 
+			"        emp_id not in (\n" + 
+			"            select\n" + 
+			"                emp_id \n" + 
+			"            from\n" + 
+			"                project_allotment \n" + 
+			"            where\n" + 
+			"                 (:fromDate BETWEEN pallot_fromdt and pallot_todt ) or  (:toDate BETWEEN pallot_fromdt and pallot_todt ) or (pallot_fromdt BETWEEN :fromDate and :toDate )\n" + 
+			"                 or (pallot_todt BETWEEN :fromDate and :toDate )) and del_status=1 and is_active=1 and emp_cat_id=:catId and company_id=:companyId", nativeQuery = true)
+	List<EmployeeInfo> getFullTimeFreeEmpList(@Param("fromDate") String fromDate, @Param("toDate") String toDate, @Param("catId") int catId,@Param("companyId") int companyId);
+
+	@Query(value = "select * from emp_info where\n" + 
+			"        emp_id   in (\n" + 
+			"            select\n" + 
+			"                emp_id \n" + 
+			"            from\n" + 
+			"                project_allotment \n" + 
+			"            where\n" + 
+			"                 ((:fromDate BETWEEN pallot_fromdt and pallot_todt ) or  (:toDate BETWEEN pallot_fromdt and pallot_todt ) or (pallot_fromdt BETWEEN :fromDate and :toDate )\n" + 
+			"                 or (pallot_todt BETWEEN :fromDate and :toDate )) and ex_int1=1 ) and del_status=1 and is_active=1 and emp_cat_id=:catId and loc_id in (:locationIds) ", nativeQuery = true)
+	List<EmployeeInfo> getPartialTimeFreeEmpList(@Param("fromDate") String fromDate, @Param("toDate") String toDate, @Param("catId") int catId, @Param("locationIds") List<Integer> locationIds);
+
+	@Query(value = "select * from emp_info where\n" + 
+			"        emp_id   in (\n" + 
+			"            select\n" + 
+			"                emp_id \n" + 
+			"            from\n" + 
+			"                project_allotment \n" + 
+			"            where\n" + 
+			"                 ((:fromDate BETWEEN pallot_fromdt and pallot_todt ) or  (:toDate BETWEEN pallot_fromdt and pallot_todt ) or (pallot_fromdt BETWEEN :fromDate and :toDate )\n" + 
+			"                 or (pallot_todt BETWEEN :fromDate and :toDate )) and ex_int1=1 ) and del_status=1 and is_active=1 and emp_cat_id=:catId and company_id=:companyId ", nativeQuery = true)
+	List<EmployeeInfo> getPartialTimeFreeEmpList(@Param("fromDate") String fromDate, @Param("toDate") String toDate, @Param("catId") int catId,@Param("companyId") int companyId);
 	
 
 }
