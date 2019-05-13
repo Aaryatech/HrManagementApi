@@ -12,12 +12,12 @@ public interface KpiRepo extends JpaRepository<Kpi, Integer> {
 
 	@Transactional
 	@Modifying
-	@Query("update Kpi set del_status=1  WHERE kra_id=:kraId")
+	@Query("update Kpi set del_status=0  WHERE kra_id=:kraId")
 	int updateKpi(int kraId);
 	
 	@Transactional
 	@Modifying
-	@Query("update Kpi set del_status=1  WHERE kpi_id=:kpiId")
+	@Query("update Kpi set del_status=0  WHERE kpi_id=:kpiId")
 	int deleteKpi(int kpiId);
 
 	Kpi findByKpiIdAndDelStatus(int kpiId, int i);

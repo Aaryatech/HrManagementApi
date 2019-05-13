@@ -109,7 +109,7 @@ public interface GetEmpKraKpiRepo extends JpaRepository<GetEmpKraKpiCount, Integ
 		);
 	
 	@Query(value = " SELECT \n" + 
-			" e.emp_id,\n" + 
+			" e.emp_id, e.emp_code, \n" + 
 			"    e.emp_fname,\n" + 
 			"    e.emp_mname,\n" + 
 			"    e.emp_sname,\n" + 
@@ -150,7 +150,7 @@ public interface GetEmpKraKpiRepo extends JpaRepository<GetEmpKraKpiCount, Integ
 			"  e.del_status = 1 AND e.emp_cat_id = c.emp_cat_id AND e.emp_dept_id = d.emp_dept_id AND e.emp_type_id = t.emp_type_id\n" + 
 			" AND \n" + 
 			"  e.emp_id NOT IN(SELECT DISTINCT e.emp_id from emp_info e,t_kpi kra where e.emp_id=kra.emp_id)\n" + 
-			"n" + 
+			"\n" + 
 			"\n" + 
 			"\n" + 
 			"\n" + 
@@ -202,7 +202,7 @@ public interface GetEmpKraKpiRepo extends JpaRepository<GetEmpKraKpiCount, Integ
 			"  e.del_status = 1 AND e.emp_cat_id = c.emp_cat_id AND e.emp_dept_id = d.emp_dept_id AND e.emp_type_id = t.emp_type_id AND kra.year_id=:finYrId AND \n" + 
 			"  e.emp_id NOT IN(SELECT DISTINCT e.emp_id from emp_info e,t_kra kra where e.emp_id=kra.emp_id)\n" + 
 			"" + 
-			"n" + 
+			"\n" + 
 			"\n" + 
 			"\n" + 
 			"\n" + 
@@ -212,7 +212,7 @@ public interface GetEmpKraKpiRepo extends JpaRepository<GetEmpKraKpiCount, Integ
 	List<GetEmpKraKpiCount> getEmpKraNotAlloted(@Param("finYrId") int finYrId
 		);
 	
-	
+	//empid that lies in both table
 	@Query(value = " SELECT DISTINCT\n" + 
 			"    e.emp_code,\n" + 
 			"    e.emp_id,\n" + 
@@ -255,7 +255,7 @@ public interface GetEmpKraKpiRepo extends JpaRepository<GetEmpKraKpiCount, Integ
 			"    e.emp_id = kra.emp_id AND  e.del_status = 1 AND e.emp_cat_id = c.emp_cat_id AND e.emp_dept_id = d.emp_dept_id AND e.emp_type_id = t.emp_type_id AND kra.year_id=:finYrId \n" + 
 			"    AND   e.emp_id = kpi.emp_id" + 
 			"" + 
-			"n" + 
+			"\n" + 
 			"\n" + 
 			"\n" + 
 			"\n" + 
@@ -281,34 +281,32 @@ public interface GetEmpKraKpiRepo extends JpaRepository<GetEmpKraKpiCount, Integ
 			"    d.emp_dept_short_name,\n" + 
 			"    t.emp_type_name,\n" + 
 			"    t.emp_type_short_name,\n" + 
-			"     (\n" + 
-			"    SELECT\n" + 
-			"        COUNT(kra.kra_id)\n" + 
+			"     \n" + 
+			"    COALESCE((\n" + 
+			"      SELECT  COUNT(kra.kra_id)\n" + 
 			"    FROM\n" + 
 			"        t_kra kra\n" + 
 			"    WHERE\n" + 
-			"        kra.emp_id = e.emp_id AND kra.del_status = 1 AND kra.year_id = :finYrId \n" + 
-			") AS kra_count,\n" + 
-			"(\n" + 
-			"    SELECT\n" + 
-			"        COUNT(kpi.kpi_id)\n" + 
+			"        kra.emp_id = e.emp_id AND kra.del_status = 1 AND kra.year_id=:finYrId)\n" + 
+			" ,0) AS kra_count,\n" + 
+			"\n" + 
+			"  COALESCE((\n" + 
+			"          SELECT  COUNT(kpi.kpi_id)\n" + 
 			"    FROM\n" + 
 			"        t_kpi kpi\n" + 
 			"    WHERE\n" + 
-			"        kpi.emp_id = e.emp_id AND kpi.del_status = 1\n" + 
-			") AS kpi_count\n" + 
-			"FROM\n" + 
-			"   t_kpi kpi,\n" + 
-			"    t_kra kra,\n" + 
+			"        kpi.emp_id = e.emp_id AND kpi.del_status = 1)\n" + 
+			",0) AS kpi_count\n" + 
+			"FROM  \n" + 
 			"    emp_info e,\n" + 
 			"    m_emp_category c,\n" + 
 			"    m_emp_department d,\n" + 
 			"    m_emp_type t\n" + 
 			"WHERE\n" + 
-			"  e.del_status = 1 AND e.emp_cat_id = c.emp_cat_id AND e.emp_dept_id = d.emp_dept_id AND e.emp_type_id = t.emp_type_id AND kra.year_id=:finYrId \n" + 
+			"  e.del_status = 1 AND e.emp_cat_id = c.emp_cat_id AND e.emp_dept_id = d.emp_dept_id AND e.emp_type_id = t.emp_type_id" + 
 			"" + 
 			"" + 
-			"n" + 
+			"\n" + 
 			"\n" + 
 			"\n" + 
 			"\n" + 

@@ -14,13 +14,17 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ats.hrmgt.krakpi.model.FinancialYear;
 import com.ats.hrmgt.krakpi.model.GetEmpKra;
 import com.ats.hrmgt.krakpi.model.GetEmpKraKpiCount;
+import com.ats.hrmgt.krakpi.model.GetKraReviewList;
 import com.ats.hrmgt.krakpi.model.Kpi;
 import com.ats.hrmgt.krakpi.model.Kra;
+import com.ats.hrmgt.krakpi.model.KraReview;
 import com.ats.hrmgt.krakpi.repo.FinancialYearRepo;
 import com.ats.hrmgt.krakpi.repo.GetEmpKraKpiRepo;
 import com.ats.hrmgt.krakpi.repo.GetEmpKraRepo;
+import com.ats.hrmgt.krakpi.repo.GetKraReviewListRepo;
 import com.ats.hrmgt.krakpi.repo.KpiRepo;
 import com.ats.hrmgt.krakpi.repo.KraRepo;
+import com.ats.hrmgt.krakpi.repo.KraReviewRepo;
 import com.ats.hrmgt.model.ClaimProof;
 import com.ats.hrmgt.model.Company;
 import com.ats.hrmgt.model.Info;
@@ -177,6 +181,7 @@ public class KraKpiApiController {
 	
 	@RequestMapping(value = { "/deleteKra" }, method = RequestMethod.POST)
 	public @ResponseBody Info deleteKra(@RequestParam("kraId") int kraId) {
+		System.out.println("in deleteKra "+kraId);
 
 		Info info = new Info();
 
@@ -204,12 +209,110 @@ public class KraKpiApiController {
 	}
 	
 	@Autowired
+	GetKraReviewListRepo getKraReviewListRepo;
+	
+	@Autowired
+	KraReviewRepo kraReviewRepo;
+
+	@RequestMapping(value = { "/getEmpKraReview" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetKraReviewList> getEmpKraReview(@RequestParam("kraId") int kraId) {
+
+		List<GetKraReviewList> list = new ArrayList<GetKraReviewList>();
+		try {
+
+		  list = getKraReviewListRepo.getEmpKraReviewList(kraId );
+		  
+			  System.err.println("emp List is:"+list.toString());
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
+	
+	@RequestMapping(value = { "/saveKraReview" }, method = RequestMethod.POST)
+	public @ResponseBody KraReview saveKraReview(@RequestBody KraReview kra) {
+
+		KraReview save = new KraReview();
+		try {
+
+			save = kraReviewRepo.saveAndFlush(kra);
+
+			if (save != null) {
+				save.setError(false);
+			} else {
+
+				save = new KraReview();
+				save.setError(true);
+			}
+
+		} catch (Exception e) {
+			save = new KraReview();
+			save.setError(true);
+			e.printStackTrace();
+		}
+
+		return save;
+	}
+	
+	@RequestMapping(value = { "/deleteKraReview" }, method = RequestMethod.POST)
+	public @ResponseBody Info deleteKraReview(@RequestParam("kraReviewId") int kraReviewId) {
+		System.out.println("in deleteKra "+kraReviewId);
+
+		Info info = new Info();
+
+		try {
+
+			int delete = kraReviewRepo.deleteKraReview(kraReviewId);
+
+			if (delete > 0) {
+				info.setError(false);
+				info.setMsg("deleted");
+			} else {
+				info.setError(true);
+				info.setMsg("failed");
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			info.setError(true);
+			info.setMsg("failed");
+		}
+
+		return info;
+
+	}
+	
+	
+	@RequestMapping(value = { "/getKraReviewByKraReviewId" }, method = RequestMethod.POST)
+	public @ResponseBody KraReview getKraReviewByKraReviewId(@RequestParam("kraReviewId") int kraReviewId) {
+
+		KraReview kra = new KraReview();
+		try {
+
+			kra = kraReviewRepo.findByKraReviewIdAndDelStatus(kraReviewId,1);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return kra;
+
+	}
+	
+	//**************************************KPI*****************************************
+	@Autowired
 	KpiRepo kpiRepo;
 	
 	@RequestMapping(value = { "/deleteKpiOfKra" }, method = RequestMethod.POST)
 	public @ResponseBody Info deleteKpiOfKra(@RequestParam("kraId") int kraId
 			) {
 
+		System.err.println("kra in deleteKpiOfKra ::"+kraId);
 		Info info = new Info();
 
 		try {
