@@ -12,17 +12,21 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.hrmgt.krakpi.model.FinancialYear;
+import com.ats.hrmgt.krakpi.model.GetEmpKpiReview;
 import com.ats.hrmgt.krakpi.model.GetEmpKra;
 import com.ats.hrmgt.krakpi.model.GetEmpKraKpiCount;
 import com.ats.hrmgt.krakpi.model.GetKraReviewList;
 import com.ats.hrmgt.krakpi.model.Kpi;
+import com.ats.hrmgt.krakpi.model.KpiReview;
 import com.ats.hrmgt.krakpi.model.Kra;
 import com.ats.hrmgt.krakpi.model.KraReview;
 import com.ats.hrmgt.krakpi.repo.FinancialYearRepo;
+import com.ats.hrmgt.krakpi.repo.GetEmpKpiReviewRepo;
 import com.ats.hrmgt.krakpi.repo.GetEmpKraKpiRepo;
 import com.ats.hrmgt.krakpi.repo.GetEmpKraRepo;
 import com.ats.hrmgt.krakpi.repo.GetKraReviewListRepo;
 import com.ats.hrmgt.krakpi.repo.KpiRepo;
+import com.ats.hrmgt.krakpi.repo.KpiReviewRepo;
 import com.ats.hrmgt.krakpi.repo.KraRepo;
 import com.ats.hrmgt.krakpi.repo.KraReviewRepo;
 import com.ats.hrmgt.model.ClaimProof;
@@ -408,5 +412,101 @@ public class KraKpiApiController {
 		return kpi;
 
 	}
+	
+	@Autowired
+	GetEmpKpiReviewRepo getEmpKpiReviewRepo;
+	
+	@RequestMapping(value = { "/getEmpKpiReview" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetEmpKpiReview> getEmpKpiReview(@RequestParam("kpiId") int kpiId) {
+
+		List<GetEmpKpiReview> list = new ArrayList<GetEmpKpiReview>();
+		try {
+
+		  list = getEmpKpiReviewRepo.getEmpKpiReviewList(kpiId);
+		  
+			  System.err.println("emp List is:"+list.toString());
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
+	
+	@Autowired
+	KpiReviewRepo kpiReviewRepo;
+	@RequestMapping(value = { "/saveKpiReview" }, method = RequestMethod.POST)
+	public @ResponseBody KpiReview saveKpiReview(@RequestBody KpiReview kra) {
+
+		KpiReview save = new KpiReview();
+		try {
+
+			save = kpiReviewRepo.saveAndFlush(kra);
+
+			if (save != null) {
+				save.setError(false);
+			} else {
+
+				save = new KpiReview();
+				save.setError(true);
+			}
+
+		} catch (Exception e) {
+			save = new KpiReview();
+			save.setError(true);
+			e.printStackTrace();
+		}
+
+		return save;
+	}
+	
+	@RequestMapping(value = { "/deleteKpiReview" }, method = RequestMethod.POST)
+	public @ResponseBody Info deleteKpiReview(@RequestParam("kpiReviewId") int kpiReviewId) {
+		System.out.println("in delete Kpi Review "+kpiReviewId);
+
+		Info info = new Info();
+
+		try {
+
+			int delete = kpiReviewRepo.deleteKpiReview(kpiReviewId);
+
+			if (delete > 0) {
+				info.setError(false);
+				info.setMsg("deleted");
+			} else {
+				info.setError(true);
+				info.setMsg("failed");
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			info.setError(true);
+			info.setMsg("failed");
+		}
+
+		return info;
+
+	}
+	
+	
+	@RequestMapping(value = { "/getKpiReviewByKpiReviewId" }, method = RequestMethod.POST)
+	public @ResponseBody KpiReview getKpiReviewByKpiReviewId(@RequestParam("kpiReviewId") int kpiReviewId) {
+
+		KpiReview kra = new KpiReview();
+		try {
+
+			kra = kpiReviewRepo.findByKpiReviewIdAndDelStatus(kpiReviewId,1);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return kra;
+
+	}
+	
 
 }
