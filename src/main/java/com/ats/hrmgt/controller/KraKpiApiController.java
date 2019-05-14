@@ -413,6 +413,25 @@ public class KraKpiApiController {
 
 	}
 	
+	
+	@RequestMapping(value = { "/getKpiByKraId" }, method = RequestMethod.POST)
+	public @ResponseBody List<Kpi> getKpiByKpraId(@RequestParam("kraId") int kraId) {
+
+		 
+		List<Kpi> list = new ArrayList<Kpi>();
+		try {
+
+			list = kpiRepo.findByKraIdAndDelStatus(kraId,1);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
+	
 	@Autowired
 	GetEmpKpiReviewRepo getEmpKpiReviewRepo;
 	

@@ -1,5 +1,7 @@
 package com.ats.hrmgt.krakpi.repo;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,5 +23,7 @@ public interface KpiRepo extends JpaRepository<Kpi, Integer> {
 	int deleteKpi(int kpiId);
 
 	Kpi findByKpiIdAndDelStatus(int kpiId, int i);
+
+	List<Kpi> findByKraIdAndDelStatus(int kraId, int i);
 
 }

@@ -9,7 +9,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Table(name = "kpi_eview")
+@Table(name = "t_kpi_review")
 public class KpiReview {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
