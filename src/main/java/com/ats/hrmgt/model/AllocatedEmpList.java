@@ -74,6 +74,9 @@ public class AllocatedEmpList {
 	
 	@Column(name="emp_sname")
 	private String empSname;
+	
+	@Column(name="project_title")
+	private String projectTitle;
 
 	public int getPallotId() {
 		return pallotId;
@@ -235,6 +238,14 @@ public class AllocatedEmpList {
 		this.empSname = empSname;
 	}
 
+	public String getProjectTitle() {
+		return projectTitle;
+	}
+
+	public void setProjectTitle(String projectTitle) {
+		this.projectTitle = projectTitle;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -246,7 +257,8 @@ public class AllocatedEmpList {
 				.append(", exInt1=").append(exInt1).append(", exInt2=").append(exInt2).append(", exInt3=")
 				.append(exInt3).append(", exVar1=").append(exVar1).append(", exVar2=").append(exVar2)
 				.append(", exVar3=").append(exVar3).append(", empFname=").append(empFname).append(", empMname=")
-				.append(empMname).append(", empSname=").append(empSname).append("]");
+				.append(empMname).append(", empSname=").append(empSname).append(", projectTitle=").append(projectTitle)
+				.append("]");
 		return builder.toString();
 	}
 	

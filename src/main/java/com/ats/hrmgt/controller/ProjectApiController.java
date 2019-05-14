@@ -317,7 +317,7 @@ public class ProjectApiController {
 				}
 			}
 			
-			
+			System.out.println(list);
 
 		} catch (Exception e) {
 
@@ -337,6 +337,26 @@ public class ProjectApiController {
 			 
 				list = allocatedEmpListRepository.getAllocatedEmployeeList(projectId);
 			 
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
+	
+	@RequestMapping(value = { "/getEmployeeAllocatedHistory" }, method = RequestMethod.POST)
+	public @ResponseBody List<AllocatedEmpList> getEmployeeAllocatedHistory( @RequestParam("fromDate") String fromDate,@RequestParam("toDate") String toDate,
+			@RequestParam("empId") int empId) {
+
+		List<AllocatedEmpList> list = new ArrayList<AllocatedEmpList>();
+		try {
+
+			 
+				list = allocatedEmpListRepository.getEmployeeAllocatedHistory(fromDate,toDate,empId);
+			 
+				 
 		} catch (Exception e) {
 
 			e.printStackTrace();
