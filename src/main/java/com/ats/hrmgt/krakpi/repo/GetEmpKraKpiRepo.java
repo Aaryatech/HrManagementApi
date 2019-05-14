@@ -108,7 +108,7 @@ public interface GetEmpKraKpiRepo extends JpaRepository<GetEmpKraKpiCount, Integ
 	List<GetEmpKraKpiCount> getEmpKpiAlloted(@Param("finYrId") int finYrId
 		);
 	
-	@Query(value = " SELECT \n" + 
+	@Query(value = " SELECT DISTINCT\n" + 
 			" e.emp_id, e.emp_code, \n" + 
 			"    e.emp_fname,\n" + 
 			"    e.emp_mname,\n" + 
