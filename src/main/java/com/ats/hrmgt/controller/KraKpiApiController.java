@@ -44,30 +44,31 @@ public class KraKpiApiController {
 	
 	
 	@RequestMapping(value = { "/getEmpKraKpiCount" }, method = RequestMethod.POST)
-	public @ResponseBody List<GetEmpKraKpiCount> getEmpKraKpiCount(@RequestParam("status") int status,@RequestParam("finYrId") int finYrId) {
+	public @ResponseBody List<GetEmpKraKpiCount> getEmpKraKpiCount(@RequestParam("status") int status,@RequestParam("finYrId") int finYrId
+			,	@RequestParam("locIdList") List<Integer> locIdList) {
 
 		List<GetEmpKraKpiCount> list = new ArrayList<GetEmpKraKpiCount>();
 		try {
 
 			if(status==1) {
-				list = getEmpKraKpiRepo.getEmpKraAlloted(finYrId );
+				list = getEmpKraKpiRepo.getEmpKraAlloted(finYrId ,locIdList);
 			}
 			else if(status==2) {
-				list = getEmpKraKpiRepo.getEmpKpiAlloted(finYrId );
+				list = getEmpKraKpiRepo.getEmpKpiAlloted(finYrId,locIdList );
 			}
 			else if(status==3) {
-				list = getEmpKraKpiRepo.getEmpKraNotAlloted(finYrId );
+				list = getEmpKraKpiRepo.getEmpKraNotAlloted(finYrId,locIdList );
 				
 			}else if(status==4) {
-				list = getEmpKraKpiRepo.getEmpKpiNotAlloted(finYrId );
+				list = getEmpKraKpiRepo.getEmpKpiNotAlloted(finYrId,locIdList );
 				
 			}else if(status==5) {
-				list = getEmpKraKpiRepo.getEmpBothAlloted(finYrId );
+				list = getEmpKraKpiRepo.getEmpBothAlloted(finYrId,locIdList );
 				
 			}
 			else {
 				//all
-				list = getEmpKraKpiRepo.getEmpAllAlloted(finYrId );
+				list = getEmpKraKpiRepo.getEmpAllAlloted(finYrId ,locIdList);
 			}
 		
 		
