@@ -1,7 +1,11 @@
 package com.ats.hrmgt.krakpi.model;
 
- import javax.persistence.Entity;
+ import java.sql.Date;
+
+import javax.persistence.Entity;
 import javax.persistence.Id;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 public class GetKraReviewList {
@@ -18,7 +22,7 @@ public class GetKraReviewList {
 	
 	private int makerUserId;
 
-	private String makerEnterDatetime;
+	private Date makerEnterDatetime;
 
 	private int exInt1;
 
@@ -111,14 +115,12 @@ public class GetKraReviewList {
 	}
 
 
-
-	public String getMakerEnterDatetime() {
+	@JsonFormat(locale = "Locale.ENGLISH", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy hh:mm:ss a")// 
+ 	public Date getMakerEnterDatetime() {
 		return makerEnterDatetime;
 	}
-
-
-
-	public void setMakerEnterDatetime(String makerEnterDatetime) {
+ 
+	public void setMakerEnterDatetime(Date makerEnterDatetime) {
 		this.makerEnterDatetime = makerEnterDatetime;
 	}
 
