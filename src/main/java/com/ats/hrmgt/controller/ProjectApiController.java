@@ -238,6 +238,35 @@ public class ProjectApiController {
 		return info;
 
 	}
+	
+	@RequestMapping(value = { "/updateProjectHeader" }, method = RequestMethod.POST)
+	public @ResponseBody Info updateProjectHeader(@RequestParam("projectId") int projectId,@RequestParam("status") String status,
+			@RequestParam("proComp") int proComp,@RequestParam("userId") int userId,@RequestParam("dateTime") String dateTime) {
+
+		Info info = new Info();
+
+		try {
+
+			int delete = projectHeaderRpo.updateProjectHeader(projectId,status,proComp,userId,dateTime);
+
+			if (delete > 0) {
+				info.setError(false);
+				info.setMsg("updated");
+			} else {
+				info.setError(true);
+				info.setMsg("failed");
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			info.setError(true);
+			info.setMsg("failed");
+		}
+
+		return info;
+
+	}
 
 	@RequestMapping(value = { "/getProjectHeaderByProjectId" }, method = RequestMethod.POST)
 	public @ResponseBody ProjectHeader getProjectHeaderByProjectId(@RequestParam("projectId") int projectId) {

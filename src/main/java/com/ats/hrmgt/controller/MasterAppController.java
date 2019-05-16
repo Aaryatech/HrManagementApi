@@ -54,8 +54,7 @@ public class MasterAppController {
 	@Autowired
 	ClaimDetailRepo claimDetailRepo;
 	
-	@Autowired
-	SettingRepo settingRepo;
+
 
 	@Autowired
 	GetClaimTrailStatusRepo getClaimTrailStatusRepo;
@@ -353,40 +352,7 @@ public class MasterAppController {
 		return leaveStatus;
 
 	}
-	@RequestMapping(value = { "/getSettingByKey" }, method = RequestMethod.POST)
-	public @ResponseBody Setting getSettingByKey(@RequestParam("key") String key) {
-
-		Setting setting = new Setting();
-		 
-		try {  
-					
-			setting = settingRepo.findByKey(key);
-		
-			
-		} catch (Exception e) {
-
-			e.printStackTrace();
-			 
-
-		}
-		return setting;
-
-	}
-	@RequestMapping(value = { "/saveSetting" }, method = RequestMethod.POST)
-	public @ResponseBody Setting saveSetting(@RequestBody Setting setting) {
-
-		Setting save = new Setting();
-		try {
-
-			save = settingRepo.saveAndFlush(setting);
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-		}
-
-		return save;
-
-	}
+	
+	
 
 }
