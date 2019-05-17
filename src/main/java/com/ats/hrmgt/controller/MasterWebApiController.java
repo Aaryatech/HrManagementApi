@@ -88,6 +88,53 @@ public class MasterWebApiController {
 
 	}
 	
+	@RequestMapping(value = { "/getUserInfoByEmpIdPass" }, method = RequestMethod.POST)
+	public @ResponseBody User getUserInfoByEmpIdPass(@RequestParam("empId") int empId,@RequestParam("password") String password) {
+
+		User user = new User();
+		try {
+
+			user = userRepo.findByEmpIdAndUserPwdAndDelStatus(empId,password,1);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return user;
+
+	}
+	
+
+	@RequestMapping(value = { "/updateUserPass" }, method = RequestMethod.POST)
+	public @ResponseBody Info updateUserPass(@RequestParam("empId") int empId,@RequestParam("password") String password) {
+
+		Info info = new Info();
+
+		try {
+
+			int delete = userRepo.updateUserPassword(empId,password);
+
+			if (delete > 0) {
+				info.setError(false);
+				info.setMsg("deleted");
+			} else {
+				info.setError(true);
+				info.setMsg("failed");
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			info.setError(true);
+			info.setMsg("failed");
+		}
+
+		return info;
+
+	}
+
+	
 	@RequestMapping(value = { "/GetCurrCalYear" }, method = RequestMethod.POST)
 	public @ResponseBody GetEmployeeInfo GetCurrCalYear() {
 
