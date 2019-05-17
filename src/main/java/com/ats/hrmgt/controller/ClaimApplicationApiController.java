@@ -444,6 +444,8 @@ public class ClaimApplicationApiController {
 
 						} else if (status == 8) {
 
+							
+							
 							claimMsg = emp.getEmpFname() + " " + emp.getEmpSname() + " Claim for Rs. "
 									+ leaveApply.getClaimAmount() + " on " + claimDate
 									+ " Rejected By Initial Authority";
@@ -456,6 +458,15 @@ public class ClaimApplicationApiController {
 									+ leaveApply.getClaimAmount() + " on " + claimDate + " Rejected By Final Authority";
 
 							Firebase.sendPushNotification(empInfo.getExVar1(), "HRMS", claimMsg, 2);
+
+						}
+						else if (status == 7) {
+
+							claimMsg = emp.getEmpFname() + " " + emp.getEmpSname() + " Claim for Rs. "
+									+ leaveApply.getClaimAmount() + " on " + claimDate + " Cancelled";
+
+							Firebase.sendPushNotification(empInfo.getExVar1(), "HRMS", claimMsg, 2);
+
 
 						}
 

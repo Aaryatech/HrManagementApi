@@ -519,6 +519,7 @@ public class LeaveApplicationController {
 						Firebase.sendPushNotification(emp.getExVar1(), "HRMS", msg, 1);
 
 					}
+					
 
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -569,6 +570,15 @@ public class LeaveApplicationController {
 									+ " days has been Rejected By Final Authority";
 
 							Firebase.sendPushNotification(empInfo.getExVar1(), "HRMS", claimMsg, 1);
+
+						}
+						else if (status == 7) {
+
+							String msg = emp.getEmpFname() + " " + emp.getEmpSname() + "  Leave from " + fromDate
+									+ " to " + toDate + " for " + leaveApply.getLeaveNumDays()
+									+ " days has been Cancelled ";
+
+							Firebase.sendPushNotification(emp.getExVar1(), "HRMS", msg, 1);
 
 						}
 
