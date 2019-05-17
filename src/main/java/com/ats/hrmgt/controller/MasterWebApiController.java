@@ -95,6 +95,15 @@ public class MasterWebApiController {
 		try {
 
 			user = userRepo.findByEmpIdAndUserPwdAndDelStatus(empId,password,1);
+			
+			if(user==null) {
+				user = new User();
+				user.setError(true);
+			}else {
+				user.setError(false);
+			}
+			
+			System.out.println(user);
 
 		} catch (Exception e) {
 
