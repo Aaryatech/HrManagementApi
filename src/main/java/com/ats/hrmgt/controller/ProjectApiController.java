@@ -327,6 +327,7 @@ public class ProjectApiController {
 			@RequestParam("worktime") int worktime) {
 
 		List<EmployeeInfo> list = new ArrayList<EmployeeInfo>();
+		List<EmployeeInfo> fulltime = new ArrayList<EmployeeInfo>();
 		try {
 
 			if(worktime==1) {
@@ -337,12 +338,31 @@ public class ProjectApiController {
 					list = employeeInfoRepository.getPartialTimeFreeEmpList(fromDate, toDate,catId,locationIds);
 				}
 				
+				for(int i=0; i < list.size() ; i++) {
+					list.get(i).setExInt1(1);
+				}
+				
+				if(locationIds.get(0)==0) {
+					fulltime = employeeInfoRepository.getFullTimeFreeEmpList(fromDate, toDate,catId,companyId);
+				}else {
+					fulltime = employeeInfoRepository.getFullTimeFreeEmpList(fromDate, toDate,catId,locationIds);
+				}
+				
+				for(int i=0; i < fulltime.size() ; i++) {
+					fulltime.get(i).setExInt1(2);
+					list.add(fulltime.get(i));
+				}
+				
 			}else {
 				
 				if(locationIds.get(0)==0) {
 					list = employeeInfoRepository.getFullTimeFreeEmpList(fromDate, toDate,catId,companyId);
 				}else {
 					list = employeeInfoRepository.getFullTimeFreeEmpList(fromDate, toDate,catId,locationIds);
+				}
+				
+				for(int i=0; i < list.size() ; i++) {
+					list.get(i).setExInt1(2); 
 				}
 			}
 			
