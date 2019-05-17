@@ -84,24 +84,23 @@ public class ClaimApiController {
 	}
 
 	@RequestMapping(value = { "/saveClaimProof" }, method = RequestMethod.POST)
-	public @ResponseBody ClaimProof saveClaimProof(@RequestBody ClaimProof claimProof) {
-
-		ClaimProof save = new ClaimProof();
+	public @ResponseBody List<ClaimProof> saveClaimProof(@RequestBody List<ClaimProof> claimProof) {
+		System.err.println("res1 claim is");
+		List<ClaimProof> save = new ArrayList<ClaimProof>();
 		try {
 
-			save = claimProofRepo.saveAndFlush(claimProof);
+			save = claimProofRepo.saveAll(claimProof);
 
-			if (save != null) {
-				save.setError(false);
-			} else {
-
-				save = new ClaimProof();
-				save.setError(true);
-			}
+			/*
+			 * if (save != null) { save.setError(false); } else {
+			 * 
+			 * save = new ClaimProof(); save.setError(true); }
+			 */
 
 		} catch (Exception e) {
-			save = new ClaimProof();
-			save.setError(true);
+			/*
+			 * save = new ClaimProof(); save.setError(true);
+			 */
 			e.printStackTrace();
 		}
 
