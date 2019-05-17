@@ -117,8 +117,8 @@ public class LeaveHolidayApiCon {
 		try {
 
 			holiday = holidayRepo.findByHolidayIdAndDelStatus(holidayId, 1);
-			holiday.setHolidayFromdt(DateConvertor.convertToDMY(holiday.getHolidayFromdt()));
-			holiday.setHolidayTodt(DateConvertor.convertToDMY(holiday.getHolidayTodt()));
+			/*holiday.setHolidayFromdt(DateConvertor.convertToDMY(holiday.getHolidayFromdt()));
+			holiday.setHolidayTodt(DateConvertor.convertToDMY(holiday.getHolidayTodt()));*/
 
 		} catch (Exception e) {
 
