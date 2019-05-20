@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.hrmgt.common.EmailUtility;
 import com.ats.hrmgt.model.EmpType;
 import com.ats.hrmgt.model.EmployeeCategory;
 import com.ats.hrmgt.model.GetEmployeeInfo;
+import com.ats.hrmgt.model.GetUserData;
 import com.ats.hrmgt.model.Info;
 import com.ats.hrmgt.model.LeaveSummary;
 import com.ats.hrmgt.model.Location;
@@ -23,6 +25,7 @@ import com.ats.hrmgt.model.LoginResponse;
 import com.ats.hrmgt.model.User;
 import com.ats.hrmgt.repository.EmpTypeRepository;
 import com.ats.hrmgt.repository.GetEmpInfoRepo;
+import com.ats.hrmgt.repository.GetUserDataRepo;
 import com.ats.hrmgt.repository.LeaveSummaryRepository;
 import com.ats.hrmgt.repository.LocationRepository;
 import com.ats.hrmgt.repository.LoginResponseRepo;
@@ -38,6 +41,8 @@ public class MasterWebApiController {
 	@Autowired
 	GetEmpInfoRepo getEmpInfo;
 	
+	@Autowired
+	GetUserDataRepo getUserDataRepo;
 	
 	@Autowired
 	LocationRepository locationRepository;
@@ -52,6 +57,13 @@ public class MasterWebApiController {
 	
 	@Autowired
 	LoginResponseRepo loginResponseRepo;
+	
+	
+
+	static String senderEmail = "atsinfosoft@gmail.com";
+	static String senderPassword = "atsinfosoft@123";
+	static String mailsubject = " HRMS Password Recovery";
+
 	
 	@RequestMapping(value = { "/GetEmployeeInfo" }, method = RequestMethod.POST)
 	public @ResponseBody GetEmployeeInfo getEmployeeInfo(@RequestParam("empId") int empId) {
@@ -69,6 +81,33 @@ public class MasterWebApiController {
 		return company;
 
 	}
+	
+	@RequestMapping(value = { "/checkUserName" }, method = RequestMethod.POST)
+	public @ResponseBody GetUserData checkUserName( @RequestParam("inputValue") String inputValue) {
+
+		GetUserData user = new GetUserData();
+		try {
+ 
+				user = getUserDataRepo.getUserByEmailId(inputValue);
+ 
+			if(user==null) {
+				user = new GetUserData();
+				user.setError(true);
+			}else {
+				user.setError(false);
+				
+				Info emailRes = EmailUtility.sendEmail("atsinfosoft@gmail.com", "atsinfosoft@123", user.getEmpEmail(), " HRMS Password Recovery",
+						user.getEmpEmail(), user.getUserPwd());
+			}
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return user;
+
+	}
+	
 	
 	
 	@RequestMapping(value = { "/getUserInfoByEmpId" }, method = RequestMethod.POST)
@@ -101,7 +140,11 @@ public class MasterWebApiController {
 				user.setError(true);
 			}else {
 				user.setError(false);
+				
+
 			}
+			
+		  
 			
 			System.out.println(user);
 
