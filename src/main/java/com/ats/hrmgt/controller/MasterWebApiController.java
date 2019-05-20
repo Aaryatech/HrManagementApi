@@ -94,7 +94,7 @@ public class MasterWebApiController {
 		User user = new User();
 		try {
 
-			user = userRepo.findByEmpIdAndUserPwdAndDelStatus(empId,password,1);
+			user = userRepo.getSpecificUserRecord(empId,password);
 			
 			if(user==null) {
 				user = new User();
