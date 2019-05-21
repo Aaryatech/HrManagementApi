@@ -107,6 +107,29 @@ public class ClaimApiController {
 		return save;
 	}
 
+	@RequestMapping(value = { "/saveSingleClaimProof" }, method = RequestMethod.POST)
+	public @ResponseBody ClaimProof saveSingleClaimProof(@RequestBody ClaimProof claimProof) {
+		System.err.println("res1 claim is");
+		ClaimProof save = new ClaimProof();
+		try {
+
+			save = claimProofRepo.saveAndFlush(claimProof);
+
+			
+			  if (save != null) { save.setError(false); } else {
+			  
+			  save = new ClaimProof(); save.setError(true); }
+			 
+
+		} catch (Exception e) {
+			
+			  save = new ClaimProof(); save.setError(true);
+			 
+			e.printStackTrace();
+		}
+
+		return save;
+	}
 	@RequestMapping(value = { "/getClaimProofByClaimId" }, method = RequestMethod.POST)
 	public @ResponseBody List<ClaimProof> getClaimProofByClaimId(@RequestParam("claimId") int claimId) {
 
