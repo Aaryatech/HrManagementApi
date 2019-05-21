@@ -58,7 +58,11 @@ public class MasterWebApiController {
 	@Autowired
 	LoginResponseRepo loginResponseRepo;
 	
-	
+
+	/*
+	 * <dependency> <groupId>javax.mail</groupId> <artifactId>mail</artifactId>
+	 * <version>1.4</version> </dependency>
+	 */
 
 	static String senderEmail = "atsinfosoft@gmail.com";
 	static String senderPassword = "atsinfosoft@123";
