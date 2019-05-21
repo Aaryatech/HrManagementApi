@@ -10,10 +10,56 @@ import com.ats.hrmgt.model.ActivityRevenueReport;
 
 public interface ActivityRevenueReportRepository extends JpaRepository<ActivityRevenueReport, Integer>{
 
-	@Query(value = "select ph.project_type_id , sum(ph.ex_var1) as revenue ,coalesce((select sum(pallot_daily_hrs*(DATEDIFF ( pallot_todt,pallot_fromdt)+1)) "
-			+ "from project_allotment,project_header  where project_header.project_type_id =ph.project_type_id and project_header.project_id=project_allotment.project_id),0)"
-			+ " as resource_cost,pt.project_type_title,pt.project_type_title_short from project_header ph,project_type pt where pt.project_type_id=ph.project_type_id and "
-			+ "ph.company_id=:compId group by ph.project_type_id ", nativeQuery = true)
+	/*@Query(value = "select\n" + 
+			"        ph.project_type_id ,\n" + 
+			"        sum(case when ph.ex_int1=1 then ph.ex_var1*1 else ph.ex_var1 end )  as revenue ,\n" + 
+			"        coalesce((select\n" + 
+			"            sum(pallot_daily_hrs*(DATEDIFF ( pallot_todt,\n" + 
+			"            pallot_fromdt)+1)) \n" + 
+			"        from\n" + 
+			"            project_allotment,\n" + 
+			"            project_header  \n" + 
+			"        where\n" + 
+			"            project_header.project_type_id =ph.project_type_id \n" + 
+			"            and project_header.project_id=project_allotment.project_id),\n" + 
+			"        0) as resource_cost,\n" + 
+			"        pt.project_type_title,\n" + 
+			"        pt.project_type_title_short \n" + 
+			"    from\n" + 
+			"        project_header ph,\n" + 
+			"        project_type pt \n" + 
+			"    where\n" + 
+			"        pt.project_type_id=ph.project_type_id \n" + 
+			"        and ph.company_id=:compId\n" + 
+			"        and ph.del_status=1\n" + 
+			"        and pt.del_status=1\n" + 
+			"    group by\n" + 
+			"        ph.project_type_id", nativeQuery = true)*/
+	@Query(value = "select\n" + 
+			"        ph.project_type_id ,\n" + 
+			"        sum(case when ph.ex_int1=1 then ph.ex_var1*((DATEDIFF (ph.project_est_enddt,ph.project_est_startdt)+1)/30) else ph.ex_var1 end )  as revenue ,\n" + 
+			"        coalesce((select\n" + 
+			"            sum(pallot_daily_hrs*(DATEDIFF ( pallot_todt,\n" + 
+			"            pallot_fromdt)+1)) \n" + 
+			"        from\n" + 
+			"            project_allotment,\n" + 
+			"            project_header  \n" + 
+			"        where\n" + 
+			"            project_header.project_type_id =ph.project_type_id \n" + 
+			"            and project_header.project_id=project_allotment.project_id),\n" + 
+			"        0) as resource_cost,\n" + 
+			"        pt.project_type_title,\n" + 
+			"        pt.project_type_title_short \n" + 
+			"    from\n" + 
+			"        project_header ph,\n" + 
+			"        project_type pt \n" + 
+			"    where\n" + 
+			"        pt.project_type_id=ph.project_type_id \n" + 
+			"        and ph.company_id=:compId\n" + 
+			"        and ph.del_status=1\n" + 
+			"        and pt.del_status=1\n" + 
+			"    group by\n" + 
+			"        ph.project_type_id", nativeQuery = true)
 	List<ActivityRevenueReport> revenueReportProjectCategoryWise(@Param("compId") int compId);
 
 }
