@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ats.hrmgt.model.EmployeeOnBenchReport; 
+import com.ats.hrmgt.model.ActivityRevenueReport;
+import com.ats.hrmgt.model.EmployeeOnBenchReport;
+import com.ats.hrmgt.repository.ActivityRevenueReportRepository;
 import com.ats.hrmgt.repository.EmployeeOnBenchRepository;
 
 @RestController
@@ -20,6 +22,10 @@ public class ReportRestController {
 	@Autowired
 	EmployeeOnBenchRepository employeeOnBenchRepository;
 	
+	@Autowired
+	ActivityRevenueReportRepository activityRevenueReportRepository;
+	
+	
 	@RequestMapping(value = { "/getOnBenchReport" }, method = RequestMethod.POST)
 	public @ResponseBody List<EmployeeOnBenchReport> getOnBenchReport(@RequestParam("fromDate") String fromDate,
 			@RequestParam("toDate") String toDate, @RequestParam("locIds") List<Integer> locIds) {
@@ -28,6 +34,24 @@ public class ReportRestController {
 		try {
 
 			list = employeeOnBenchRepository.getOnBenchReport(fromDate,toDate,locIds);
+			 
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
+	
+	@RequestMapping(value = { "/revenueReportProjectCategoryWise" }, method = RequestMethod.POST)
+	public @ResponseBody List<ActivityRevenueReport> revenueReportProjectCategoryWise(@RequestParam("compId") int compId) {
+
+		List<ActivityRevenueReport> list = new ArrayList<>();
+		try {
+
+			list = activityRevenueReportRepository.revenueReportProjectCategoryWise(compId);
 			 
 
 		} catch (Exception e) {
