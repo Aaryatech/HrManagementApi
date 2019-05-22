@@ -12,8 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.hrmgt.model.ActivityRevenueReport;
 import com.ats.hrmgt.model.EmployeeOnBenchReport;
+import com.ats.hrmgt.model.EmployeeProjectWise;
+import com.ats.hrmgt.model.ProjectLocationWise; 
 import com.ats.hrmgt.repository.ActivityRevenueReportRepository;
 import com.ats.hrmgt.repository.EmployeeOnBenchRepository;
+import com.ats.hrmgt.repository.EmployeeProjectWiseRepository;
+import com.ats.hrmgt.repository.ProjectLocationWiseRepository;
 
 @RestController
 public class ReportRestController {
@@ -25,6 +29,11 @@ public class ReportRestController {
 	@Autowired
 	ActivityRevenueReportRepository activityRevenueReportRepository;
 	
+	@Autowired
+	EmployeeProjectWiseRepository employeeProjectWiseRepository;
+	
+	@Autowired
+	ProjectLocationWiseRepository projectLocationWiseRepository;
 	
 	@RequestMapping(value = { "/getOnBenchReport" }, method = RequestMethod.POST)
 	public @ResponseBody List<EmployeeOnBenchReport> getOnBenchReport(@RequestParam("fromDate") String fromDate,
@@ -63,7 +72,41 @@ public class ReportRestController {
 
 	}
 	
-	/*select ph.project_id,ph.project_title,ph.ex_int1,sum(ph.ex_var1) as revenue ,coalesce((select sum(pallot_daily_hrs*(DATEDIFF ( pallot_todt,pallot_fromdt)+1)) 
-	 * from project_allotment,project_header  where project_header.project_type_id =ph.project_type_id and project_header.project_id=project_allotment.project_id),0) 
-	 * as resource_cost,pt.project_type_title,pt.project_type_title_short from project_header ph,project_type pt where pt.project_type_id=ph.project_type_id  group by ph.project_type_id */
+	@RequestMapping(value = { "/employeeProjectWiseReport" }, method = RequestMethod.POST)
+	public @ResponseBody List<EmployeeProjectWise> employeeProjectWiseReport(@RequestParam("compId") int compId) {
+
+		List<EmployeeProjectWise> list = new ArrayList<>();
+		try {
+
+			list = employeeProjectWiseRepository.employeeProjectWiseReport(compId);
+			 
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
+	
+	@RequestMapping(value = { "/projectLocationwiseReport" }, method = RequestMethod.POST)
+	public @ResponseBody List<ProjectLocationWise> projectLocationwiseReport(@RequestParam("compId") int compId) {
+
+		List<ProjectLocationWise> list = new ArrayList<>();
+		try {
+
+			list = projectLocationWiseRepository.projectLocationwiseReport(compId);
+			 
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
+	
+	 
 }
