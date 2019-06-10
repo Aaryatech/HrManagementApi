@@ -29,7 +29,7 @@ public interface LeaveHistoryRepo  extends JpaRepository<LeaveHistory, Integer>{
 			"    emp_info.emp_id = leave_structure_allotment.emp_id AND leave_structure_allotment.lvs_id = "
 			+ "leave_structure_header.lvs_id AND leave_structure_header.lvs_id = leave_structure_details.lvs_id "
 			+ "AND leave_structure_details.lv_type_id = leave_type.lv_type_id AND emp_info.emp_id =:empId and "
-			+ "leave_structure_allotment.cal_yr_id=:currYrId", nativeQuery = true)
+			+ "leave_structure_allotment.cal_yr_id=:currYrId and leave_type.del_status=1 ", nativeQuery = true)
 
 	List<LeaveHistory> getLeaveHistoryByEmpId(@Param("empId") int empId,@Param("currYrId") int currYrId);
 	

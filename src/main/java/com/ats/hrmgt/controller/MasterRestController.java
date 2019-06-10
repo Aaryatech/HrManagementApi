@@ -1298,9 +1298,30 @@ public class MasterRestController {
 
 			calendearYear = calculateYearRepository.findByIsCurrent(1);
 
+			System.out.println(calendearYear);
 			calendearYear.setCalYrFromDate(DateConvertor.convertToDMY(calendearYear.getCalYrFromDate()));
 			calendearYear.setCalYrToDate(DateConvertor.convertToDMY(calendearYear.getCalYrToDate()));
+			System.out.println(calendearYear);
+			
 
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return calendearYear;
+
+	}
+	
+	@RequestMapping(value = { "/getcurrentyear" }, method = RequestMethod.GET)
+	public @ResponseBody CalenderYear getcurrentyear() {
+
+		CalenderYear calendearYear = new CalenderYear();
+		try {
+
+			calendearYear = calculateYearRepository.findByIsCurrent(1);
+ 
+			 
 		} catch (Exception e) {
 
 			e.printStackTrace();
