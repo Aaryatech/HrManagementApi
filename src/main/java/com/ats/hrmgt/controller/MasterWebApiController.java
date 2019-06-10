@@ -29,6 +29,7 @@ import com.ats.hrmgt.repository.GetUserDataRepo;
 import com.ats.hrmgt.repository.LeaveSummaryRepository;
 import com.ats.hrmgt.repository.LocationRepository;
 import com.ats.hrmgt.repository.LoginResponseRepo;
+import com.ats.hrmgt.repository.SettingRepo;
 import com.ats.hrmgt.repository.UserRepo;
 
 
@@ -37,6 +38,10 @@ import com.ats.hrmgt.repository.UserRepo;
 public class MasterWebApiController {
 	@Autowired
 	UserRepo userRepo;
+	
+	@Autowired
+	SettingRepo settingRepo;
+
 
 	@Autowired
 	GetEmpInfoRepo getEmpInfo;

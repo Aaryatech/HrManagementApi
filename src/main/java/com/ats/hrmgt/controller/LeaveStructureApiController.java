@@ -256,12 +256,12 @@ public class LeaveStructureApiController {
 		Setting setting = new Setting();
 		List<LeaveStructureDetails> list = new ArrayList<LeaveStructureDetails>();
 		try {
-			/*
-			 * setting = settingRepo.findByKey("probLeaveStructure"); int lvsId1 =
-			 * Integer.parseInt(setting.getValue()); System.out.println(lvsId);
-			 */
 			
-			list = leaveStructureDetailsRepo.findByLvsIdAndDelStatus(lvsId, 1);
+			  setting = settingRepo.findByKey("probLeaveStructure"); int lvsId1 =
+			  Integer.parseInt(setting.getValue()); System.out.println(lvsId);
+			 
+			
+			list = leaveStructureDetailsRepo.findByLvsIdAndDelStatus(lvsId1, 1);
 
 		} catch (Exception e) {
 

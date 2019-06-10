@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.hrmgt.common.DateConvertor;
+import com.ats.hrmgt.common.EmailUtility;
 import com.ats.hrmgt.common.Firebase;
 import com.ats.hrmgt.leave.model.GetAuthorityIds;
 import com.ats.hrmgt.leave.model.GetLeaveApplyAuthwise;
@@ -35,9 +36,11 @@ import com.ats.hrmgt.model.Info;
 import com.ats.hrmgt.model.LeaveApply;
 import com.ats.hrmgt.model.LeaveTrail;
 import com.ats.hrmgt.model.LeaveType;
+import com.ats.hrmgt.model.Setting;
 import com.ats.hrmgt.repository.EmployeeInfoRepository;
 import com.ats.hrmgt.repository.LeaveApplyRepository;
 import com.ats.hrmgt.repository.LeaveTrailRepository;
+import com.ats.hrmgt.repository.SettingRepo;
 
 @RestController
 public class LeaveApplicationController {
@@ -56,6 +59,16 @@ public class LeaveApplicationController {
 
 	@Autowired
 	GetLeaveApplyAuthwiseRepo getLeaveApplyAuthwiseRepo;
+	
+	@Autowired
+	SettingRepo settingRepo;
+
+	
+	static String senderEmail = "atsinfosoft@gmail.com";
+	static String senderPassword = "atsinfosoft@123";
+	static String mailsubject = " HRMS Password Recovery";
+
+	
 
 	@RequestMapping(value = { "/getLeaveHistoryList" }, method = RequestMethod.POST)
 	public @ResponseBody List<LeaveHistory> getLeaveHistoryList(@RequestParam("empId") int empId,
@@ -246,6 +259,19 @@ public class LeaveApplicationController {
 								" " + name + " has applied for leave from " + fromDate + " to " + toDate + " for "
 										+ save.getLeaveNumDays() + " days, Please check for Approval",
 								11);
+						
+						Setting setting = new Setting();
+						
+						  setting = settingRepo.findByKey("hremail"); 
+						  String hrEmail =   (setting.getValue()); 
+						  System.out.println(hrEmail);
+								 
+
+
+						Info emailRes = EmailUtility.sendEmail("atsinfosoft@gmail.com", "atsinfosoft@123", hrEmail, " HRMS",
+								hrEmail, 
+								" " + name + " has applied for leave from " + fromDate + " to " + toDate + " for "
+										+ save.getLeaveNumDays() + " days, Please check for Approval");
 
 					} catch (Exception e) {
 						e.printStackTrace();
