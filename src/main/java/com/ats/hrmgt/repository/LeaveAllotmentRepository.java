@@ -26,5 +26,11 @@ public interface LeaveAllotmentRepository extends JpaRepository<LeavesAllotment,
 	LeavesAllotment findByEmpIdAndLvsIdAndDelStatus(int empId, int lvsId, int i);
 
 	LeavesAllotment findByEmpIdAndDelStatus(int empId, int i);
+	
+	
+	@Transactional
+	@Modifying
+	@Query("update LeavesAllotment set lvs_id=:lvsId  WHERE emp_id=:empId AND cal_yr_id=:calYear ")
+	int updateLeaveStructure(int lvsId,int empId,int calYear);
 
 }

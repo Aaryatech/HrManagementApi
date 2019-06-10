@@ -1,6 +1,9 @@
 package com.ats.hrmgt.controller;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -294,6 +297,35 @@ public class ProjectApiController {
 			list = projectHeaderRpo.findByDelStatusAndCompanyId(1, companyId);
 			System.out.println(list.toString());
 
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
+	
+	@RequestMapping(value = { "/getProjectsListByCompanyIdAndEmpId" }, method = RequestMethod.POST)
+	public @ResponseBody List<ProjectHeader> getProjectsListByCompanyIdAndEmpId(@RequestParam("companyId") int companyId,@RequestParam("empId") int empId) {
+		System.out.println(companyId);
+		List<ProjectHeader> list = new ArrayList<ProjectHeader>();
+		try {
+			
+			 Date now=new Date();
+			 System.err.println("todays date:"+now);
+			 
+
+			list = projectHeaderRpo.getEmpListByCompanyIdAndEmpId(companyId,empId);
+			System.out.println(list.toString());
+			/*
+			 * List<ProjectHeader> list1 = new ArrayList<ProjectHeader>(); for(int
+			 * i=0;i<list.size();i++) {
+			 * 
+			 * 
+			 * }
+			 */
+		 
 		} catch (Exception e) {
 
 			e.printStackTrace();

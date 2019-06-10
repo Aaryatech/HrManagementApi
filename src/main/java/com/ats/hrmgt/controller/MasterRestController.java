@@ -18,9 +18,7 @@ import com.ats.hrmgt.common.DateConvertor;
 import com.ats.hrmgt.leave.model.GetEmployeeAuthorityWise;
 import com.ats.hrmgt.leave.model.GetHoliday;
 import com.ats.hrmgt.leave.model.Holiday;
-import com.ats.hrmgt.leave.model.LeaveAuthority;
 import com.ats.hrmgt.leave.model.LeaveStructureDetails;
-import com.ats.hrmgt.leave.model.LeaveStructureHeader;
 import com.ats.hrmgt.leave.repo.GetEmployeeAuthorityWiseRepo;
 import com.ats.hrmgt.leave.repo.LeaveBalanceCalRepo;
 import com.ats.hrmgt.leave.repo.LeaveStructureDetailsRepo;
@@ -43,6 +41,7 @@ import com.ats.hrmgt.model.LeaveTrail;
 import com.ats.hrmgt.model.LeaveType;
 import com.ats.hrmgt.model.LeavesAllotment;
 import com.ats.hrmgt.model.Location;
+import com.ats.hrmgt.model.Setting;
 import com.ats.hrmgt.model.User;
 import com.ats.hrmgt.repository.AuthorityInformationRepository;
 import com.ats.hrmgt.repository.CalculateYearRepository;
@@ -76,7 +75,7 @@ public class MasterRestController {
 	UserRepo userRepo;
 
 	@Autowired
-	EmpTypeRepository empTypeRepository; 
+	EmpTypeRepository empTypeRepository;
 
 	@Autowired
 	EmployeeCategoryRepository employeeCategoryRepository;
@@ -110,9 +109,40 @@ public class MasterRestController {
 
 	@Autowired
 	GetEmployeeAuthorityWiseRepo getEmployeeAuthorityWise;
-	
+
 	@Autowired
 	AuthorityInformationRepository authorityInformationRepository;
+
+	@RequestMapping(value = { "/updateLeaveStructureAllotment" }, method = RequestMethod.POST)
+	public @ResponseBody Info updateLeaveStructure(@RequestParam("lvsId") int lvsId, @RequestParam("empId") int empId) {
+
+		Info info = new Info();
+		Setting setting = new Setting();
+		try {
+
+			CalenderYear calYear = new CalenderYear();
+			calYear = calculateYearRepository.findByIsCurrent(1);
+
+			int delete = leaveAllotmentRepository.updateLeaveStructure(lvsId, empId, calYear.getCalYrId());
+
+			if (delete > 0) {
+				info.setError(false);
+				info.setMsg("deleted");
+			} else {
+				info.setError(true);
+				info.setMsg("failed");
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			info.setError(true);
+			info.setMsg("failed");
+		}
+
+		return info;
+
+	}
 
 	DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	Date now = new Date();
@@ -321,7 +351,6 @@ public class MasterRestController {
 		Location location = new Location();
 		try {
 
-			
 			location = locationRepository.findByLocIdAndDelStatus(locId, 1);
 
 		} catch (Exception e) {
@@ -736,17 +765,17 @@ public class MasterRestController {
 		empIdList = getEmployeeAuthorityWise.getEmpIdList(empId);
 
 		System.err.println("empIdList" + empIdList.toString());
-		if(empIdList.size() > 0) {
-		try {
+		if (empIdList.size() > 0) {
+			try {
 
-			list = getEmpInfo.getEmpIdListByCompanyId(companyId,empIdList);
+				list = getEmpInfo.getEmpIdListByCompanyId(companyId, empIdList);
 
-			System.err.println("GetEmployeeAuthorityWise::::" + list.size());
+				System.err.println("GetEmployeeAuthorityWise::::" + list.size());
 
-		} catch (Exception e) {
+			} catch (Exception e) {
 
-			e.printStackTrace();
-		} 
+				e.printStackTrace();
+			}
 		}
 		return list;
 
@@ -1036,7 +1065,7 @@ public class MasterRestController {
 		List<LeaveType> list = new ArrayList<LeaveType>();
 		try {
 
-			list = leaveTypeRepository.findByDelStatusAndIsStructuredAndCompanyId(1, 1,companyId);
+			list = leaveTypeRepository.findByDelStatusAndIsStructuredAndCompanyId(1, 1, companyId);
 
 		} catch (Exception e) {
 
@@ -1074,14 +1103,16 @@ public class MasterRestController {
 		return info;
 
 	}
+
 	@RequestMapping(value = { "/checkUniqueShortName" }, method = RequestMethod.POST)
-	public @ResponseBody LeaveType checkUniqueShortName(@RequestParam("valueType") String valueType,@RequestParam("compId") int compId) {
+	public @ResponseBody LeaveType checkUniqueShortName(@RequestParam("valueType") String valueType,
+			@RequestParam("compId") int compId) {
 
 		LeaveType leaveType = new LeaveType();
 
 		try {
 
-			leaveType = leaveTypeRepository.findByCompanyIdAndLvTitleShort(compId,valueType);
+			leaveType = leaveTypeRepository.findByCompanyIdAndLvTitleShort(compId, valueType);
 
 			/*
 			 * if (leaveType==null) { info.setError(false); info.setMsg("deleted"); } else {
@@ -1092,12 +1123,13 @@ public class MasterRestController {
 		} catch (Exception e) {
 
 			e.printStackTrace();
-			
+
 		}
 
 		return leaveType;
 
 	}
+
 	@RequestMapping(value = { "/getLeaveTypeById" }, method = RequestMethod.POST)
 	public @ResponseBody LeaveType getLeaveTypeById(@RequestParam("lvTypeId") int lvTypeId) {
 
@@ -1302,7 +1334,6 @@ public class MasterRestController {
 			calendearYear.setCalYrFromDate(DateConvertor.convertToDMY(calendearYear.getCalYrFromDate()));
 			calendearYear.setCalYrToDate(DateConvertor.convertToDMY(calendearYear.getCalYrToDate()));
 			System.out.println(calendearYear);
-			
 
 		} catch (Exception e) {
 
@@ -1312,7 +1343,7 @@ public class MasterRestController {
 		return calendearYear;
 
 	}
-	
+
 	@RequestMapping(value = { "/getcurrentyear" }, method = RequestMethod.GET)
 	public @ResponseBody CalenderYear getcurrentyear() {
 
@@ -1320,8 +1351,7 @@ public class MasterRestController {
 		try {
 
 			calendearYear = calculateYearRepository.findByIsCurrent(1);
- 
-			 
+
 		} catch (Exception e) {
 
 			e.printStackTrace();
@@ -1385,7 +1415,7 @@ public class MasterRestController {
 		return save;
 
 	}
-	
+
 	@RequestMapping(value = { "/getAuthorityInfoByEmpId" }, method = RequestMethod.POST)
 	public @ResponseBody AuthorityInformation getAuthorityInfoByEmpId(@RequestParam("empId") int empId) {
 
@@ -1402,6 +1432,5 @@ public class MasterRestController {
 		return authorityInformation;
 
 	}
-	
-	
+
 }

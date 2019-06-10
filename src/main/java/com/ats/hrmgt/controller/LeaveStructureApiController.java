@@ -29,8 +29,10 @@ import com.ats.hrmgt.model.EmployeeInfo;
 import com.ats.hrmgt.model.Info;
 import com.ats.hrmgt.model.LeaveBalanceCal;
 import com.ats.hrmgt.model.LeavesAllotment;
+import com.ats.hrmgt.model.Setting;
 import com.ats.hrmgt.repository.CalculateYearRepository;
 import com.ats.hrmgt.repository.EmployeeInfoRepository;
+import com.ats.hrmgt.repository.SettingRepo;
 
 @RestController
 public class LeaveStructureApiController {
@@ -80,7 +82,56 @@ public class LeaveStructureApiController {
 		return save;
 
 	}
+	
+	@RequestMapping(value = { "/getLeavebalByEmpIdList" }, method = RequestMethod.POST)
+	public @ResponseBody List<LeaveBalanceCal> getLeavebalByEmpIdList(@RequestParam("empId") int empId) {
 
+		CalenderYear calYear = new CalenderYear();
+		calYear = calculateYearRepository.findByIsCurrent(1);
+ 		List<LeaveBalanceCal> list = new ArrayList<LeaveBalanceCal>();
+		try {
+
+			list = leaveBalanceCalRepo.findByCalYrIdAndEmpIdAndDelStatusAndIsActive(calYear.getCalYrId() ,empId,1,1);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
+
+	
+	@RequestMapping(value = { "/updateLeaveBalCal" }, method = RequestMethod.POST)
+	public @ResponseBody Info updateLeaveBalCal(@RequestParam("lvTypeId") int lvTypeId,@RequestParam("empId") int empId,@RequestParam("noDays") int noDays) {
+
+		Info info = new Info();
+		CalenderYear calYear = new CalenderYear();
+		calYear = calculateYearRepository.findByIsCurrent(1);
+		try {
+
+			int delete = leaveBalanceCalRepo.updateLeaveBalCal(lvTypeId,empId,calYear.getCalYrId(),noDays);
+
+			if (delete > 0) {
+				info.setError(false);
+				info.setMsg("deleted");
+			} else {
+				info.setError(true);
+				info.setMsg("failed");
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			info.setError(true);
+			info.setMsg("failed");
+		}
+
+		return info;
+
+	}
+ 
 	@RequestMapping(value = { "/getLeaveAuthorityList" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetLeaveAuthority> getLeaveAuthorityList(@RequestParam("companyId") int companyId,
 			@RequestParam("locIdList") List<Integer> locIdList) {
@@ -89,11 +140,11 @@ public class LeaveStructureApiController {
 		try {
 
 			list = getLeaveAuthorityRepo.getLeaveAuth(companyId, locIdList);
-			
-			for(int i=0; i<list.size() ; i++) {
-				
+
+			for (int i = 0; i < list.size(); i++) {
+
 				String[] reportIds = list.get(i).getRepToEmpIds().split(",");
-				
+
 				List<String> name = getLeaveAuthorityRepo.getEmpReportingName(reportIds);
 				list.get(i).setRePortingName(name);
 			}
@@ -107,19 +158,32 @@ public class LeaveStructureApiController {
 
 	}
 
+	@Autowired
+	SettingRepo settingRepo;
+
 	@RequestMapping(value = { "/getStructureAllotmentList" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetStructureAllotment> getStructureAllotmentList(@RequestParam("companyId") int companyId,
-			@RequestParam("locIdList") List<Integer> locIdList) {
+			@RequestParam("locIdList") List<Integer> locIdList, @RequestParam("typeId") int typeId) {
 
 		List<GetStructureAllotment> list = new ArrayList<GetStructureAllotment>();
 		try {
-
-			CalenderYear calYear = new CalenderYear();
+			Setting setting = new Setting();
+		CalenderYear calYear = new CalenderYear();
 			calYear = calculateYearRepository.findByIsCurrent(1);
-			System.out.println(companyId);
-			System.out.println(locIdList);
+			System.out.println(companyId);	
 
-			list = getStructureAllotmentRepo.getStructureAllotment(companyId, locIdList, calYear.getCalYrId());
+			if (typeId == 1) {
+				list = getStructureAllotmentRepo.getStructureAllotment(companyId, locIdList, calYear.getCalYrId());
+
+			} else {
+
+				setting = settingRepo.findByKey("probLeaveStructure");
+				int lvsId = Integer.parseInt(setting.getValue());
+				System.out.println(lvsId);
+				list = getStructureAllotmentRepo.getStructureAllotmentForProb(companyId, locIdList,
+						calYear.getCalYrId(), lvsId);
+
+			}
 			System.out.println(list.toString());
 
 		} catch (Exception e) {
@@ -186,17 +250,39 @@ public class LeaveStructureApiController {
 		return list;
 
 	}
-	
+
+	@RequestMapping(value = { "/getStructureDetailsList" }, method = RequestMethod.POST)
+	public @ResponseBody List<LeaveStructureDetails> getStructureDetailsList(@RequestParam("lvsId") int lvsId) {
+		Setting setting = new Setting();
+		List<LeaveStructureDetails> list = new ArrayList<LeaveStructureDetails>();
+		try {
+			/*
+			 * setting = settingRepo.findByKey("probLeaveStructure"); int lvsId1 =
+			 * Integer.parseInt(setting.getValue()); System.out.println(lvsId);
+			 */
+			
+			list = leaveStructureDetailsRepo.findByLvsIdAndDelStatus(lvsId, 1);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
+
 	@Autowired
 	LeavesAllotmentRepo leavesAllotmentRepo;
-	
+
 	@RequestMapping(value = { "/getStructureByEmpId" }, method = RequestMethod.POST)
-	public @ResponseBody LeavesAllotment getStructureByEmpId(@RequestParam("empId") int empId,@RequestParam("currYrId") int currYrId) {
+	public @ResponseBody LeavesAllotment getStructureByEmpId(@RequestParam("empId") int empId,
+			@RequestParam("currYrId") int currYrId) {
 
 		LeavesAllotment list = new LeavesAllotment();
 		try {
 
-			list = leavesAllotmentRepo.findByDelStatusAndEmpIdAndCalYrId(1, empId,currYrId);
+			list = leavesAllotmentRepo.findByDelStatusAndEmpIdAndCalYrId(1, empId, currYrId);
 
 		} catch (Exception e) {
 
