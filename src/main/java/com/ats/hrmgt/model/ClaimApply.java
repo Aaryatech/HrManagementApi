@@ -16,31 +16,16 @@ public class ClaimApply {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "claim_id")
 	private int claimId;
-
-	@Column(name = "emp_id")
-	private int empId;
-
-	@Column(name = "project_id")
-	private int projectId;
-
+ 
 	@Column(name = "claim_type_id")
 	private int claimTypeId;
 
-	@Column(name = "claim_date")
-	private String claimDate;
-
-	@Column(name = "claim_amount")
+ 	@Column(name = "claim_amount")
 	private float claimAmount;
 
 	@Column(name = "claim_remarks")
 	private String claimRemarks;
-
-	@Column(name = "claim_final_status")
-	private int claimFinalStatus;
-
-	@Column(name = "circulated_to")
-	private String circulatedTo;
-
+ 
 	@Column(name = "del_status")
 	private int delStatus;
 
@@ -70,18 +55,6 @@ public class ClaimApply {
 
 	@Column(name = "ex_var3")
 	private String exVar3;
-	
-	@Transient
-	private boolean error;
-
-
-	public boolean isError() {
-		return error;
-	}
-
-	public void setError(boolean error) {
-		this.error = error;
-	}
 
 	public int getClaimId() {
 		return claimId;
@@ -91,36 +64,12 @@ public class ClaimApply {
 		this.claimId = claimId;
 	}
 
-	public int getEmpId() {
-		return empId;
-	}
-
-	public void setEmpId(int empId) {
-		this.empId = empId;
-	}
-
-	public int getProjectId() {
-		return projectId;
-	}
-
-	public void setProjectId(int projectId) {
-		this.projectId = projectId;
-	}
-
 	public int getClaimTypeId() {
 		return claimTypeId;
 	}
 
 	public void setClaimTypeId(int claimTypeId) {
 		this.claimTypeId = claimTypeId;
-	}
-
-	public String getClaimDate() {
-		return claimDate;
-	}
-
-	public void setClaimDate(String claimDate) {
-		this.claimDate = claimDate;
 	}
 
 	public float getClaimAmount() {
@@ -137,22 +86,6 @@ public class ClaimApply {
 
 	public void setClaimRemarks(String claimRemarks) {
 		this.claimRemarks = claimRemarks;
-	}
-
-	public int getClaimFinalStatus() {
-		return claimFinalStatus;
-	}
-
-	public void setClaimFinalStatus(int claimFinalStatus) {
-		this.claimFinalStatus = claimFinalStatus;
-	}
-
-	public String getCirculatedTo() {
-		return circulatedTo;
-	}
-
-	public void setCirculatedTo(String circulatedTo) {
-		this.circulatedTo = circulatedTo;
 	}
 
 	public int getDelStatus() {
@@ -237,12 +170,22 @@ public class ClaimApply {
 
 	@Override
 	public String toString() {
-		return "ClaimAuthority [claimId=" + claimId + ", empId=" + empId + ", projectId=" + projectId + ", claimTypeId="
-				+ claimTypeId + ", claimDate=" + claimDate + ", claimAmount=" + claimAmount + ", claimRemarks="
-				+ claimRemarks + ", claimFinalStatus=" + claimFinalStatus + ", circulatedTo=" + circulatedTo
-				+ ", delStatus=" + delStatus + ", isActive=" + isActive + ", makerUserId=" + makerUserId
-				+ ", makerEnterDatetime=" + makerEnterDatetime + ", exInt1=" + exInt1 + ", exInt2=" + exInt2
-				+ ", exInt3=" + exInt3 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", exVar3=" + exVar3 + "]";
+		return "ClaimApply [claimId=" + claimId + ", claimTypeId=" + claimTypeId + ", claimAmount=" + claimAmount
+				+ ", claimRemarks=" + claimRemarks + ", delStatus=" + delStatus + ", isActive=" + isActive
+				+ ", makerUserId=" + makerUserId + ", makerEnterDatetime=" + makerEnterDatetime + ", exInt1=" + exInt1
+				+ ", exInt2=" + exInt2 + ", exInt3=" + exInt3 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2
+				+ ", exVar3=" + exVar3 + ", getClaimId()=" + getClaimId() + ", getClaimTypeId()=" + getClaimTypeId()
+				+ ", getClaimAmount()=" + getClaimAmount() + ", getClaimRemarks()=" + getClaimRemarks()
+				+ ", getDelStatus()=" + getDelStatus() + ", getIsActive()=" + getIsActive() + ", getMakerUserId()="
+				+ getMakerUserId() + ", getMakerEnterDatetime()=" + getMakerEnterDatetime() + ", getExInt1()="
+				+ getExInt1() + ", getExInt2()=" + getExInt2() + ", getExInt3()=" + getExInt3() + ", getExVar1()="
+				+ getExVar1() + ", getExVar2()=" + getExVar2() + ", getExVar3()=" + getExVar3() + ", getClass()="
+				+ getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
 	}
+ 
+	
+	
+	
 
+ 
 }

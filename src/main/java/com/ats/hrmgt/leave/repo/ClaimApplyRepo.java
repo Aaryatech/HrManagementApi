@@ -17,12 +17,7 @@ public interface ClaimApplyRepo extends JpaRepository<ClaimApply, Integer>{
 	int updateClaimStatus(@Param("empId") int empId,@Param("claimId") int claimId,@Param("status") int status,@Param("remark") String remark);
  
 	
-	
-	@Transactional
-	@Modifying
-	@Query("update ClaimApply set ex_int2=:trailId  WHERE claim_id=:claimId")
-	int updateTrailApply(int claimId,int trailId);
-	
+
 	@Transactional
 	@Modifying
 	@Query("update ClaimApply set ex_int1=:status  WHERE claim_id=:claimId")
