@@ -2,6 +2,7 @@ package com.ats.hrmgt.repository;
 
 import java.util.List;
 
+
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,8 +10,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.ats.hrmgt.model.GetEmployeeInfo;
-import com.ats.hrmgt.model.ProjectHeader;
+ import com.ats.hrmgt.model.ProjectHeader;
 
 public interface ProjectHeaderRpo extends JpaRepository<ProjectHeader, Integer> {
 
@@ -29,9 +29,7 @@ public interface ProjectHeaderRpo extends JpaRepository<ProjectHeader, Integer> 
 	int updateProjectHeader(int projectId,String status,int proComp,int userId,String dateTime);
 
 	ProjectHeader findByProjectIdAndDelStatus(int projectId, int i);
-
-	
-
+ 
 	@Query(value = " select project_header.* from project_header,project_allotment where  "
 			+ "project_allotment.project_id=project_header.project_id AND project_header.del_status=1"
 			+ "  AND project_allotment.del_status=1 AND project_allotment.emp_id=:empId AND "

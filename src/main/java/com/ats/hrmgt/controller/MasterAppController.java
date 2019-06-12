@@ -254,31 +254,32 @@ public class MasterAppController {
   
 	}
 
-	@RequestMapping(value = { "/getClaimStatusList" }, method = RequestMethod.POST)
-	public @ResponseBody List<ClaimDetail> getClaimStatusList(@RequestParam("empId") int empId,
-			@RequestParam("status") List<Integer> status) {
-
-		List<ClaimDetail> list = new ArrayList<ClaimDetail>();
-		
-		try {
-
-			list = claimDetailRepo.getClaimStatus(empId, status);
-			if (list != null) {
-				for (int i = 0; i < list.size(); i++) {
-					List<GetClaimTrailStatus> leaveStatus = new ArrayList<GetClaimTrailStatus>();
-					leaveStatus = getClaimTrailStatusRepo.getClaimTrailByClaimId(list.get(i).getClaimId());
-					list.get(i).setGetClaimTrailStatus(leaveStatus);
-				}
-			}
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-		}
-
-		return list;
-
-	}
+	/*
+	 * After claim changes
+	 * @RequestMapping(value = { "/getClaimStatusList" }, method =
+	 * RequestMethod.POST) public @ResponseBody List<ClaimDetail>
+	 * getClaimStatusList(@RequestParam("empId") int empId,
+	 * 
+	 * @RequestParam("status") List<Integer> status) {
+	 * 
+	 * List<ClaimDetail> list = new ArrayList<ClaimDetail>();
+	 * 
+	 * try {
+	 * 
+	 * list = claimDetailRepo.getClaimStatus(empId, status); if (list != null) { for
+	 * (int i = 0; i < list.size(); i++) { List<GetClaimTrailStatus> leaveStatus =
+	 * new ArrayList<GetClaimTrailStatus>(); leaveStatus =
+	 * getClaimTrailStatusRepo.getClaimTrailByClaimId(list.get(i).getClaimId());
+	 * list.get(i).setGetClaimTrailStatus(leaveStatus); } }
+	 * 
+	 * } catch (Exception e) {
+	 * 
+	 * e.printStackTrace(); }
+	 * 
+	 * return list;
+	 * 
+	 * }
+	 */
 	
 	
 	@RequestMapping(value = { "/getClaimTrailList" }, method = RequestMethod.POST)

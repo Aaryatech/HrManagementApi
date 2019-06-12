@@ -21,6 +21,10 @@ public class GetClaimTrailStatus {
 	
 	private int claimStatus;
 	
+	private int claimTitle;
+	
+	private int claimAmount;
+	
 	private String userName;
 	
 	private Date makerEnterDatetime;
@@ -31,7 +35,22 @@ public class GetClaimTrailStatus {
 	
 	private String empSname;
 	
-	private String empPhoto;
+ 
+	public int getClaimTitle() {
+		return claimTitle;
+	}
+
+	public void setClaimTitle(int claimTitle) {
+		this.claimTitle = claimTitle;
+	}
+
+	public int getClaimAmount() {
+		return claimAmount;
+	}
+
+	public void setClaimAmount(int claimAmount) {
+		this.claimAmount = claimAmount;
+	}
 
 	public int getClaimTrailPkey() {
 		return claimTrailPkey;
@@ -114,21 +133,23 @@ public class GetClaimTrailStatus {
 		this.empSname = empSname;
 	}
 
-	public String getEmpPhoto() {
-		return empPhoto;
-	}
-
-	public void setEmpPhoto(String empPhoto) {
-		this.empPhoto = empPhoto;
-	}
-
 	@Override
 	public String toString() {
 		return "GetClaimTrailStatus [claimTrailPkey=" + claimTrailPkey + ", claimId=" + claimId + ", empId=" + empId
-				+ ", empRemarks=" + empRemarks + ", claimStatus=" + claimStatus + ", makerEnterDatetime="
+				+ ", empRemarks=" + empRemarks + ", claimStatus=" + claimStatus + ", claimTitle=" + claimTitle
+				+ ", claimAmount=" + claimAmount + ", userName=" + userName + ", makerEnterDatetime="
 				+ makerEnterDatetime + ", empFname=" + empFname + ", empMname=" + empMname + ", empSname=" + empSname
-				+ ", empPhoto=" + empPhoto + "]";
+				+ ", getClaimTitle()=" + getClaimTitle() + ", getClaimAmount()=" + getClaimAmount()
+				+ ", getClaimTrailPkey()=" + getClaimTrailPkey() + ", getClaimId()=" + getClaimId() + ", getEmpId()="
+				+ getEmpId() + ", getEmpRemarks()=" + getEmpRemarks() + ", getClaimStatus()=" + getClaimStatus()
+				+ ", getUserName()=" + getUserName() + ", getMakerEnterDatetime()=" + getMakerEnterDatetime()
+				+ ", getEmpFname()=" + getEmpFname() + ", getEmpMname()=" + getEmpMname() + ", getEmpSname()="
+				+ getEmpSname() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
+				+ super.toString() + "]";
 	}
 
+	 
+ 
+	 
 	
 }

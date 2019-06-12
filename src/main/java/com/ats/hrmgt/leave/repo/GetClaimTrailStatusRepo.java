@@ -9,16 +9,21 @@ import org.springframework.data.repository.query.Param;
 import com.ats.hrmgt.leave.model.GetClaimTrailStatus;
 
 public interface GetClaimTrailStatusRepo extends JpaRepository<GetClaimTrailStatus, Integer> {
+	
+	
 	@Query(value = "SELECT\n" + 
+			"    claim_trail.claim_id,\n" + 
+			"     claim_trail.emp_remarks,\n" + 
+			"      claim_trail.claim_status,\n" + 
+			"    claim_trail.claim_trail_pkey,\n" + 
+			"     claim_apply_header.emp_id,\n" + 
+			"    claim_apply_header.claim_title,\n" + 
+			"    claim_apply_header.claim_amount,\n" + 
 			"    e.emp_fname,\n" + 
 			"    e.emp_mname,\n" + 
 			"    e.emp_sname,\n" + 
-			"    e.emp_photo,\n" + 
-			"    t.emp_remarks, t.claim_trail_pkey, \n" + 
-			"    t.emp_id,\n" + 
-			"    t.claim_status,t.claim_id,     \n" + 
-			"    \n" + 
-			"    t.maker_enter_datetime,\n" + 
+			"   \n" + 
+			"    claim_trail.maker_enter_datetime,\n" + 
 			"    COALESCE(\n" + 
 			"        (\n" + 
 			"        SELECT DISTINCT\n" + 
@@ -33,15 +38,17 @@ public interface GetClaimTrailStatusRepo extends JpaRepository<GetClaimTrailStat
 			"            emp_info AS e,\n" + 
 			"            m_user u\n" + 
 			"        WHERE\n" + 
-			"            u.user_id = t.maker_user_id AND e.emp_id = u.emp_id\n" + 
+			"            u.user_id =  claim_trail.maker_user_id AND e.emp_id = u.emp_id\n" + 
 			"    ),\n" + 
 			"    NULL\n" + 
 			"    ) AS user_name\n" + 
 			"FROM\n" + 
-			"    emp_info AS e,\n" + 
-			"    claim_trail AS t\n" + 
+			"    claim_apply_header,\n" + 
+			"    emp_info e,\n" + 
+			"    project_header h,\n" + 
+			"    claim_trail\n" + 
 			"WHERE\n" + 
-			"    e.emp_id = t.emp_id AND t.claim_id =:claimId ORDER BY t.claim_id DESC"  , nativeQuery = true)
+			"    claim_apply_header.proj_id = h.project_id AND claim_apply_header.ca_head_id = claim_trail.claim_id AND claim_apply_header.emp_id = e.emp_id AND claim_trail.claim_id =:claimId ORDER BY claim_trail.claim_id DESC"  , nativeQuery = true)
 	List<GetClaimTrailStatus> getClaimTrailByClaimId(@Param("claimId") int claimId);
 
 

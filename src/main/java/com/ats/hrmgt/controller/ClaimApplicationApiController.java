@@ -1,6 +1,7 @@
 package com.ats.hrmgt.controller;
 
 import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -22,6 +23,7 @@ import com.ats.hrmgt.common.DateConvertor;
 import com.ats.hrmgt.common.Firebase;
 import com.ats.hrmgt.leave.model.ClaimDetail;
 import com.ats.hrmgt.leave.model.GetAuthorityIds;
+import com.ats.hrmgt.leave.model.GetClaimHead;
 import com.ats.hrmgt.leave.model.GetClaimTrailStatus;
 import com.ats.hrmgt.leave.model.GetEmployeeAuthorityWise;
 import com.ats.hrmgt.leave.model.GetLeaveApplyAuthwise;
@@ -30,6 +32,7 @@ import com.ats.hrmgt.leave.model.LeaveDetail;
 import com.ats.hrmgt.leave.repo.ClaimApplyRepo;
 import com.ats.hrmgt.leave.repo.ClaimDetailRepo;
 import com.ats.hrmgt.leave.repo.GetAuthorityIdsRepo;
+import com.ats.hrmgt.leave.repo.GetClaimHeadRepo;
 import com.ats.hrmgt.leave.repo.GetClaimTrailStatusRepo;
 import com.ats.hrmgt.leave.repo.GetEmployeeAuthorityWiseRepo;
 import com.ats.hrmgt.leave.repo.GetLeaveStatusRepo;
@@ -67,22 +70,47 @@ public class ClaimApplicationApiController {
 	@Autowired
 	GetClaimTrailStatusRepo getClaimTrailStatusRepo;
 
-	@RequestMapping(value = { "/getClaimListByEmpId" }, method = RequestMethod.POST)
-	public @ResponseBody List<ClaimDetail> getClaimStatusList(@RequestParam("empId") int empId) {
+	/*
+	 * @RequestMapping(value = { "/getClaimListByEmpId" }, method =
+	 * RequestMethod.POST) public @ResponseBody List<ClaimDetail>
+	 * getClaimStatusList(@RequestParam("empId") int empId) {
+	 * 
+	 * List<ClaimDetail> list = new ArrayList<ClaimDetail>();
+	 * 
+	 * try {
+	 * 
+	 * list = claimDetailRepo.getClaimList(empId); if (list != null) { for (int i =
+	 * 0; i < list.size(); i++) { List<GetClaimTrailStatus> leaveStatus = new
+	 * ArrayList<GetClaimTrailStatus>(); leaveStatus =
+	 * getClaimTrailStatusRepo.getClaimTrailByClaimId(list.get(i).getClaimId());
+	 * list.get(i).setGetClaimTrailStatus(leaveStatus); } }
+	 * 
+	 * } catch (Exception e) {
+	 * 
+	 * e.printStackTrace(); }
+	 * 
+	 * return list;
+	 * 
+	 * }
+	 */
+	
+	
+	
+	@Autowired
+	GetClaimHeadRepo getClaimHeadRepo;
+	
+	@RequestMapping(value = { "/getClaimHeadListByEmpId" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetClaimHead> getClaimHeadListByEmpId(@RequestParam("empId") int empId) {
 
-		List<ClaimDetail> list = new ArrayList<ClaimDetail>();
+		List<GetClaimHead> list = new ArrayList<GetClaimHead>();
 
 		try {
-
-			list = claimDetailRepo.getClaimList(empId);
-			if (list != null) {
-				for (int i = 0; i < list.size(); i++) {
-					List<GetClaimTrailStatus> leaveStatus = new ArrayList<GetClaimTrailStatus>();
-					leaveStatus = getClaimTrailStatusRepo.getClaimTrailByClaimId(list.get(i).getClaimId());
-					list.get(i).setGetClaimTrailStatus(leaveStatus);
-				}
-			}
-
+			
+			System.err.println("empId************************"+empId);
+			list=getClaimHeadRepo.getClaimHeadByEmpId(empId);
+		 
+			
+ 			 
 		} catch (Exception e) {
 
 			e.printStackTrace();
@@ -91,6 +119,29 @@ public class ClaimApplicationApiController {
 		return list;
 
 	}
+	
+	
+	@RequestMapping(value = { "/getClaimDetailListByEmpId" }, method = RequestMethod.POST)
+	public @ResponseBody List<ClaimDetail> getClaimDetailListByEmpId(@RequestParam("claimId") int claimId) {
+
+		List<ClaimDetail> list = new ArrayList<ClaimDetail>();
+
+		try {
+			
+			list=claimDetailRepo.getClaimDetailList(claimId);
+			
+ 			 
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
+	
+	
+	
 
 	@RequestMapping(value = { "/getEmpClaimInfoListByTrailEmpId" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetClaimTrailStatus> getEmpClaimInfoListByTrailEmpId(
@@ -108,6 +159,9 @@ public class ClaimApplicationApiController {
 
 	}
 
+	
+	
+	
 	@RequestMapping(value = { "/getEmpInfoClaimAuthWise" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetEmployeeInfo> getEmpInfoClaimAuthWise(@RequestParam("companyId") int companyId,
 			@RequestParam("empId") int empId) {

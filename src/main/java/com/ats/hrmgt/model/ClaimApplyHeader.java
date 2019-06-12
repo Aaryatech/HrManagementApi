@@ -24,10 +24,10 @@ public class ClaimApplyHeader {
 	private int caHeadId;
 	
 	@Column(name = "ca_from_dt")
-	private Date  cafromDt; 
+	private String  cafromDt; 
 	
 	@Column(name = "ca_to_dt")
-	private Date caToDt; 
+	private String caToDt; 
 	
 	@Column(name = "claim_title ")
 	private String claimTitle; 
@@ -91,23 +91,21 @@ public class ClaimApplyHeader {
 		this.caHeadId = caHeadId;
 	}
 
-	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
- 	public Date getCafromDt() {
+  	public String getCafromDt() {
 		return cafromDt;
 	}
 
 
-	public void setCafromDt(Date cafromDt) {
+	public void setCafromDt(String cafromDt) {
 		this.cafromDt = cafromDt;
 	}
 
-	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
- 	public Date getCaToDt() {
+  	public String getCaToDt() {
 		return caToDt;
 	}
 
 
-	public void setCaToDt(Date caToDt) {
+	public void setCaToDt(String caToDt) {
 		this.caToDt = caToDt;
 	}
 
