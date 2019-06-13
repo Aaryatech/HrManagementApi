@@ -19,11 +19,19 @@ public class GetClaimTrailStatus {
 	
 	private String empRemarks;
 	
+	private String empCode;
+	
+	private String caFromDt;
+	
+	private String caToDt;
+	
+	private String projectTitle;
+	
 	private int claimStatus;
 	
-	private int claimTitle;
+	private String claimTitle;
 	
-	private int claimAmount;
+	private String claimAmount;
 	
 	private String userName;
 	
@@ -35,20 +43,20 @@ public class GetClaimTrailStatus {
 	
 	private String empSname;
 	
- 
-	public int getClaimTitle() {
+  
+	public String getClaimTitle() {
 		return claimTitle;
 	}
 
-	public void setClaimTitle(int claimTitle) {
+	public void setClaimTitle(String claimTitle) {
 		this.claimTitle = claimTitle;
 	}
 
-	public int getClaimAmount() {
+	public String getClaimAmount() {
 		return claimAmount;
 	}
 
-	public void setClaimAmount(int claimAmount) {
+	public void setClaimAmount(String claimAmount) {
 		this.claimAmount = claimAmount;
 	}
 
@@ -133,21 +141,56 @@ public class GetClaimTrailStatus {
 		this.empSname = empSname;
 	}
 
+	public String getEmpCode() {
+		return empCode;
+	}
+
+	public void setEmpCode(String empCode) {
+		this.empCode = empCode;
+	}
+
+	public String getCaFromDt() {
+		return caFromDt;
+	}
+
+	public void setCaFromDt(String caFromDt) {
+		this.caFromDt = caFromDt;
+	}
+
+	public String getCaToDt() {
+		return caToDt;
+	}
+
+	public void setCaToDt(String caToDt) {
+		this.caToDt = caToDt;
+	}
+
+	public String getProjectTitle() {
+		return projectTitle;
+	}
+
+	public void setProjectTitle(String projectTitle) {
+		this.projectTitle = projectTitle;
+	}
+
 	@Override
 	public String toString() {
 		return "GetClaimTrailStatus [claimTrailPkey=" + claimTrailPkey + ", claimId=" + claimId + ", empId=" + empId
-				+ ", empRemarks=" + empRemarks + ", claimStatus=" + claimStatus + ", claimTitle=" + claimTitle
-				+ ", claimAmount=" + claimAmount + ", userName=" + userName + ", makerEnterDatetime="
+				+ ", empRemarks=" + empRemarks + ", empCode=" + empCode + ", caFromDt=" + caFromDt + ", caToDt="
+				+ caToDt + ", projectTitle=" + projectTitle + ", claimStatus=" + claimStatus + ", claimTitle="
+				+ claimTitle + ", claimAmount=" + claimAmount + ", userName=" + userName + ", makerEnterDatetime="
 				+ makerEnterDatetime + ", empFname=" + empFname + ", empMname=" + empMname + ", empSname=" + empSname
 				+ ", getClaimTitle()=" + getClaimTitle() + ", getClaimAmount()=" + getClaimAmount()
 				+ ", getClaimTrailPkey()=" + getClaimTrailPkey() + ", getClaimId()=" + getClaimId() + ", getEmpId()="
 				+ getEmpId() + ", getEmpRemarks()=" + getEmpRemarks() + ", getClaimStatus()=" + getClaimStatus()
 				+ ", getUserName()=" + getUserName() + ", getMakerEnterDatetime()=" + getMakerEnterDatetime()
 				+ ", getEmpFname()=" + getEmpFname() + ", getEmpMname()=" + getEmpMname() + ", getEmpSname()="
-				+ getEmpSname() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
-				+ super.toString() + "]";
+				+ getEmpSname() + ", getEmpCode()=" + getEmpCode() + ", getCaFromDt()=" + getCaFromDt()
+				+ ", getCaToDt()=" + getCaToDt() + ", getProjectTitle()=" + getProjectTitle() + ", getClass()="
+				+ getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
 	}
 
+	 
 	 
  
 	 
