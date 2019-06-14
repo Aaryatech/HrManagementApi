@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ats.hrmgt.claim.repo.ClaimTrailRepo;
 import com.ats.hrmgt.claim.repo.GetClaimApplyAuthwiseRepo;
 import com.ats.hrmgt.common.DateConvertor;
+import com.ats.hrmgt.common.EmailUtility;
 import com.ats.hrmgt.common.Firebase;
 import com.ats.hrmgt.leave.model.ClaimDetail;
 import com.ats.hrmgt.leave.model.GetAuthorityIds;
@@ -44,9 +45,11 @@ import com.ats.hrmgt.model.EmployeeInfo;
 import com.ats.hrmgt.model.GetClaimApplyAuthwise;
 import com.ats.hrmgt.model.GetEmployeeInfo;
 import com.ats.hrmgt.model.Info;
+import com.ats.hrmgt.model.Setting;
 import com.ats.hrmgt.repository.ClaimHeaderRepo;
 import com.ats.hrmgt.repository.EmployeeInfoRepository;
 import com.ats.hrmgt.repository.GetEmpInfoRepo;
+import com.ats.hrmgt.repository.SettingRepo;
 
 @RestController
 public class ClaimApplicationApiController {
@@ -74,7 +77,7 @@ public class ClaimApplicationApiController {
 
 	@Autowired
 	GetClaimHeadRepo getClaimHeadRepo;
-	
+
 	@Autowired
 	ClaimHeaderRepo claimHeaderRepo;
 	/*
@@ -101,7 +104,9 @@ public class ClaimApplicationApiController {
 	 * }
 	 */
 
-	
+	static String senderEmail = "atsinfosoft@gmail.com";
+	static String senderPassword = "atsinfosoft@123";
+	static String mailsubject = " HRMS Password Recovery";
 
 	@RequestMapping(value = { "/getClaimHeadListByEmpId" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetClaimHead> getClaimHeadListByEmpId(@RequestParam("empId") int empId) {
@@ -362,178 +367,174 @@ public class ClaimApplicationApiController {
 
 	}
 
+	@Autowired
+	SettingRepo settingRepo;
+
 	@RequestMapping(value = { "/updateClaimStatus" }, method = RequestMethod.POST)
 	public @ResponseBody Info updateLeaveStatus(@RequestParam("claimId") int claimId,
-	@RequestParam("status") int status) {
+			@RequestParam("status") int status) {
 
-	Info info = new Info();
-	System.err.println("in updateclaimStatus" + status + claimId);
-	try {
+		Info info = new Info();
+		System.err.println("in updateclaimStatus" + status + claimId);
+		try {
 
-	int delete = claimHeaderRepo.updateClaimStatus(claimId, status);
+			int delete = claimHeaderRepo.updateClaimStatus(claimId, status);
 
-	if (delete > 0) {
-	info.setError(false);
-	info.setMsg("updated status");
+			if (delete > 0) {
+				info.setError(false);
+				info.setMsg("updated status");
 
- 	ClaimApplyHeader leaveApply = new ClaimApplyHeader();
+				ClaimApplyHeader leaveApply = new ClaimApplyHeader();
 
-	leaveApply = claimHeaderRepo.findByCaHeadIdAndDelStatus(claimId,1);
-	int empId = leaveApply.getEmpId();
+				leaveApply = claimHeaderRepo.findByCaHeadIdAndDelStatus(claimId, 1);
+				int empId = leaveApply.getEmpId();
 
-	// empInfo = employeeInfoRepository.findByEmpIdAndDelStatus(empId, 1);
+				// empInfo = employeeInfoRepository.findByEmpIdAndDelStatus(empId, 1);
 
-	GetAuthorityIds claimApply = new GetAuthorityIds();
-	claimApply = getAuthorityIdsRepo.getClaimAuthIdsDict(empId);
+				GetAuthorityIds claimApply = new GetAuthorityIds();
+				claimApply = getAuthorityIdsRepo.getClaimAuthIdsDict(empId);
 
-	String empIds = claimApply.getRepToEmpIds();
-	String[] values = empIds.split(",");
-	System.err.println("emp ids for notification are::" + empIds);
-	List<String> al = new ArrayList<String>(Arrays.asList(values));
+				String empIds = claimApply.getRepToEmpIds();
+				String[] values = empIds.split(",");
+				System.err.println("emp ids for notification are::" + empIds);
+				List<String> al = new ArrayList<String>(Arrays.asList(values));
 
-	Set<String> set = new HashSet<>(al);
-	al.clear();
-	al.addAll(set);
-	System.err.println("emp ids for notification are:--------------:" + al.toString());
+				Set<String> set = new HashSet<>(al);
+				al.clear();
+				al.addAll(set);
+				System.err.println("emp ids for notification are:--------------:" + al.toString());
 
-	EmployeeInfo emp = new EmployeeInfo();
-	emp = employeeInfoRepository.findByEmpIdAndDelStatus(empId, 1);
+				EmployeeInfo emp = new EmployeeInfo();
+				emp = employeeInfoRepository.findByEmpIdAndDelStatus(empId, 1);
 
-	SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
-	SimpleDateFormat sdf2 = new SimpleDateFormat("dd-MM-yyyy");
+				SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+				SimpleDateFormat sdf2 = new SimpleDateFormat("dd-MM-yyyy");
 
-	String claimDate = "";
-	String claimDate1 = "";
-	String claimDate2 = "";
+				String claimDate = "";
+				String claimDate1 = "";
+				String claimDate2 = "";
 
-	try {
+				try {
 
-	Date d1 = sdf1.parse(leaveApply.getCafromDt());
+					Date d1 = sdf1.parse(leaveApply.getCafromDt());
 
-	claimDate1 = sdf2.format(d1.getTime());
-	
-	Date d2 = sdf1.parse(leaveApply.getCaToDt());
+					claimDate1 = sdf2.format(d1.getTime());
 
-	claimDate2 = sdf2.format(d2.getTime());
+					Date d2 = sdf1.parse(leaveApply.getCaToDt());
 
-	} 
-	catch (Exception e) {
-	claimDate = claimDate1+"To"+claimDate2;
+					claimDate2 = sdf2.format(d2.getTime());
 
-	e.printStackTrace();
-	}
+				} catch (Exception e) {
+					claimDate = claimDate1 + "To" + claimDate2;
 
-	try {
+					e.printStackTrace();
+				}
 
-	if (status == 2) {
+				try {
+					String claimMsg = null;
+					if (status == 2) {
 
-	String claimMsg = emp.getEmpFname() + " " + emp.getEmpSname() + " your Claim for Rs. "
-	+ leaveApply.getClaimAmount() + " on " + claimDate + " Approved By Initial Authority";
+						claimMsg = emp.getEmpFname() + " " + emp.getEmpSname() + " your Claim for Rs. "
+								+ leaveApply.getClaimAmount() + " on " + claimDate + " Approved By Initial Authority";
 
-	Firebase.sendPushNotification(emp.getExVar1(), "HRMS", claimMsg, 2);
+					} else if (status == 3) {
 
-	} else if (status == 3) {
+						claimMsg = emp.getEmpFname() + " " + emp.getEmpSname() + " your Claim for Rs. "
+								+ leaveApply.getClaimAmount() + " on " + claimDate + " Approved By Final Authority";
 
-	String claimMsg = emp.getEmpFname() + " " + emp.getEmpSname() + " your Claim for Rs. "
-	+ leaveApply.getClaimAmount() + " on " + claimDate + " Approved By Final Authority";
+					} else if (status == 8) {
 
-	Firebase.sendPushNotification(emp.getExVar1(), "HRMS", claimMsg, 2);
+						claimMsg = emp.getEmpFname() + " " + emp.getEmpSname() + " your Claim for Rs. "
+								+ leaveApply.getClaimAmount() + " on " + claimDate + " Rejected By Initial Authority";
 
-	} else if (status == 8) {
+					} else if (status == 9) {
 
-	String claimMsg = emp.getEmpFname() + " " + emp.getEmpSname() + " your Claim for Rs. "
-	+ leaveApply.getClaimAmount() + " on " + claimDate + " Rejected By Initial Authority";
+						claimMsg = emp.getEmpFname() + " " + emp.getEmpSname() + " your Claim for Rs. "
+								+ leaveApply.getClaimAmount() + " on " + claimDate + " Rejected By Final Authority";
 
-	Firebase.sendPushNotification(emp.getExVar1(), "HRMS", claimMsg, 2);
+					}
 
-	} else if (status == 9) {
+					Firebase.sendPushNotification(emp.getExVar1(), "HRMS", claimMsg, 2);
 
-	String claimMsg = emp.getEmpFname() + " " + emp.getEmpSname() + " your Claim for Rs. "
-	+ leaveApply.getClaimAmount() + " on " + claimDate + " Rejected By Final Authority";
+					Setting setting = new Setting();
+					setting = settingRepo.findByKey("hremail");
+					String hrEmail = (setting.getValue());
+					System.out.println(hrEmail);
+					Info emailRes = EmailUtility.sendEmail("atsinfosoft@gmail.com", "atsinfosoft@123", hrEmail,
+							" HRMS Claim Application Status", "", claimMsg);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 
-	Firebase.sendPushNotification(emp.getExVar1(), "HRMS", claimMsg, 2);
+				for (int i = 0; i < al.size(); i++) {
 
-	}
+					EmployeeInfo empInfo = new EmployeeInfo();
 
-	} catch (Exception e) {
-	e.printStackTrace();
-	}
+					empInfo = employeeInfoRepository.findByEmpIdAndDelStatus(Integer.parseInt(al.get(i)), 1);
 
-	for (int i = 0; i < al.size(); i++) {
+					// Firebase.sendPushNotification(empInfo.getExVar1(), "HRMS",
+					// " " + empInfo.getEmpFname()+" "+empInfo.getEmpSname() + " has applied for
+					// Claim Please check for Approval", 1);
 
-	EmployeeInfo empInfo = new EmployeeInfo();
+					try {
 
-	empInfo = employeeInfoRepository.findByEmpIdAndDelStatus(Integer.parseInt(al.get(i)), 1);
+						String claimMsg = new String();
+						if (status == 2) {
 
-	// Firebase.sendPushNotification(empInfo.getExVar1(), "HRMS",
-	// " " + empInfo.getEmpFname()+" "+empInfo.getEmpSname() + " has applied for
-	// Claim Please check for Approval", 1);
+							claimMsg = emp.getEmpFname() + " " + emp.getEmpSname() + " Claim for Rs. "
+									+ leaveApply.getClaimAmount() + " on " + claimDate
+									+ " Approved By Initial Authority";
 
-	try {
+						} else if (status == 3) {
 
-	String claimMsg = new String();
-	if (status == 2) {
+							claimMsg = emp.getEmpFname() + " " + emp.getEmpSname() + " Claim for Rs. "
+									+ leaveApply.getClaimAmount() + " on " + claimDate + " Approved By Final Authority";
 
-	claimMsg = emp.getEmpFname() + " " + emp.getEmpSname() + " Claim for Rs. "
-	+ leaveApply.getClaimAmount() + " on " + claimDate
-	+ " Approved By Initial Authority";
+						} else if (status == 8) {
 
-	Firebase.sendPushNotification(empInfo.getExVar1(), "HRMS", claimMsg, 2);
+							claimMsg = emp.getEmpFname() + " " + emp.getEmpSname() + " Claim for Rs. "
+									+ leaveApply.getClaimAmount() + " on " + claimDate
+									+ " Rejected By Initial Authority";
 
-	} else if (status == 3) {
+						} else if (status == 9) {
 
-	claimMsg = emp.getEmpFname() + " " + emp.getEmpSname() + " Claim for Rs. "
-	+ leaveApply.getClaimAmount() + " on " + claimDate + " Approved By Final Authority";
+							claimMsg = emp.getEmpFname() + " " + emp.getEmpSname() + " Claim for Rs. "
+									+ leaveApply.getClaimAmount() + " on " + claimDate + " Rejected By Final Authority";
 
-	Firebase.sendPushNotification(empInfo.getExVar1(), "HRMS", claimMsg, 2);
+						} else if (status == 7) {
 
-	} else if (status == 8) {
+							claimMsg = emp.getEmpFname() + " " + emp.getEmpSname() + " Claim for Rs. "
+									+ leaveApply.getClaimAmount() + " on " + claimDate + " Cancelled";
 
+						}
 
+						Firebase.sendPushNotification(emp.getExVar1(), "HRMS", claimMsg, 2);
 
-	claimMsg = emp.getEmpFname() + " " + emp.getEmpSname() + " Claim for Rs. "
-	+ leaveApply.getClaimAmount() + " on " + claimDate
-	+ " Rejected By Initial Authority";
+						Setting setting = new Setting();
+						setting = settingRepo.findByKey("hremail");
+						String hrEmail = (setting.getValue());
+						System.out.println(hrEmail);
+						Info emailRes = EmailUtility.sendEmail("atsinfosoft@gmail.com", "atsinfosoft@123", hrEmail,
+								" HRMS Claim Application Status", "", claimMsg);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 
-	Firebase.sendPushNotification(empInfo.getExVar1(), "HRMS", claimMsg, 2);
+				}
 
-	} else if (status == 9) {
+			} else {
+				info.setError(true);
+				info.setMsg("failed");
+			}
 
-	claimMsg = emp.getEmpFname() + " " + emp.getEmpSname() + " Claim for Rs. "
-	+ leaveApply.getClaimAmount() + " on " + claimDate + " Rejected By Final Authority";
+		} catch (Exception e) {
 
-	Firebase.sendPushNotification(empInfo.getExVar1(), "HRMS", claimMsg, 2);
+			e.printStackTrace();
+			info.setError(true);
+			info.setMsg("failed");
+		}
 
-	}
-	else if (status == 7) {
-
-	claimMsg = emp.getEmpFname() + " " + emp.getEmpSname() + " Claim for Rs. "
-	+ leaveApply.getClaimAmount() + " on " + claimDate + " Cancelled";
-
-	Firebase.sendPushNotification(empInfo.getExVar1(), "HRMS", claimMsg, 2);
-
-
-	}
-
-	} catch (Exception e) {
-	e.printStackTrace();
-	}
-
-	}
-
-	} else {
-	info.setError(true);
-	info.setMsg("failed");
-	}
-
-	} catch (Exception e) {
-
-	e.printStackTrace();
-	info.setError(true);
-	info.setMsg("failed");
-	}
-
-	return info;
+		return info;
 
 	}
 

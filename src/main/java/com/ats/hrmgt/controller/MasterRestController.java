@@ -1223,6 +1223,7 @@ public class MasterRestController {
 			 */
 			save = leaveAllotmentRepository.saveAndFlush(leavesAllotment);
 			if (save != null) {
+				System.out.println("*************Hii");
 				save.setError(false);
 
 				List<LeaveStructureDetails> leaveStructureDetailsList = leaveStructureDetailsRepo
