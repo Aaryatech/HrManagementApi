@@ -99,5 +99,12 @@ public interface EmployeeInfoRepository extends JpaRepository<EmployeeInfo, Inte
 			"                 or (pallot_todt BETWEEN :fromDate and :toDate )) and ex_int1=1 ) and del_status=1 and is_active=1 and emp_cat_id=:catId and company_id=:companyId ", nativeQuery = true)
 	List<EmployeeInfo> getPartialTimeFreeEmpList(@Param("fromDate") String fromDate, @Param("toDate") String toDate, @Param("catId") int catId,@Param("companyId") int companyId);
 	
+	
+	
+
+	@Transactional
+	@Modifying
+	@Query("update EmployeeInfo set emp_joining_date=:joinDate  WHERE emp_id=:empId")
+	int updateEmpJoinigDate(@Param("empId") int empId,@Param("joinDate") String joinDate);
 
 }

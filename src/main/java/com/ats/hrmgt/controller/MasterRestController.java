@@ -112,6 +112,56 @@ public class MasterRestController {
 
 	@Autowired
 	AuthorityInformationRepository authorityInformationRepository;
+	
+	/*
+	 * @RequestMapping(value = { "/getProbationaryLeaveTypeByTypeId" }, method =
+	 * RequestMethod.GET) public @ResponseBody LeaveType
+	 * getProbationaryLeaveTypeByTypeId( ) {
+	 * 
+	 * 
+	 * LeaveType list = new LeaveType(); try {
+	 * 
+	 * list = leaveTypeRepository.getLeaveEarnedByLeaveTypeId( );
+	 * 
+	 * System.err.println("LeaveHistory" + list.toString());
+	 * 
+	 * } catch (Exception e) {
+	 * 
+	 * e.printStackTrace(); }
+	 * 
+	 * return list;
+	 * 
+	 * }
+	 */
+	
+	@RequestMapping(value = { "/updateEmployeeJoiningDate" }, method = RequestMethod.POST)
+	public @ResponseBody Info updateEmployeeJoiningDate(@RequestParam("empId") int empId,
+			@RequestParam("joinDate") String  joinDate) {
+
+		Info info = new Info();
+
+		try {
+ 
+			int delete = employeeInfoRepository.updateEmpJoinigDate(empId, joinDate);
+
+			if (delete > 0) {
+				info.setError(false);
+				info.setMsg("updated status");
+			} else {
+				info.setError(true);
+				info.setMsg("failed");
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			info.setError(true);
+			info.setMsg("failed");
+		}
+
+		return info;
+
+	}
 
 	@RequestMapping(value = { "/updateLeaveStructureAllotment" }, method = RequestMethod.POST)
 	public @ResponseBody Info updateLeaveStructure(@RequestParam("lvsId") int lvsId, @RequestParam("empId") int empId) {

@@ -69,6 +69,8 @@ public class LeaveApplicationController {
 	static String mailsubject = " HRMS Password Recovery";
 
 	
+	
+	
 
 	@RequestMapping(value = { "/getLeaveHistoryList" }, method = RequestMethod.POST)
 	public @ResponseBody List<LeaveHistory> getLeaveHistoryList(@RequestParam("empId") int empId,
@@ -109,6 +111,9 @@ public class LeaveApplicationController {
 		return list;
 
 	}
+	
+	
+	
 
 	@RequestMapping(value = { "/saveLeaveTrail" }, method = RequestMethod.POST)
 	public @ResponseBody LeaveTrail saveLeaveTrail(@RequestBody LeaveTrail leaveTrail) {
@@ -661,5 +666,6 @@ public class LeaveApplicationController {
 		return info;
 
 	}
+	 
 
 }
