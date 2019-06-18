@@ -2,6 +2,7 @@ package com.ats.hrmgt.controller;
 
 import java.text.SimpleDateFormat;
 
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.hrmgt.claim.repo.ClaimTrailRepo;
@@ -435,22 +437,22 @@ public class ClaimApplicationApiController {
 					if (status == 2) {
 
 						claimMsg = emp.getEmpFname() + " " + emp.getEmpSname() + " your Claim for Rs. "
-								+ leaveApply.getClaimAmount() + " on " + claimDate + " Approved By Initial Authority";
+								+ leaveApply.getClaimAmount() + " Duration: " + claimDate + " Approved By Initial Authority";
 
 					} else if (status == 3) {
 
 						claimMsg = emp.getEmpFname() + " " + emp.getEmpSname() + " your Claim for Rs. "
-								+ leaveApply.getClaimAmount() + " on " + claimDate + " Approved By Final Authority";
+								+ leaveApply.getClaimAmount() + " Duration: " + claimDate + " Approved By Final Authority";
 
 					} else if (status == 8) {
 
 						claimMsg = emp.getEmpFname() + " " + emp.getEmpSname() + " your Claim for Rs. "
-								+ leaveApply.getClaimAmount() + " on " + claimDate + " Rejected By Initial Authority";
+								+ leaveApply.getClaimAmount() + " Duration: " + claimDate + " Rejected By Initial Authority";
 
 					} else if (status == 9) {
 
 						claimMsg = emp.getEmpFname() + " " + emp.getEmpSname() + " your Claim for Rs. "
-								+ leaveApply.getClaimAmount() + " on " + claimDate + " Rejected By Final Authority";
+								+ leaveApply.getClaimAmount() + " Duration: " + claimDate + " Rejected By Final Authority";
 
 					}
 
@@ -482,29 +484,29 @@ public class ClaimApplicationApiController {
 						if (status == 2) {
 
 							claimMsg = emp.getEmpFname() + " " + emp.getEmpSname() + " Claim for Rs. "
-									+ leaveApply.getClaimAmount() + " on " + claimDate
+									+ leaveApply.getClaimAmount() + " Duration: " + claimDate
 									+ " Approved By Initial Authority";
 
 						} else if (status == 3) {
 
 							claimMsg = emp.getEmpFname() + " " + emp.getEmpSname() + " Claim for Rs. "
-									+ leaveApply.getClaimAmount() + " on " + claimDate + " Approved By Final Authority";
+									+ leaveApply.getClaimAmount() + " Duration: " + claimDate + " Approved By Final Authority";
 
 						} else if (status == 8) {
 
 							claimMsg = emp.getEmpFname() + " " + emp.getEmpSname() + " Claim for Rs. "
-									+ leaveApply.getClaimAmount() + " on " + claimDate
+									+ leaveApply.getClaimAmount() + " Duration: " + claimDate
 									+ " Rejected By Initial Authority";
 
 						} else if (status == 9) {
 
 							claimMsg = emp.getEmpFname() + " " + emp.getEmpSname() + " Claim for Rs. "
-									+ leaveApply.getClaimAmount() + " on " + claimDate + " Rejected By Final Authority";
+									+ leaveApply.getClaimAmount() + " Duration: " + claimDate + " Rejected By Final Authority";
 
 						} else if (status == 7) {
 
 							claimMsg = emp.getEmpFname() + " " + emp.getEmpSname() + " Claim for Rs. "
-									+ leaveApply.getClaimAmount() + " on " + claimDate + " Cancelled";
+									+ leaveApply.getClaimAmount() + " Duration: " + claimDate + " Cancelled";
 
 						}
 
