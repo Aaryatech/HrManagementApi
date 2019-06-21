@@ -88,13 +88,6 @@ public class ClaimHeaderDetailApiController {
 			al.clear();
 			al.addAll(set);
 			System.err.println("emp ids for notification are:--------------:" + al.toString());
-
-			for (int i = 0; i < al.size(); i++) {
-
-			EmployeeInfo empInfo = new EmployeeInfo();
-
-			empInfo = employeeInfoRepository.findByEmpIdAndDelStatus(Integer.parseInt(al.get(i)), 1);
-
 			SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
 			SimpleDateFormat sdf2 = new SimpleDateFormat("dd-MM-yyyy");
 
@@ -111,33 +104,48 @@ public class ClaimHeaderDetailApiController {
 				Date d2 = sdf1.parse(claimHead.getCaToDt());
 
 				claimDate2 = sdf2.format(d2.getTime());
+				
+				claimDate = claimDate1 + "To" + claimDate2;
+
 
 			} catch (Exception e) {
-				claimDate = claimDate1 + "To" + claimDate2;
 
 				e.printStackTrace();
 			}
+			
+			String claimMsg =name + " registered Claim for Rs. "
+					+ claimHead.getClaimAmount() + " Duration: " + claimDate + " Please Check";
+			for (int i = 0; i < al.size(); i++) {
+
+			EmployeeInfo empInfo = new EmployeeInfo();
+
+			empInfo = employeeInfoRepository.findByEmpIdAndDelStatus(Integer.parseInt(al.get(i)), 1);
+
+			
 
 			try {
 
 			Firebase.sendPushNotification(
 			empInfo.getExVar1(), "HRMS", " " + name + " has applied for Claim for Rs. "
-			+ claimHead.getClaimAmount() + " Duration: " + claimDate + ", Please check for Approval",
+			+ claimHead.getClaimAmount() + " Duration: " + claimDate + ", Please check ",
 			21);
 			
-			Setting setting = new Setting();
-			setting = settingRepo.findByKey("hremail");
-			String hrEmail = (setting.getValue());
-			System.out.println(hrEmail);
-			Info emailRes = EmailUtility.sendEmail("atsinfosoft@gmail.com", "atsinfosoft@123", hrEmail,"HRMS",
-					 " " + name + " has applied for Claim for Rs. "
-								+ claimHead.getClaimAmount() + " Duration: " + claimDate + ", Please check for Approval", "");
+			Info emailRes1 = EmailUtility.sendEmail("atsinfosoft@gmail.com", "atsinfosoft@123", empInfo.getEmpEmail(),"HRMS",
+					   claimMsg,"");
 
 			} catch (Exception e) {
 			e.printStackTrace();
 			}
 
 			}
+			
+			Setting setting = new Setting();
+			setting = settingRepo.findByKey("hremail");
+			String hrEmail = (setting.getValue());
+			System.out.println(hrEmail);
+			Info emailRes = EmailUtility.sendEmail("atsinfosoft@gmail.com", "atsinfosoft@123", hrEmail,"HRMS",
+					  ""," " + name + " has applied for Claim for Rs. "
+							+ claimHead.getClaimAmount() + " Duration: " + claimDate + ", Please check ");
 
 			
  

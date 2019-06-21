@@ -463,9 +463,39 @@ public class ClaimApplicationApiController {
 					String hrEmail = (setting.getValue());
 					System.out.println(hrEmail);
 					Info emailRes = EmailUtility.sendEmail("atsinfosoft@gmail.com", "atsinfosoft@123", hrEmail,
-							" HRMS Claim Application Status", "", claimMsg);
+							" HRMS Claim Application Status", claimMsg,"" );
 				} catch (Exception e) {
 					e.printStackTrace();
+				}
+				
+				String claimMsg = new String();
+				if (status == 2) {
+
+					claimMsg = emp.getEmpFname() + " " + emp.getEmpSname() + " Claim for Rs. "
+							+ leaveApply.getClaimAmount() + " Duration: " + claimDate
+							+ " Approved By Initial Authority";
+
+				} else if (status == 3) {
+
+					claimMsg = emp.getEmpFname() + " " + emp.getEmpSname() + " Claim for Rs. "
+							+ leaveApply.getClaimAmount() + " Duration: " + claimDate + " Approved By Final Authority";
+
+				} else if (status == 8) {
+
+					claimMsg = emp.getEmpFname() + " " + emp.getEmpSname() + " Claim for Rs. "
+							+ leaveApply.getClaimAmount() + " Duration: " + claimDate
+							+ " Rejected By Initial Authority";
+
+				} else if (status == 9) {
+
+					claimMsg = emp.getEmpFname() + " " + emp.getEmpSname() + " Claim for Rs. "
+							+ leaveApply.getClaimAmount() + " Duration: " + claimDate + " Rejected By Final Authority";
+
+				} else if (status == 7) {
+
+					claimMsg = emp.getEmpFname() + " " + emp.getEmpSname() + " Claim for Rs. "
+							+ leaveApply.getClaimAmount() + " Duration: " + claimDate + " Cancelled";
+
 				}
 
 				for (int i = 0; i < al.size(); i++) {
@@ -473,56 +503,24 @@ public class ClaimApplicationApiController {
 					EmployeeInfo empInfo = new EmployeeInfo();
 
 					empInfo = employeeInfoRepository.findByEmpIdAndDelStatus(Integer.parseInt(al.get(i)), 1);
-
-					// Firebase.sendPushNotification(empInfo.getExVar1(), "HRMS",
-					// " " + empInfo.getEmpFname()+" "+empInfo.getEmpSname() + " has applied for
-					// Claim Please check for Approval", 1);
-
-					try {
-
-						String claimMsg = new String();
-						if (status == 2) {
-
-							claimMsg = emp.getEmpFname() + " " + emp.getEmpSname() + " Claim for Rs. "
-									+ leaveApply.getClaimAmount() + " Duration: " + claimDate
-									+ " Approved By Initial Authority";
-
-						} else if (status == 3) {
-
-							claimMsg = emp.getEmpFname() + " " + emp.getEmpSname() + " Claim for Rs. "
-									+ leaveApply.getClaimAmount() + " Duration: " + claimDate + " Approved By Final Authority";
-
-						} else if (status == 8) {
-
-							claimMsg = emp.getEmpFname() + " " + emp.getEmpSname() + " Claim for Rs. "
-									+ leaveApply.getClaimAmount() + " Duration: " + claimDate
-									+ " Rejected By Initial Authority";
-
-						} else if (status == 9) {
-
-							claimMsg = emp.getEmpFname() + " " + emp.getEmpSname() + " Claim for Rs. "
-									+ leaveApply.getClaimAmount() + " Duration: " + claimDate + " Rejected By Final Authority";
-
-						} else if (status == 7) {
-
-							claimMsg = emp.getEmpFname() + " " + emp.getEmpSname() + " Claim for Rs. "
-									+ leaveApply.getClaimAmount() + " Duration: " + claimDate + " Cancelled";
-
-						}
-
-						Firebase.sendPushNotification(emp.getExVar1(), "HRMS", claimMsg, 2);
-
-						Setting setting = new Setting();
-						setting = settingRepo.findByKey("hremail");
-						String hrEmail = (setting.getValue());
-						System.out.println(hrEmail);
-						Info emailRes = EmailUtility.sendEmail("atsinfosoft@gmail.com", "atsinfosoft@123", hrEmail,
+ 
+					try { 
+						Firebase.sendPushNotification(empInfo.getExVar1(), "HRMS", claimMsg, 2);
+						Info emailRes = EmailUtility.sendEmail("atsinfosoft@gmail.com", "atsinfosoft@123", empInfo.getEmpEmail(),
 								" HRMS Claim Application Status", "", claimMsg);
+						
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
 
 				}
+				
+				Setting setting = new Setting();
+				setting = settingRepo.findByKey("hremail");
+				String hrEmail = (setting.getValue());
+				System.out.println(hrEmail);
+				Info emailRes = EmailUtility.sendEmail("atsinfosoft@gmail.com", "atsinfosoft@123", hrEmail,
+						" HRMS Claim Application Status", claimMsg,"");
 
 			} else {
 				info.setError(true);
