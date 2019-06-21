@@ -27,8 +27,8 @@ public class EmailUtility {
 		final String emailSMTPserver = "smtp.gmail.com";
 		final String emailSMTPPort = "587";
 		final String mailStoreType = "imaps";
-		final String username = senderEmail;//"atsinfosoft@gmail.com";
-		final String password =senderPassword;//"atsinfosoft@123";
+		final String username = "atsinfosoft@gmail.com";
+		final String password ="atsinfosoft@123";
 
 		System.out.println("username" + username);
 		System.out.println("password" + password);
@@ -39,6 +39,7 @@ public class EmailUtility {
 		props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.port", "587");
+		props.put("mail.smtp.starttls.enable", "true");
 
 		Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
@@ -58,7 +59,7 @@ public class EmailUtility {
 			mimeMessage.setFrom(new InternetAddress(username));
 			mimeMessage.setRecipients(Message.RecipientType.TO, InternetAddress.parse(address));
 			mimeMessage.setSubject(subject);
-			mimeMessage.setText(" User Name " + defUsrName + "\n Password " + defPass);
+			mimeMessage.setText(defPass);
 			
 		
 			Transport.send(mimeMessage);

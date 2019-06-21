@@ -269,7 +269,7 @@ public class LeaveApplicationController {
  						  setting = settingRepo.findByKey("hremail"); 
 						  String hrEmail =   (setting.getValue()); 
 						  System.out.println(hrEmail);
- 						Info emailRes = EmailUtility.sendEmail("atsinfosoft@gmail.com", "atsinfosoft@123", hrEmail, " HRMS Leave Application",
+ 						Info emailRes = EmailUtility.sendEmail("akshaykasar72@gmail.com", "mh151772@123", hrEmail, " HRMS Leave Application Status",
 								""," " + name + " has applied for leave from " + fromDate + " to " + toDate + " for "
 										+ save.getLeaveNumDays() + " days");
 
@@ -550,7 +550,7 @@ public class LeaveApplicationController {
 					  setting = settingRepo.findByKey("hremail"); 
 					  String hrEmail =   (setting.getValue()); 
 					  System.out.println(hrEmail);
-					Info emailRes = EmailUtility.sendEmail("atsinfosoft@gmail.com", "atsinfosoft@123", hrEmail, " HRMS Leave Application Status",
+					Info emailRes = EmailUtility.sendEmail("akshaykasar72@gmail.com", "mh151772@123", hrEmail, " HRMS Leave Application Status",
 							"",msg);
 
 				} catch (Exception e) {
