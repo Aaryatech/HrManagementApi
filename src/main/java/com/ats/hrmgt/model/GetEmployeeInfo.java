@@ -49,7 +49,7 @@ private int empId;
 	
 	private int empPrevExpYrs;
 	
-	private int empRatePerhr;
+	private float empRatePerhr;
 	
 	
 	private String exVar1 ;
@@ -210,11 +210,11 @@ private int empId;
 		this.empPrevExpYrs = empPrevExpYrs;
 	}
 
-	public int getEmpRatePerhr() {
+	public float getEmpRatePerhr() {
 		return empRatePerhr;
 	}
 
-	public void setEmpRatePerhr(int empRatePerhr) {
+	public void setEmpRatePerhr(float empRatePerhr) {
 		this.empRatePerhr = empRatePerhr;
 	}
 	

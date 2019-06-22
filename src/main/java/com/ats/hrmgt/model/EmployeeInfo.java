@@ -77,7 +77,7 @@ public class EmployeeInfo {
 	private String empEmergencyNo2;
 	
 	@Column(name="emp_rate_perhr")
-	private int empRatePerhr;
+	private float empRatePerhr;
 	
 	@Column(name="emp_joining_date")
 	private String empJoiningDate;
@@ -306,11 +306,11 @@ public class EmployeeInfo {
 		this.empEmergencyNo2 = empEmergencyNo2;
 	}
 
-	public int getEmpRatePerhr() {
+	public float getEmpRatePerhr() {
 		return empRatePerhr;
 	}
 
-	public void setEmpRatePerhr(int empRatePerhr) {
+	public void setEmpRatePerhr(float empRatePerhr) {
 		this.empRatePerhr = empRatePerhr;
 	}
 

@@ -425,9 +425,10 @@ public class ClaimApplicationApiController {
 					Date d2 = sdf1.parse(leaveApply.getCaToDt());
 
 					claimDate2 = sdf2.format(d2.getTime());
+					claimDate = claimDate1 + "To" + claimDate2;
 
 				} catch (Exception e) {
-					claimDate = claimDate1 + "To" + claimDate2;
+					
 
 					e.printStackTrace();
 				}
@@ -461,9 +462,9 @@ public class ClaimApplicationApiController {
 					Setting setting = new Setting();
 					setting = settingRepo.findByKey("hremail");
 					String hrEmail = (setting.getValue());
-					System.out.println(hrEmail);
+					System.out.println("clm to hr"+claimMsg);
 					Info emailRes = EmailUtility.sendEmail("atsinfosoft@gmail.com", "atsinfosoft@123", hrEmail,
-							" HRMS Claim Application Status", claimMsg,"" );
+							" HRMS Claim Application Status","", claimMsg );
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -505,6 +506,7 @@ public class ClaimApplicationApiController {
 					empInfo = employeeInfoRepository.findByEmpIdAndDelStatus(Integer.parseInt(al.get(i)), 1);
  
 					try { 
+						System.out.println("clm to approval"+claimMsg);
 						Firebase.sendPushNotification(empInfo.getExVar1(), "HRMS", claimMsg, 2);
 						Info emailRes = EmailUtility.sendEmail("atsinfosoft@gmail.com", "atsinfosoft@123", empInfo.getEmpEmail(),
 								" HRMS Claim Application Status", "", claimMsg);
@@ -520,7 +522,7 @@ public class ClaimApplicationApiController {
 				String hrEmail = (setting.getValue());
 				System.out.println(hrEmail);
 				Info emailRes = EmailUtility.sendEmail("atsinfosoft@gmail.com", "atsinfosoft@123", hrEmail,
-						" HRMS Claim Application Status", claimMsg,"");
+						" HRMS Claim Application Status","", claimMsg);
 
 			} else {
 				info.setError(true);

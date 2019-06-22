@@ -126,12 +126,14 @@ public class ClaimHeaderDetailApiController {
 			try {
 
 			Firebase.sendPushNotification(
-			empInfo.getExVar1(), "HRMS", " " + name + " has applied for Claim for Rs. "
+			empInfo.getExVar1(), "HRMS Claim Application", " " + name + " has applied for Claim for Rs. "
 			+ claimHead.getClaimAmount() + " Duration: " + claimDate + ", Please check ",
 			21);
 			
-			Info emailRes1 = EmailUtility.sendEmail("atsinfosoft@gmail.com", "atsinfosoft@123", empInfo.getEmpEmail(),"HRMS",
-					   claimMsg,"");
+			 
+			
+			Info emailRes = EmailUtility.sendEmail("atsinfosoft@gmail.com", "atsinfosoft@123", empInfo.getEmpEmail(),
+					" HRMS Claim Application Status", claimMsg,"" );
 
 			} catch (Exception e) {
 			e.printStackTrace();
@@ -143,7 +145,7 @@ public class ClaimHeaderDetailApiController {
 			setting = settingRepo.findByKey("hremail");
 			String hrEmail = (setting.getValue());
 			System.out.println(hrEmail);
-			Info emailRes = EmailUtility.sendEmail("atsinfosoft@gmail.com", "atsinfosoft@123", hrEmail,"HRMS",
+			Info emailRes = EmailUtility.sendEmail("atsinfosoft@gmail.com", "atsinfosoft@123", hrEmail,"HRMS Claim Application",
 					  ""," " + name + " has applied for Claim for Rs. "
 							+ claimHead.getClaimAmount() + " Duration: " + claimDate + ", Please check ");
 
