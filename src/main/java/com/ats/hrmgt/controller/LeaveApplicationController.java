@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ats.hrmgt.common.DateConvertor;
 import com.ats.hrmgt.common.EmailUtility;
 import com.ats.hrmgt.common.Firebase;
+import com.ats.hrmgt.leave.model.EmployeeLeaveDetail;
 import com.ats.hrmgt.leave.model.GetAuthorityIds;
 import com.ats.hrmgt.leave.model.GetLeaveApplyAuthwise;
 import com.ats.hrmgt.leave.model.LeaveDetail;
@@ -38,6 +39,7 @@ import com.ats.hrmgt.model.LeaveTrail;
 import com.ats.hrmgt.model.LeaveType;
 import com.ats.hrmgt.model.Setting;
 import com.ats.hrmgt.repository.EmployeeInfoRepository;
+import com.ats.hrmgt.repository.EmployeeLeaveDetailRepo;
 import com.ats.hrmgt.repository.LeaveApplyRepository;
 import com.ats.hrmgt.repository.LeaveTrailRepository;
 import com.ats.hrmgt.repository.SettingRepo;
@@ -244,8 +246,8 @@ public class LeaveApplicationController {
 					e.printStackTrace();
 				}
 
-				String msg = empInfo1.getEmpFname() + " " + empInfo1.getEmpSname() + " has applied For Leave from " + fromDate
-						+ " to " + toDate + " for " + save.getLeaveNumDays() + " days Please Check";
+				String msg = empInfo1.getEmpFname() + " " + empInfo1.getEmpSname() + " has applied For Leave from "
+						+ fromDate + " to " + toDate + " for " + save.getLeaveNumDays() + " days Please Check";
 
 				for (int i = 0; i < al.size(); i++) {
 
@@ -386,7 +388,9 @@ public class LeaveApplicationController {
 
 	@Autowired
 	LeaveDetailRepo leaveDetailRepo;
-
+	@Autowired
+	EmployeeLeaveDetailRepo employeeLeaveDetailRepo;
+	
 	@RequestMapping(value = { "getLeaveListByEmp" }, method = RequestMethod.POST)
 	public @ResponseBody List<LeaveDetail> getLeaveListByLocIdAndEmp(@RequestParam("empId") int empId) {
 
@@ -399,6 +403,29 @@ public class LeaveApplicationController {
 				employeeInfo.get(i).setLeaveFromdt(DateConvertor.convertToDMY(employeeInfo.get(i).getLeaveFromdt()));
 				employeeInfo.get(i).setLeaveTodt(DateConvertor.convertToDMY(employeeInfo.get(i).getLeaveTodt()));
 			}
+
+			System.out.println(employeeInfo);
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return employeeInfo;
+
+	}
+	
+	//Akshay new code 20-08-2018
+	@RequestMapping(value = { "getLeaveListByEmpId" }, method = RequestMethod.POST)
+	public @ResponseBody List<EmployeeLeaveDetail> getLeaveListByEmpId(@RequestParam("empId") int empId) {
+
+		List<EmployeeLeaveDetail> employeeInfo = new ArrayList<EmployeeLeaveDetail>();
+
+		try {
+
+			employeeInfo = employeeLeaveDetailRepo.getLeaveListByEmp(empId);
+			 
+
+			System.out.println("info" + employeeInfo);
 		} catch (Exception e) {
 
 			e.printStackTrace();

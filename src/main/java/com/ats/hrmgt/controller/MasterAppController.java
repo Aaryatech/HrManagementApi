@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.ats.hrmgt.common.DateConvertor;
 import com.ats.hrmgt.leave.model.ClaimDetail;
+import com.ats.hrmgt.leave.model.EmployeeLeaveDetail;
 import com.ats.hrmgt.leave.model.GetClaimTrailStatus;
 import com.ats.hrmgt.leave.model.GetLeaveStatus;
 import com.ats.hrmgt.leave.model.LeaveDetail;
@@ -29,6 +30,7 @@ import com.ats.hrmgt.model.Setting;
 import com.ats.hrmgt.repository.CalculateYearRepository;
 import com.ats.hrmgt.repository.DashboardRepo;
 import com.ats.hrmgt.repository.EmployeeInfoRepository;
+import com.ats.hrmgt.repository.EmployeeLeaveDetailRepo;
 import com.ats.hrmgt.repository.SettingRepo;
 
 @RestController
@@ -330,6 +332,29 @@ public class MasterAppController {
 				  employeeInfo.get(i).setLeaveFromdt(DateConvertor.convertToDMY(employeeInfo.get(i).getLeaveFromdt()));
 				  employeeInfo.get(i).setLeaveTodt(DateConvertor.convertToDMY(employeeInfo.get(i).getLeaveTodt()));
 						  }
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		} 
+
+		return employeeInfo; 
+
+	}
+	
+	@Autowired
+	EmployeeLeaveDetailRepo employeeLeaveDetailRepo;
+	
+	//new code akshay 20-08-2019
+	@RequestMapping(value = { "getLeaveListByLocIdAndEmpId" }, method = RequestMethod.POST)
+	public @ResponseBody List<EmployeeLeaveDetail> getLeaveListByLocIdAndEmpId(@RequestParam("empId") int empId,
+			@RequestParam("calYrId") int calYrId) {
+
+		List<EmployeeLeaveDetail> employeeInfo = new ArrayList<EmployeeLeaveDetail>();
+
+		try {
+ 
+			employeeInfo = employeeLeaveDetailRepo.getLeaveListByLocIdAndEmp(empId, calYrId, 1);
+			
 		} catch (Exception e) {
 
 			e.printStackTrace();
