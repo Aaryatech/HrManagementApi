@@ -112,7 +112,7 @@ public class MasterRestController {
 
 	@Autowired
 	AuthorityInformationRepository authorityInformationRepository;
-	
+
 	/*
 	 * @RequestMapping(value = { "/getProbationaryLeaveTypeByTypeId" }, method =
 	 * RequestMethod.GET) public @ResponseBody LeaveType
@@ -133,15 +133,15 @@ public class MasterRestController {
 	 * 
 	 * }
 	 */
-	
+
 	@RequestMapping(value = { "/updateEmployeeJoiningDate" }, method = RequestMethod.POST)
 	public @ResponseBody Info updateEmployeeJoiningDate(@RequestParam("empId") int empId,
-			@RequestParam("joinDate") String  joinDate) {
+			@RequestParam("joinDate") String joinDate) {
 
 		Info info = new Info();
 
 		try {
- 
+
 			int delete = employeeInfoRepository.updateEmpJoinigDate(empId, joinDate);
 
 			if (delete > 0) {
@@ -766,6 +766,35 @@ public class MasterRestController {
 		}
 
 		return save;
+
+	}
+
+	@RequestMapping(value = { "/updateIsVistStatus" }, method = RequestMethod.POST)
+	public @ResponseBody Info updateIsVistStatus(@RequestParam("empId") int empId,
+			@RequestParam("password") String password) {
+
+		Info info = new Info();
+
+		try {
+
+			int update = userRepo.updateIsVistStatus(empId,password);
+
+			if (update>0) {
+
+				info.setError(false);
+				info.setMsg("successfully password changed");
+
+			} else {
+				info.setError(true);
+				info.setMsg("failed password changed");
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return info;
 
 	}
 
