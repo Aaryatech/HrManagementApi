@@ -27,8 +27,8 @@ public class EmailUtility {
 		final String emailSMTPserver = "smtp.gmail.com";
 		final String emailSMTPPort = "587";
 		final String mailStoreType = "imaps";
-		final String username = "atsinfosoft@gmail.com";
-		final String password ="atsinfosoft@123";
+		final String username = "akshaykasar72@gmail.com";
+		final String password ="mh151772@123";
 
 		System.out.println("username" + username);
 		System.out.println("password" + password);
