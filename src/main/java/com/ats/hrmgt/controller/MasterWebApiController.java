@@ -104,9 +104,11 @@ public class MasterWebApiController {
 				user.setError(true);
 			}else {
 				user.setError(false);
+				String finalmsg="Your Password is:"+user.getUserPwd()+ 
+						"\n DO NOT REPLY to this EMAIL-ID - contact HR.PUNE@infrabeat.com.";
 				
 				Info emailRes = EmailUtility.sendEmail("atsinfosoft@gmail.com", "atsinfosoft@123", user.getEmpEmail(), " HRMS Password Recovery",
-						user.getEmpEmail(), user.getUserPwd());
+						user.getEmpEmail(),finalmsg );
 			}
 		} catch (Exception e) {
 

@@ -923,6 +923,37 @@ public class MasterRestController {
 		return info;
 
 	}
+	
+	
+	
+	@RequestMapping(value = { "/updateEmpProfPic" }, method = RequestMethod.POST)
+	public @ResponseBody Info updateEmpProfPic(@RequestParam("empId") int empId,@RequestParam("imageName") String imageName) {
+
+		Info info = new Info();
+
+		System.out.println("e,p updateEmpProfPic");
+		try {
+
+			int delete = employeeInfoRepository.updateEmpProfPic(empId,imageName);
+
+			if (delete > 0) {
+				info.setError(false);
+				info.setMsg("deleted");
+			} else {
+				info.setError(true);
+				info.setMsg("failed");
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			info.setError(true);
+			info.setMsg("failed");
+		}
+
+		return info;
+
+	}
 
 	@RequestMapping(value = { "/getEmpInfoById" }, method = RequestMethod.POST)
 	public @ResponseBody EmployeeInfo getEmpInfoById(@RequestParam("empId") int empId) {

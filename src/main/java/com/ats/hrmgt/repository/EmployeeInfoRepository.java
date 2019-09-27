@@ -19,6 +19,12 @@ public interface EmployeeInfoRepository extends JpaRepository<EmployeeInfo, Inte
 	@Modifying
 	@Query("update EmployeeInfo set del_status=0  WHERE emp_id=:empId")
 	int deleteEmpInfo(@Param("empId") int empId);
+	
+	
+	@Transactional
+	@Modifying
+	@Query("update EmployeeInfo set emp_photo=:imageName  WHERE emp_id=:empId")
+	int updateEmpProfPic(@Param("empId") int empId,@Param("imageName") String imageName);
 
 	EmployeeInfo findByEmpIdAndDelStatus(int empId, int i);
 

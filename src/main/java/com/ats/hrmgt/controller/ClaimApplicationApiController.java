@@ -457,7 +457,13 @@ public class ClaimApplicationApiController {
 
 					}
 
-					Firebase.sendPushNotification(emp.getExVar1(), "HRMS", claimMsg, 2);
+					
+					try {
+						Firebase.sendPushNotification(emp.getExVar1(), "HRMS", claimMsg, 2);
+
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 
 					Setting setting = new Setting();
 					setting = settingRepo.findByKey("hremail");
@@ -507,7 +513,13 @@ public class ClaimApplicationApiController {
  
 					try { 
 						System.out.println("clm to approval"+claimMsg);
-						Firebase.sendPushNotification(empInfo.getExVar1(), "HRMS", claimMsg, 2);
+						
+						try {
+							Firebase.sendPushNotification(empInfo.getExVar1(), "HRMS", claimMsg, 2);
+
+						}catch (Exception e) {
+							e.printStackTrace();
+						}
 						Info emailRes = EmailUtility.sendEmail("atsinfosoft@gmail.com", "atsinfosoft@123", empInfo.getEmpEmail(),
 								" HRMS Claim Application Status", "", claimMsg);
 						

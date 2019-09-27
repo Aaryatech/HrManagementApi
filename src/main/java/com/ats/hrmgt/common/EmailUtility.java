@@ -22,13 +22,20 @@ public class EmailUtility {
 		
 		Info info=new Info();
 		
+		
 		try {
+			
+			
+
 			
 		final String emailSMTPserver = "smtp.gmail.com";
 		final String emailSMTPPort = "587";
 		final String mailStoreType = "imaps";
-		final String username = "infrabeat.hrms@gmail.com";
-		final String password ="*DNGrm?dt!6W^zJmaK5znVJJ9C";
+	//	final String username = "infrabeat.hrms@gmail.com";
+		//final String password ="*DNGrm?dt!6W^zJmaK5znVJJ9C";
+		
+		final String username = "akshaykasar72@gmail.com";
+		final String password ="mh151772@123";
 
 		System.out.println("username" + username);
 		System.out.println("password" + password);

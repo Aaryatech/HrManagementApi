@@ -19,21 +19,39 @@ public interface GetAuthorityIdsRepo extends JpaRepository<GetAuthorityIds, Inte
 
 	GetAuthorityIds getClaimAuthIds(@Param("empId") int empId, @Param("companyId") int companyId);
 
-	@Query(value = "  SELECT\n" + "        leave_authority.emp_id,\n"
-			+ "        CONCAT(leave_authority.ini_auth_emp_id,\",\",\n"
-			+ "        leave_authority.fin_auth_emp_id,\",\",\n"
-			+ "        ) as rep_to_emp_ids,\n" + "        0 as ini_auth_emp_id,\n"
-			+ "        0 as fin_auth_emp_id    \n" + "    from\n" + "        leave_authority \n" + "    where\n"
-			+ "        leave_authority.emp_id=:empId", nativeQuery = true)
+	@Query(value = "  SELECT \n" + 
+			"        leave_authority.emp_id,\n" + 
+			"        CONCAT(leave_authority.ini_auth_emp_id,\",\",\n" + 
+			"       \n" + 
+			"        leave_authority.fin_auth_emp_id,\",\"\n" + 
+			"        ,\n" + 
+			"        leave_authority.rep_to_emp_ids\n" + 
+			" \n" + 
+			"        ) as rep_to_emp_ids,\n" + 
+			"        0 as ini_auth_emp_id,\n" + 
+			"        0 as fin_auth_emp_id         \n" + 
+			"    from\n" + 
+			"        leave_authority      \n" + 
+			"    where\n" + 
+			"        leave_authority.emp_id=:empId ", nativeQuery = true)
 
 	GetAuthorityIds getAuthIdsDict(@Param("empId") int empId);
 
-	@Query(value = "  SELECT claim_authority.emp_id,\n" + 
-			"\n" + 
-			"CONCAT(claim_authority.ca_ini_auth_emp_id ,\",\", claim_authority.ca_fin_auth_emp_id   ) \n" + 
-			"\n" + 
-			"as rep_to_emp_ids ,\n" + 
-			"0 as ini_auth_emp_id,0 as fin_auth_emp_id from  claim_authority where claim_authority.emp_id=:empId   AND claim_authority.del_status=1 ", nativeQuery = true)
+	@Query(value = " SELECT \n" + 
+			"        claim_authority.emp_id,\n" + 
+			"        CONCAT(claim_authority.ca_ini_auth_emp_id,\",\",\n" + 
+			"       \n" + 
+			"        claim_authority.ca_fin_auth_emp_id,\",\"\n" + 
+			"        ,\n" + 
+			"        claim_authority.ca_rep_to_emp_ids\n" + 
+			" \n" + 
+			"        ) as rep_to_emp_ids,\n" + 
+			"        0 as ini_auth_emp_id,\n" + 
+			"        0 as fin_auth_emp_id         \n" + 
+			"    from\n" + 
+			"        claim_authority      \n" + 
+			"    where\n" + 
+			"        claim_authority.emp_id=:empId ", nativeQuery = true)
 
 	GetAuthorityIds getClaimAuthIdsDict(@Param("empId") int empId);
 

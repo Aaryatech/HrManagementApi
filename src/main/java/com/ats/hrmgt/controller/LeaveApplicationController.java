@@ -557,7 +557,12 @@ public class LeaveApplicationController {
 
 					}
 
-					Firebase.sendPushNotification(emp.getExVar1(), "HRMS", msg, 1);
+					try {
+						Firebase.sendPushNotification(emp.getExVar1(), "HRMS", msg, 1);
+
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 
 					Info emailRes2 = EmailUtility.sendEmail("atsinfosoft@gmail.com", "atsinfosoft@123",
 							emp.getEmpEmail(), " HRMS Leave Application Status", "", msg);
@@ -608,7 +613,16 @@ public class LeaveApplicationController {
 
 						empInfo = employeeInfoRepository.findByEmpIdAndDelStatus(Integer.parseInt(al.get(i)), 1);
 
-						Firebase.sendPushNotification(empInfo.getExVar1(), "HRMS", msg, 1);
+						try {
+							Firebase.sendPushNotification(empInfo.getExVar1(), "HRMS", msg, 1);
+
+						}catch (Exception e) {
+
+							e.printStackTrace();
+
+						}
+
+						
 						Info emailRes1 = EmailUtility.sendEmail("atsinfosoft@gmail.com", "atsinfosoft@123",
 								empInfo.getEmpEmail(), " HRMS Leave Application Status", "", msg);
 
