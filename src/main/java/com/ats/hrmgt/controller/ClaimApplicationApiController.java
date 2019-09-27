@@ -459,8 +459,10 @@ public class ClaimApplicationApiController {
 
 					
 					try {
+						if(emp.getExVar1()!="" && emp.getExVar1()!=null) {
 						Firebase.sendPushNotification(emp.getExVar1(), "HRMS", claimMsg, 2);
-
+						
+						}
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -515,7 +517,9 @@ public class ClaimApplicationApiController {
 						System.out.println("clm to approval"+claimMsg);
 						
 						try {
+							if(emp.getExVar1()!="" && emp.getExVar1()!=null) {
 							Firebase.sendPushNotification(empInfo.getExVar1(), "HRMS", claimMsg, 2);
+							}
 
 						}catch (Exception e) {
 							e.printStackTrace();

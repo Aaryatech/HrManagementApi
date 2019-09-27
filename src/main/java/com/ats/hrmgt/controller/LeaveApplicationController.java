@@ -558,7 +558,11 @@ public class LeaveApplicationController {
 					}
 
 					try {
-						Firebase.sendPushNotification(emp.getExVar1(), "HRMS", msg, 1);
+						if(emp.getExVar1()!="" && emp.getExVar1()!=null) {
+							Firebase.sendPushNotification(emp.getExVar1(), "HRMS", msg, 1);
+						}
+						
+						
 
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -614,8 +618,9 @@ public class LeaveApplicationController {
 						empInfo = employeeInfoRepository.findByEmpIdAndDelStatus(Integer.parseInt(al.get(i)), 1);
 
 						try {
+							if(emp.getExVar1()!="" && emp.getExVar1()!=null) {
 							Firebase.sendPushNotification(empInfo.getExVar1(), "HRMS", msg, 1);
-
+							}
 						}catch (Exception e) {
 
 							e.printStackTrace();
