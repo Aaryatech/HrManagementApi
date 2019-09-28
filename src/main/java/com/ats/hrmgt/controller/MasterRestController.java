@@ -1,20 +1,38 @@
 package com.ats.hrmgt.controller;
 
+import java.awt.AlphaComposite;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.DateFormat;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.imageio.ImageIO;
+
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ats.hrmgt.common.DateConvertor;
+import com.ats.hrmgt.common.EmailUtility;
 import com.ats.hrmgt.leave.model.GetEmployeeAuthorityWise;
 import com.ats.hrmgt.leave.model.GetHoliday;
 import com.ats.hrmgt.leave.model.Holiday;
@@ -64,6 +82,8 @@ import com.ats.hrmgt.repository.UserRepo;
 
 @RestController
 public class MasterRestController {
+	
+	
 
 	@Autowired
 	CompanyRepository companyRepository;
@@ -777,9 +797,9 @@ public class MasterRestController {
 
 		try {
 
-			int update = userRepo.updateIsVistStatus(empId,password);
+			int update = userRepo.updateIsVistStatus(empId, password);
 
-			if (update>0) {
+			if (update > 0) {
 
 				info.setError(false);
 				info.setMsg("successfully password changed");
@@ -923,18 +943,115 @@ public class MasterRestController {
 		return info;
 
 	}
-	
-	
-	
+
+	@RequestMapping(value = { "/updateEmpProfPicForApp" }, method = RequestMethod.POST)
+	public @ResponseBody Info updateEmpProfPicForApp(@RequestParam("empId") int empId,
+			@RequestParam("profilePic") MultipartFile profilePic) {
+
+		Info info = new Info();
+
+		try {
+
+			 String imageSaveUrl = "/home/lenovo/Downloads/myUploads/";
+			String getImageSaveUrl = "http://ifbthrms.infrabeat.com:8181/hr/";
+			String[] allowExt = { "jpg", "jpeg", "gif", "png" };
+			int isResize = 0;
+			int width = 0;
+			int hieght = 0;
+			int isCheckSize = 0;
+			int imageSizeMax = 0;
+
+			Date date = new Date();
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			SimpleDateFormat dateTimeInGMT = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+
+			Boolean ret = false;
+			if (ret == false) {
+
+				if (profilePic.getOriginalFilename() != "") {
+					String imageName = new String();
+					imageName = dateTimeInGMT.format(date) + "_" + profilePic.getOriginalFilename();
+
+					try {
+
+						// start
+
+						String extension = FilenameUtils.getExtension(profilePic.getOriginalFilename());
+
+						if (ArrayUtils.contains(allowExt, extension.toLowerCase())) {
+
+							Path path = Paths.get(imageSaveUrl + imageName);
+
+							byte[] bytes = profilePic.getBytes();
+
+						//	System.out.println("Inside Image Type =1");
+
+							// path = Paths.get(uploadPath + imageName);
+
+							//System.out.println("Path= " + path.toString() + "" + profilePic.getSize());
+
+							Files.write(path, bytes);
+
+							if (isResize == 1) {
+
+								Image img = null;
+								BufferedImage tempPNG = null;
+
+								File newFilePNG = null;
+
+								//System.out.println("File " + imageName);
+								img = ImageIO.read(new File(imageSaveUrl + imageName));
+								tempPNG = EmailUtility.resizeImage(img, width, hieght);
+
+								newFilePNG = new File(imageSaveUrl + "thumbnail" + imageName);
+
+								ImageIO.write(tempPNG, extension, newFilePNG);
+
+								//System.out.println("DONE");
+							}
+
+							info.setError(false);
+							info.setMsg("Upload Successfully ");
+							//System.err.println("imageName " + imageName);
+							int up = employeeInfoRepository.updateEmpProfPic(empId, imageName);
+
+							if (up > 0) {
+								info.setError(false);
+								info.setMsg("success");
+							} else {
+								info.setError(true);
+								info.setMsg("failed");
+							}
+						} else {
+							info.setError(true);
+							info.setMsg("Error While Uploading Image");
+						}
+
+					} catch (Exception e) {
+						System.out.println(e.getMessage());
+					}
+
+				}
+			}
+		}
+
+		catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return info;
+
+	}
+
 	@RequestMapping(value = { "/updateEmpProfPic" }, method = RequestMethod.POST)
-	public @ResponseBody Info updateEmpProfPic(@RequestParam("empId") int empId,@RequestParam("imageName") String imageName) {
+	public @ResponseBody Info updateEmpProfPic(@RequestParam("empId") int empId,
+			@RequestParam("imageName") String imageName) {
 
 		Info info = new Info();
 
 		System.out.println("e,p updateEmpProfPic");
 		try {
 
-			int delete = employeeInfoRepository.updateEmpProfPic(empId,imageName);
+			int delete = employeeInfoRepository.updateEmpProfPic(empId, imageName);
 
 			if (delete > 0) {
 				info.setError(false);
