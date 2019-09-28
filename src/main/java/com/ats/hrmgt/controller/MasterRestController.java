@@ -952,7 +952,8 @@ public class MasterRestController {
 
 		try {
 
-			 String imageSaveUrl = "/home/lenovo/Downloads/myUploads/";
+			 //String imageSaveUrl = "/home/lenovo/Downloads/myUploads/";
+		 String imageSaveUrl = "/opt/tomcat/webapps/hr/";
 			String getImageSaveUrl = "http://ifbthrms.infrabeat.com:8181/hr/";
 			String[] allowExt = { "jpg", "jpeg", "gif", "png" };
 			int isResize = 0;
@@ -969,14 +970,22 @@ public class MasterRestController {
 			if (ret == false) {
 
 				if (profilePic.getOriginalFilename() != "") {
+					 System.out.println("before split " + profilePic.getOriginalFilename());
+					String tempImg=profilePic.getOriginalFilename().split("\\.")[0];
+					  System.out.println("After split " + tempImg);
+					  tempImg=tempImg.concat(".").concat("png") ;
+					  System.out.println("final split " + tempImg);
+					
+					
 					String imageName = new String();
-					imageName = dateTimeInGMT.format(date) + "_" + profilePic.getOriginalFilename();
+					imageName = dateTimeInGMT.format(date) + "_" + tempImg;
+					
 
 					try {
 
 						// start
 
-						String extension = FilenameUtils.getExtension(profilePic.getOriginalFilename());
+						String extension = FilenameUtils.getExtension(tempImg);
 
 						if (ArrayUtils.contains(allowExt, extension.toLowerCase())) {
 
@@ -984,11 +993,7 @@ public class MasterRestController {
 
 							byte[] bytes = profilePic.getBytes();
 
-						//	System.out.println("Inside Image Type =1");
-
-							// path = Paths.get(uploadPath + imageName);
-
-							//System.out.println("Path= " + path.toString() + "" + profilePic.getSize());
+					 
 
 							Files.write(path, bytes);
 
@@ -1017,7 +1022,7 @@ public class MasterRestController {
 
 							if (up > 0) {
 								info.setError(false);
-								info.setMsg("success");
+								info.setMsg(imageName);
 							} else {
 								info.setError(true);
 								info.setMsg("failed");
