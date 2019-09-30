@@ -404,6 +404,7 @@ public class ClaimApplicationApiController {
 				Set<String> set = new HashSet<>(al);
 				al.clear();
 				al.addAll(set);
+				al.add(String.valueOf(empId));
 				System.err.println("emp ids for notification are:--------------:" + al.toString());
 
 				EmployeeInfo emp = new EmployeeInfo();
