@@ -26,12 +26,14 @@ import com.ats.hrmgt.leave.model.GetAuthorityIds;
 import com.ats.hrmgt.leave.model.GetLeaveApplyAuthwise;
 import com.ats.hrmgt.leave.model.LeaveDetail;
 import com.ats.hrmgt.leave.model.LeaveHistory;
+import com.ats.hrmgt.leave.repo.EmpLeaveHistoryRepRepo;
 import com.ats.hrmgt.leave.repo.GetAuthorityIdsRepo;
 import com.ats.hrmgt.leave.repo.GetEmployeeAuthorityWiseRepo;
 import com.ats.hrmgt.leave.repo.GetLeaveApplyAuthwiseRepo;
 import com.ats.hrmgt.leave.repo.LeaveDetailRepo;
 import com.ats.hrmgt.leave.repo.LeaveHistoryRepo;
 import com.ats.hrmgt.model.ClaimApply;
+import com.ats.hrmgt.model.EmpLeaveHistoryRep;
 import com.ats.hrmgt.model.EmployeeInfo;
 import com.ats.hrmgt.model.Info;
 import com.ats.hrmgt.model.LeaveApply;
@@ -472,6 +474,8 @@ public class LeaveApplicationController {
 		return list;
 
 	}
+	
+	
 
 	@RequestMapping(value = { "/updateLeaveStatus" }, method = RequestMethod.POST)
 	public @ResponseBody Info updateLeaveStatus(@RequestParam("leaveId") int leaveId,
@@ -688,6 +692,28 @@ public class LeaveApplicationController {
 		}
 
 		return info;
+
+	}
+	
+	
+	@Autowired
+	EmpLeaveHistoryRepRepo empLeaveHistoryRepRepo;
+	
+	@RequestMapping(value = { "/getLeaveHistoryRep" }, method = RequestMethod.POST)
+	public @ResponseBody List<EmpLeaveHistoryRep> getLeaveHistoryRep(@RequestParam("empId") int empId,
+			@RequestParam("calYrId") int calYrId) {
+		List<EmpLeaveHistoryRep> list = new ArrayList<EmpLeaveHistoryRep>();
+
+		try {
+
+			list = empLeaveHistoryRepRepo.getEmpLeaveHistoryRep(empId, calYrId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return list;
 
 	}
 
