@@ -90,6 +90,25 @@ public class LeaveApplicationController {
 		return list;
 
 	}
+	
+	@RequestMapping(value = { "/getPreviousleaveHistory" }, method = RequestMethod.POST)
+	public @ResponseBody List<LeaveHistory> getPreviousleaveHistory(@RequestParam("empId") int empId ) {
+
+		List<LeaveHistory> list = new ArrayList<LeaveHistory>();
+		try {
+
+			list = leaveHistoryRepo.getPreviousleaveHistory(empId);
+
+			//System.err.println("LeaveHistory" + list.toString());
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
 
 	@RequestMapping(value = { "/getLeaveHistoryByLeaveTypeId" }, method = RequestMethod.POST)
 	public @ResponseBody LeaveHistory getLeaveHistoryByLeaveTyprId(@RequestParam("leaveTypeId") int leaveTypeId,
@@ -632,10 +651,14 @@ public class LeaveApplicationController {
 
 						}
 
-						
+						try {
 						Info emailRes1 = EmailUtility.sendEmail("atsinfosoft@gmail.com", "atsinfosoft@123",
 								empInfo.getEmpEmail(), " HRMS Leave Application Status", "", msg);
+						}catch (Exception e) {
 
+							e.printStackTrace();
+
+						}
 					}
 					Setting setting = new Setting();
 					setting = settingRepo.findByKey("hremail");

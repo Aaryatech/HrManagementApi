@@ -318,6 +318,24 @@ public class MasterAppController {
 		return employeeInfo;
 
 	}
+	
+	@RequestMapping(value = { "getemplistwhichisnotyearend" }, method = RequestMethod.POST)
+	public @ResponseBody List<EmployeeInfo> getemplistwhichisnotyearend(@RequestParam("locationId") List<Integer> locationId) {
+
+		List<EmployeeInfo> employeeInfo = new ArrayList<EmployeeInfo>();
+
+		try {
+
+			employeeInfo = employeeInfoRepository.getemplistwhichisnotyearend(locationId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return employeeInfo;
+
+	}
  
 	@RequestMapping(value = { "getLeaveListByLocIdAndEmp" }, method = RequestMethod.POST)
 	public @ResponseBody List<LeaveDetail> getLeaveListByLocIdAndEmp(@RequestParam("empId") int empId,

@@ -1502,6 +1502,55 @@ public class MasterRestController {
 		return save;
 
 	}
+	
+	
+	
+	@RequestMapping(value = { "/saveNewBalRecord" }, method = RequestMethod.POST)
+	public @ResponseBody List<LeaveBalanceCal> saveNewLeaveAllotmentWith(@RequestBody List<LeaveBalanceCal> leavesAllotment) {
+
+		List<LeaveBalanceCal> leaveBalanccRes = new ArrayList<>();
+
+		try {
+
+			 
+			 leaveBalanccRes = leaveBalanceCalRepo.saveAll(leavesAllotment);
+			 
+
+		} catch (Exception e) {
+			 
+			e.printStackTrace();
+		}
+		return leaveBalanccRes;
+
+	}
+	
+	@RequestMapping(value = { "/saveNewLeaveAllotment" }, method = RequestMethod.POST)
+	public @ResponseBody LeavesAllotment saveNewLeaveAllotmentWith(@RequestBody LeavesAllotment leavesAllotment) {
+
+		LeavesAllotment save = new LeavesAllotment();
+
+		try {
+
+			 
+			save = leaveAllotmentRepository.saveAndFlush(leavesAllotment);
+			if (save != null) {
+				 
+				save.setError(false);
+ 
+			} else {
+
+				save = new LeavesAllotment();
+				save.setError(true);
+			}
+
+		} catch (Exception e) {
+			save = new LeavesAllotment();
+			save.setError(true);
+			e.printStackTrace();
+		}
+		return save;
+
+	}
 
 	@RequestMapping(value = { "getLeaveAllotmentByCurrentCalender" }, method = RequestMethod.POST)
 	public @ResponseBody List<LeavesAllotment> getLeaveAllotmentByCurrentCalender(

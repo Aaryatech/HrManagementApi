@@ -113,4 +113,8 @@ public interface EmployeeInfoRepository extends JpaRepository<EmployeeInfo, Inte
 	@Query("update EmployeeInfo set emp_joining_date=:joinDate  WHERE emp_id=:empId")
 	int updateEmpJoinigDate(@Param("empId") int empId,@Param("joinDate") String joinDate);
 
+	@Query(value = "select * from emp_info where emp_id not in (select emp_id from leave_balance_cal where cal_yr_id=(select cal_yr_id from dm_cal_year where is_current=1)) "
+			+ "and del_status=1 and loc_id in (:locationId)", nativeQuery = true)
+	List<EmployeeInfo> getemplistwhichisnotyearend(@Param("locationId")  List<Integer> locationId);
+
 }
