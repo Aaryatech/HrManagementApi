@@ -90,16 +90,16 @@ public class LeaveApplicationController {
 		return list;
 
 	}
-	
+
 	@RequestMapping(value = { "/getPreviousleaveHistory" }, method = RequestMethod.POST)
-	public @ResponseBody List<LeaveHistory> getPreviousleaveHistory(@RequestParam("empId") int empId ) {
+	public @ResponseBody List<LeaveHistory> getPreviousleaveHistory(@RequestParam("empId") int empId) {
 
 		List<LeaveHistory> list = new ArrayList<LeaveHistory>();
 		try {
 
 			list = leaveHistoryRepo.getPreviousleaveHistory(empId);
 
-			//System.err.println("LeaveHistory" + list.toString());
+			// System.err.println("LeaveHistory" + list.toString());
 
 		} catch (Exception e) {
 
@@ -411,7 +411,7 @@ public class LeaveApplicationController {
 	LeaveDetailRepo leaveDetailRepo;
 	@Autowired
 	EmployeeLeaveDetailRepo employeeLeaveDetailRepo;
-	
+
 	@RequestMapping(value = { "getLeaveListByEmp" }, method = RequestMethod.POST)
 	public @ResponseBody List<LeaveDetail> getLeaveListByLocIdAndEmp(@RequestParam("empId") int empId) {
 
@@ -434,8 +434,8 @@ public class LeaveApplicationController {
 		return employeeInfo;
 
 	}
-	
-	//Akshay new code 20-08-2018
+
+	// Akshay new code 20-08-2018
 	@RequestMapping(value = { "getLeaveListByEmpId" }, method = RequestMethod.POST)
 	public @ResponseBody List<EmployeeLeaveDetail> getLeaveListByEmpId(@RequestParam("empId") int empId) {
 
@@ -444,7 +444,6 @@ public class LeaveApplicationController {
 		try {
 
 			employeeInfo = employeeLeaveDetailRepo.getLeaveListByEmp(empId);
-			 
 
 			System.out.println("info" + employeeInfo);
 		} catch (Exception e) {
@@ -493,8 +492,6 @@ public class LeaveApplicationController {
 		return list;
 
 	}
-	
-	
 
 	@RequestMapping(value = { "/updateLeaveStatus" }, method = RequestMethod.POST)
 	public @ResponseBody Info updateLeaveStatus(@RequestParam("leaveId") int leaveId,
@@ -582,11 +579,9 @@ public class LeaveApplicationController {
 					}
 
 					try {
-						if(emp.getExVar1()!="" && emp.getExVar1()!=null) {
+						if (emp.getExVar1() != "" && emp.getExVar1() != null) {
 							Firebase.sendPushNotification(emp.getExVar1(), "HRMS", msg, 1);
 						}
-						
-						
 
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -642,19 +637,19 @@ public class LeaveApplicationController {
 						empInfo = employeeInfoRepository.findByEmpIdAndDelStatus(Integer.parseInt(al.get(i)), 1);
 
 						try {
-							if(emp.getExVar1()!="" && emp.getExVar1()!=null) {
-							Firebase.sendPushNotification(empInfo.getExVar1(), "HRMS", msg, 1);
+							if (emp.getExVar1() != "" && emp.getExVar1() != null) {
+								Firebase.sendPushNotification(empInfo.getExVar1(), "HRMS", msg, 1);
 							}
-						}catch (Exception e) {
+						} catch (Exception e) {
 
 							e.printStackTrace();
 
 						}
 
 						try {
-						Info emailRes1 = EmailUtility.sendEmail("atsinfosoft@gmail.com", "atsinfosoft@123",
-								empInfo.getEmpEmail(), " HRMS Leave Application Status", "", msg);
-						}catch (Exception e) {
+							Info emailRes1 = EmailUtility.sendEmail("atsinfosoft@gmail.com", "atsinfosoft@123",
+									empInfo.getEmpEmail(), " HRMS Leave Application Status", "", msg);
+						} catch (Exception e) {
 
 							e.printStackTrace();
 
@@ -717,19 +712,21 @@ public class LeaveApplicationController {
 		return info;
 
 	}
-	
-	
+
 	@Autowired
 	EmpLeaveHistoryRepRepo empLeaveHistoryRepRepo;
-	
+
 	@RequestMapping(value = { "/getLeaveHistoryRep" }, method = RequestMethod.POST)
 	public @ResponseBody List<EmpLeaveHistoryRep> getLeaveHistoryRep(@RequestParam("empId") int empId,
 			@RequestParam("calYrId") int calYrId) {
 		List<EmpLeaveHistoryRep> list = new ArrayList<EmpLeaveHistoryRep>();
 
 		try {
-
-			list = empLeaveHistoryRepRepo.getEmpLeaveHistoryRep(empId, calYrId);
+			if (empId == -1) {
+				list = empLeaveHistoryRepRepo.getEmpLeaveHistoryRepAll(calYrId);
+			} else {
+				list = empLeaveHistoryRepRepo.getEmpLeaveHistoryRep(empId, calYrId);
+			}
 
 		} catch (Exception e) {
 
