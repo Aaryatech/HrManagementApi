@@ -728,7 +728,8 @@ public class MasterRestController {
 			}
 
 		} catch (Exception e) {
-
+			save = new EmployeeInfo();
+			save.setError(true);
 			e.printStackTrace();
 		}
 
