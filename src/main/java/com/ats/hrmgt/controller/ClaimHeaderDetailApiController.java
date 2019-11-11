@@ -133,7 +133,7 @@ public class ClaimHeaderDetailApiController {
 			 
 			
 			Info emailRes = EmailUtility.sendEmail("atsinfosoft@gmail.com", "atsinfosoft@123", empInfo.getEmpEmail(),
-					" HRMS Claim Application Status", claimMsg,"" );
+					" HRMS Claim Application Status", "",claimMsg );
 
 			} catch (Exception e) {
 			e.printStackTrace();

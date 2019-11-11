@@ -30,8 +30,8 @@ public class DateConvertor {
 			
 			String convertedDate=null;
 			try {
-				SimpleDateFormat ymdSDF = new SimpleDateFormat("yyyy-mm-dd");
-				SimpleDateFormat ymdSDF2 = new SimpleDateFormat("yyyy-mm-dd");
+				SimpleDateFormat ymdSDF = new SimpleDateFormat("yyyy-MM-dd");
+				SimpleDateFormat ymdSDF2 = new SimpleDateFormat("yyyy-MM-dd");
 
 				
 				SimpleDateFormat dmySDF = new SimpleDateFormat("dd-MM-yyyy");
