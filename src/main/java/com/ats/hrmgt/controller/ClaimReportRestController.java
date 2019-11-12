@@ -12,11 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.hrmgt.leave.repo.ClaimRepository;
 import com.ats.hrmgt.model.ClaimType;
+import com.ats.hrmgt.model.ClientWiseClaimReport;
 import com.ats.hrmgt.model.EmployeeInfo;
 import com.ats.hrmgt.model.EmployeeWithClaim;
 import com.ats.hrmgt.model.EmployeeWithClaimId;
 import com.ats.hrmgt.model.GetProjectHeader;
 import com.ats.hrmgt.model.TypeListWithAmt;
+import com.ats.hrmgt.repository.ClientWiseClaimReportRepository;
 import com.ats.hrmgt.repository.EmployeeInfoRepository;
 import com.ats.hrmgt.repository.EmployeeWithClaimIdRepository;
 import com.ats.hrmgt.repository.GetProjectHeaderRepo;
@@ -35,6 +37,9 @@ public class ClaimReportRestController {
 	
 	@Autowired
 	GetProjectHeaderRepo getProjectHeaderRepo;
+	
+	@Autowired
+	ClientWiseClaimReportRepository clientWiseClaimReportRepository;
 
 	@RequestMapping(value = { "employeeTypeWiseClaimReport" }, method = RequestMethod.POST)
 	public @ResponseBody List<EmployeeWithClaim> employeeTypeWiseClaimReport(
@@ -161,6 +166,26 @@ public class ClaimReportRestController {
 				reportList.add(employeeWithClaim);
 			}
 
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return reportList;
+
+	}
+	
+	@RequestMapping(value = { "clientWiseClaimReport" }, method = RequestMethod.POST)
+	public @ResponseBody List<ClientWiseClaimReport> clientWiseClaimReport( @RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate) {
+
+		List<ClientWiseClaimReport> reportList = new ArrayList<>();
+
+		try {
+ 
+			reportList = clientWiseClaimReportRepository.clientWiseClaimReport(fromDate,
+					toDate);
+ 
 		} catch (Exception e) {
 
 			e.printStackTrace();
