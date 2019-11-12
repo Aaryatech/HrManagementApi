@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.hrmgt.claim.repo.ClaimTrailRepo;
 import com.ats.hrmgt.claim.repo.GetClaimApplyAuthwiseRepo;
+import com.ats.hrmgt.claim.repo.GetEmployeeClaimStrudtRepo;
 import com.ats.hrmgt.common.DateConvertor;
 import com.ats.hrmgt.common.EmailUtility;
 import com.ats.hrmgt.common.Firebase;
@@ -45,6 +46,7 @@ import com.ats.hrmgt.model.ClaimApplyHeader;
 import com.ats.hrmgt.model.ClaimTrail;
 import com.ats.hrmgt.model.EmployeeInfo;
 import com.ats.hrmgt.model.GetClaimApplyAuthwise;
+import com.ats.hrmgt.model.GetEmployeeClaimStrudt;
 import com.ats.hrmgt.model.GetEmployeeInfo;
 import com.ats.hrmgt.model.Info;
 import com.ats.hrmgt.model.Setting;
@@ -576,5 +578,27 @@ public class ClaimApplicationApiController {
 	 * 
 	 * }
 	 */
+	
+	
+	//New Work
+	@Autowired
+	GetEmployeeClaimStrudtRepo getEmployeeClaimStrudtRepo;
+	
+	@RequestMapping(value = { "/getEmpClaimStructure" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetEmployeeClaimStrudt> getEmpClaimStructure(@RequestParam("empId") int empId) {
+		List<GetEmployeeClaimStrudt> list = new ArrayList<GetEmployeeClaimStrudt>();
+
+		try {
+
+			list = getEmployeeClaimStrudtRepo.getClaimApplyStructList(empId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
 
 }
