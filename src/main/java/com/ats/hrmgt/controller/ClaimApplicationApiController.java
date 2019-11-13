@@ -600,5 +600,24 @@ public class ClaimApplicationApiController {
 		return list;
 
 	}
+	
+	 
+	
+	@RequestMapping(value = { "/getEmpClaimStructureByClaimType" }, method = RequestMethod.POST)
+	public @ResponseBody  GetEmployeeClaimStrudt getEmpClaimStructureByClaimType(@RequestParam("empId") int empId,@RequestParam("typeId") int typeId) {
+	 GetEmployeeClaimStrudt  list = new  GetEmployeeClaimStrudt();
+
+		try {
+
+			list = getEmployeeClaimStrudtRepo.getClaimApplyStructListUnique(empId,typeId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
 
 }
