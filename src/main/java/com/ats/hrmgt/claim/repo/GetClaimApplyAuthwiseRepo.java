@@ -126,6 +126,40 @@ public interface GetClaimApplyAuthwiseRepo   extends JpaRepository<GetClaimApply
 			"        AND la.proj_id = h.project_id\n" + 
 			"        and claim_status=1 and h.project_manager_emp_id!=la.emp_id", nativeQuery = true)
 	List<GetClaimApplyAuthwise> getClaimApplyListForPendingForManager(@Param("empId") int empId);
+
+
+	@Query(value = "SELECT\n" + 
+			"        la.ca_head_id,\n" + 
+			"        la.proj_id,\n" + 
+			"        la.emp_id,\n" + 
+			"        la.claim_title,\n" + 
+			"        la.claim_amount,\n" + 
+			"        la.ca_from_dt,\n" + 
+			"        la.ca_to_dt,\n" + 
+			"        la.claim_status,\n" + 
+			"        la.circulated_to,\n" + 
+			"        e.emp_code,\n" + 
+			"        e.emp_photo,\n" + 
+			"        CONCAT(e.emp_sname,\n" + 
+			"        \" \",\n" + 
+			"        e.emp_fname) AS emp_name,\n" + 
+			"        0 as ca_ini_auth_emp_id,\n" + 
+			"        0 as ca_fin_auth_emp_id,\n" + 
+			"        la.ex_var1 ,\n" + 
+			"        h.project_title      \n" + 
+			"    FROM\n" + 
+			"        claim_apply_header la,\n" + 
+			"        emp_info e,\n" + 
+			"        project_header h      \n" + 
+			"    WHERE\n" + 
+			"        e.emp_id = la.emp_id          \n" + 
+			"        AND h.project_manager_emp_id in(\n" + 
+			"           select project_manager_emp_id from project_header where del_status=1\n" + 
+			"        )         \n" + 
+			"        AND la.proj_id = h.project_id         \n" + 
+			"        and claim_status=1\n" + 
+			"        and h.project_manager_emp_id=la.emp_id", nativeQuery = true)
+	List<GetClaimApplyAuthwise> getClaimApplyListForPendingForAdmin();
 	
 	/*
 	 * @Query(value = "SELECT\n" + "        la.claim_id,\n" +
