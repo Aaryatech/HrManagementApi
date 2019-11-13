@@ -1,5 +1,7 @@
 package com.ats.hrmgt.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 @Table(name = "project_header")
@@ -35,10 +39,10 @@ public class ProjectHeader {
 	private String projectDesc;
 
 	@Column(name = "project_est_startdt")
-	private String projectEstStartdt;
+	private Date projectEstStartdt;
 
 	@Column(name = "project_est_enddt")
-	private String projectEstEnddt;
+	private Date projectEstEnddt;
 
 	@Column(name = "project_est_manhrs")
 	private int projectEstManhrs;
@@ -153,19 +157,21 @@ public class ProjectHeader {
 		this.projectDesc = projectDesc;
 	}
 
-	public String getProjectEstStartdt() {
+	@JsonFormat(locale = "Locale.ENGLISH", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+ 	public Date getProjectEstStartdt() {
 		return projectEstStartdt;
 	}
 
-	public void setProjectEstStartdt(String projectEstStartdt) {
+	public void setProjectEstStartdt(Date projectEstStartdt) {
 		this.projectEstStartdt = projectEstStartdt;
 	}
 
-	public String getProjectEstEnddt() {
+	@JsonFormat(locale = "Locale.ENGLISH", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+	public Date getProjectEstEnddt() {
 		return projectEstEnddt;
 	}
 
-	public void setProjectEstEnddt(String projectEstEnddt) {
+	public void setProjectEstEnddt(Date projectEstEnddt) {
 		this.projectEstEnddt = projectEstEnddt;
 	}
 
