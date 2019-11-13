@@ -243,17 +243,21 @@ public class WeeklyOffApiController {
 					Calendar tc = Calendar.getInstance();
 					tc.setTime(todt);
 
-					int year = fc.get(Calendar.YEAR);
+					
 					// System.out.println("year " + year);
-
-					for (int k = fc.get(Calendar.MONTH) + 1; k <= tc.get(Calendar.MONTH) + 1; k++) {
-
+					Calendar temp = Calendar.getInstance();
+					temp.setTime(yydate.parse(fromDate));
+					int k=temp.get(Calendar.MONTH)+1;
+					int year = temp.get(Calendar.YEAR);
+					
+					for (Date e = yydate.parse(fromDate); e.compareTo(yydate.parse(toDate)) <= 0;) {
+ 
 						String fd = year + "-" + k + "-01";
 						String ld = year + "-" + k + "-07";
 
 						Date wkfstdt = yydate.parse(fd);
 						Date wklstdt = yydate.parse(ld);
-
+						//System.out.println(wkfstdt + " " + wklstdt);
 						// System.out.println(wkfstdt + " " + fd + " " + wklstdt + " " + ld);
 
 						for (Date m = yydate.parse(fromDate); m.compareTo(yydate.parse(toDate)) <= 0;) {
@@ -285,12 +289,14 @@ public class WeeklyOffApiController {
 							m.setTime(m.getTime() + 1000 * 60 * 60 * 24);
 						}
 
-						String dt = year + "-" + (k + 1) + "-0";
-						Date lastDay = yydate.parse(dt);
-						lastDay.setTime(lastDay.getTime() + 1000 * 60 * 60 * 24);
+						String dt = year + "-" + (k+1) + "-0";
+						e = yydate.parse(dt);
+						e.setTime(e.getTime() + 1000 * 60 * 60 * 24);
 						Calendar a = Calendar.getInstance();
-						a.setTime(lastDay);
+						a.setTime(e);
 						year = a.get(Calendar.YEAR);
+						k=a.get(Calendar.MONTH)+1;
+						
 					}
 				} else if (Integer.parseInt(weeklyList.get(i).getWoType()) == 4) {
 
@@ -302,10 +308,13 @@ public class WeeklyOffApiController {
 					Calendar tc = Calendar.getInstance();
 					tc.setTime(todt);
 
-					int year = fc.get(Calendar.YEAR);
+					Calendar temp = Calendar.getInstance();
+					temp.setTime(yydate.parse(fromDate));
+					int k=temp.get(Calendar.MONTH)+1;
+					int year = temp.get(Calendar.YEAR);
 					// System.out.println("year " + year);
 
-					for (int k = fc.get(Calendar.MONTH) + 1; k <= tc.get(Calendar.MONTH) + 1; k++) {
+					for (Date e = yydate.parse(fromDate); e.compareTo(yydate.parse(toDate)) <= 0;) {
 
 						String fd = year + "-" + k + "-08";
 						String ld = year + "-" + k + "-14";
@@ -343,11 +352,12 @@ public class WeeklyOffApiController {
 						}
 
 						String dt = year + "-" + (k + 1) + "-0";
-						Date lastDay = yydate.parse(dt);
-						lastDay.setTime(lastDay.getTime() + 1000 * 60 * 60 * 24);
+						e = yydate.parse(dt);
+						e.setTime(e.getTime() + 1000 * 60 * 60 * 24);
 						Calendar a = Calendar.getInstance();
-						a.setTime(lastDay);
+						a.setTime(e);
 						year = a.get(Calendar.YEAR);
+						k=a.get(Calendar.MONTH)+1;
 					}
 				} else if (Integer.parseInt(weeklyList.get(i).getWoType()) == 5) {
 
@@ -359,10 +369,13 @@ public class WeeklyOffApiController {
 					Calendar tc = Calendar.getInstance();
 					tc.setTime(todt);
 
-					int year = fc.get(Calendar.YEAR);
+					Calendar temp = Calendar.getInstance();
+					temp.setTime(yydate.parse(fromDate));
+					int k=temp.get(Calendar.MONTH)+1;
+					int year = temp.get(Calendar.YEAR);
 					// System.out.println("year " + year);
 
-					for (int k = fc.get(Calendar.MONTH) + 1; k <= tc.get(Calendar.MONTH) + 1; k++) {
+					for (Date e = yydate.parse(fromDate); e.compareTo(yydate.parse(toDate)) <= 0;) {
 
 						String fd = year + "-" + k + "-15";
 						String ld = year + "-" + k + "-21";
@@ -400,11 +413,12 @@ public class WeeklyOffApiController {
 						}
 
 						String dt = year + "-" + (k + 1) + "-0";
-						Date lastDay = yydate.parse(dt);
-						lastDay.setTime(lastDay.getTime() + 1000 * 60 * 60 * 24);
+						e = yydate.parse(dt);
+						e.setTime(e.getTime() + 1000 * 60 * 60 * 24);
 						Calendar a = Calendar.getInstance();
-						a.setTime(lastDay);
+						a.setTime(e);
 						year = a.get(Calendar.YEAR);
+						k=a.get(Calendar.MONTH)+1;
 					}
 				} else if (Integer.parseInt(weeklyList.get(i).getWoType()) == 6) {
 
@@ -416,10 +430,13 @@ public class WeeklyOffApiController {
 					Calendar tc = Calendar.getInstance();
 					tc.setTime(todt);
 
-					int year = fc.get(Calendar.YEAR);
+					Calendar temp = Calendar.getInstance();
+					temp.setTime(yydate.parse(fromDate));
+					int k=temp.get(Calendar.MONTH)+1;
+					int year = temp.get(Calendar.YEAR);
 					// System.out.println("year " + year);
 
-					for (int k = fc.get(Calendar.MONTH) + 1; k <= tc.get(Calendar.MONTH) + 1; k++) {
+					for (Date e = yydate.parse(fromDate); e.compareTo(yydate.parse(toDate)) <= 0;) {
 
 						String fd = year + "-" + k + "-22";
 						String ld = year + "-" + k + "-28";
@@ -457,11 +474,12 @@ public class WeeklyOffApiController {
 						}
 
 						String dt = year + "-" + (k + 1) + "-0";
-						Date lastDay = yydate.parse(dt);
-						lastDay.setTime(lastDay.getTime() + 1000 * 60 * 60 * 24);
+						e = yydate.parse(dt);
+						e.setTime(e.getTime() + 1000 * 60 * 60 * 24);
 						Calendar a = Calendar.getInstance();
-						a.setTime(lastDay);
+						a.setTime(e);
 						year = a.get(Calendar.YEAR);
+						k=a.get(Calendar.MONTH)+1;
 
 					}
 				} else if (Integer.parseInt(weeklyList.get(i).getWoType()) == 1) {
@@ -474,10 +492,13 @@ public class WeeklyOffApiController {
 					Calendar tc = Calendar.getInstance();
 					tc.setTime(todt);
 
-					int year = fc.get(Calendar.YEAR);
+					Calendar temp = Calendar.getInstance();
+					temp.setTime(yydate.parse(fromDate));
+					int k=temp.get(Calendar.MONTH)+1;
+					int year = temp.get(Calendar.YEAR);
 					// System.out.println("year " + year);
 
-					for (int k = fc.get(Calendar.MONTH) + 1; k <= tc.get(Calendar.MONTH) + 1; k++) {
+					for (Date e = yydate.parse(fromDate); e.compareTo(yydate.parse(toDate)) <= 0;) {
 
 						String fd = year + "-" + k + "-08";
 						String ld = year + "-" + k + "-14";
@@ -507,11 +528,12 @@ public class WeeklyOffApiController {
 						// + " wklstdt1 " + wklstdt1 + " " + weeklyList.get(i).getWoType());
 
 						String dt = year + "-" + (k + 1) + "-0";
-						Date lastDay = yydate.parse(dt);
-						lastDay.setTime(lastDay.getTime() + 1000 * 60 * 60 * 24);
+						e = yydate.parse(dt);
+						e.setTime(e.getTime() + 1000 * 60 * 60 * 24);
 						Calendar a = Calendar.getInstance();
-						a.setTime(lastDay);
+						a.setTime(e);
 						year = a.get(Calendar.YEAR);
+						k=a.get(Calendar.MONTH)+1;
 					}
 				} else if (Integer.parseInt(weeklyList.get(i).getWoType()) == 2) {
 
@@ -523,10 +545,13 @@ public class WeeklyOffApiController {
 					Calendar tc = Calendar.getInstance();
 					tc.setTime(todt);
 
-					int year = fc.get(Calendar.YEAR);
-					System.out.println("year " + year);
+					Calendar temp = Calendar.getInstance();
+					temp.setTime(yydate.parse(fromDate));
+					int k=temp.get(Calendar.MONTH)+1;
+					int year = temp.get(Calendar.YEAR);
+					// System.out.println("year " + year);
 
-					for (int k = fc.get(Calendar.MONTH) + 1; k <= tc.get(Calendar.MONTH) + 1; k++) {
+					for (Date e = yydate.parse(fromDate); e.compareTo(yydate.parse(toDate)) <= 0;) {
 
 						String fd = year + "-" + k + "-01";
 						String ld = year + "-" + k + "-07";
@@ -565,11 +590,12 @@ public class WeeklyOffApiController {
 						totalcount = totalcount + cnt1 + cnt2 + cnt3;
 
 						String dt = year + "-" + (k + 1) + "-0";
-						Date lastDay = yydate.parse(dt);
-						lastDay.setTime(lastDay.getTime() + 1000 * 60 * 60 * 24);
+						e = yydate.parse(dt);
+						e.setTime(e.getTime() + 1000 * 60 * 60 * 24);
 						Calendar a = Calendar.getInstance();
-						a.setTime(lastDay);
+						a.setTime(e);
 						year = a.get(Calendar.YEAR);
+						k=a.get(Calendar.MONTH)+1;
 					}
 				}
 
