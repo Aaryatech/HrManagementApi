@@ -37,4 +37,6 @@ public interface ProjectHeaderRpo extends JpaRepository<ProjectHeader, Integer> 
 
 	List<ProjectHeader> getEmpListByCompanyIdAndEmpId(@Param("companyId") int companyId,@Param("empId") int empId
 		 );
+
+	ProjectHeader findByProjectId(int projId);
 }

@@ -25,9 +25,11 @@ import com.ats.hrmgt.model.ClaimApply;
 import com.ats.hrmgt.model.ClaimApplyHeader;
 import com.ats.hrmgt.model.EmployeeInfo;
 import com.ats.hrmgt.model.Info;
+import com.ats.hrmgt.model.ProjectHeader;
 import com.ats.hrmgt.model.Setting;
 import com.ats.hrmgt.repository.ClaimHeaderRepo;
 import com.ats.hrmgt.repository.EmployeeInfoRepository;
+import com.ats.hrmgt.repository.ProjectHeaderRpo;
 import com.ats.hrmgt.repository.SettingRepo;
 
 @RestController
@@ -47,6 +49,11 @@ public class ClaimHeaderDetailApiController {
 	
 	@Autowired
 	SettingRepo settingRepo;
+	
+	@Autowired
+	ProjectHeaderRpo projectHeaderRpo;
+
+	
 	
 	@RequestMapping(value = { "/saveClaimHeaderAndDetail" }, method = RequestMethod.POST)
 	public @ResponseBody ClaimApplyHeader saveClaimHeaderAndDetail(@RequestBody ClaimApplyHeader claimHead) {
@@ -70,25 +77,20 @@ public class ClaimHeaderDetailApiController {
 			
 			
 			int empId = claimHead.getEmpId();
-
+		
 			EmployeeInfo empInfo1 = new EmployeeInfo();
 
 			empInfo1 = employeeInfoRepository.findByEmpIdAndDelStatus(empId, 1);
 			String name = empInfo1.getEmpFname() + " " + empInfo1.getEmpSname();
-
-			GetAuthorityIds claimApply = new GetAuthorityIds();
-			claimApply = getAuthorityIdsRepo.getClaimAuthIdsDict(empId);
-
-			String empIds = claimApply.getRepToEmpIds();
-			String[] values = empIds.split(",");
-			System.err.println("emp ids for notification are::" + empIds);
-			List<String> al = new ArrayList<String>(Arrays.asList(values));
-
-			Set<String> set = new HashSet<>(al);
-			al.clear();
-			al.addAll(set);
-			System.err.println("emp ids for notification are:--------------:" + al.toString());
-			SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+			
+			
+			
+			ProjectHeader projectHeader = new ProjectHeader();
+  			projectHeader = projectHeaderRpo.findByProjectId(claimHeader.getProjId());
+ 			 int managerId=projectHeader.getProjectManagerEmpId();
+ 			 
+ 			 
+ 			SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
 			SimpleDateFormat sdf2 = new SimpleDateFormat("dd-MM-yyyy");
 
 			String claimDate = "";
@@ -113,43 +115,100 @@ public class ClaimHeaderDetailApiController {
 				e.printStackTrace();
 			}
 			
-			String claimMsg =name + " registered Claim for Rs. "
-					+ claimHead.getClaimAmount() + " Duration: " + claimDate + " Please Check";
-			for (int i = 0; i < al.size(); i++) {
+			if(empId==managerId) {
+				
+				//Sending to HR
+				
+				Setting setting = new Setting();
+				setting = settingRepo.findByKey("hremail");
+				String hrEmail = (setting.getValue());
+				System.out.println(hrEmail);
+				Info emailRes = EmailUtility.sendEmail("atsinfosoft@gmail.com", "atsinfosoft@123", hrEmail,"HRMS Claim Application",
+						  ""," " + name + " has applied for Claim for Rs. "
+								+ claimHead.getClaimAmount() + " Duration: " + claimDate + ", Please check ");
 
-			EmployeeInfo empInfo = new EmployeeInfo();
-
-			empInfo = employeeInfoRepository.findByEmpIdAndDelStatus(Integer.parseInt(al.get(i)), 1);
-
-			
-
-			try {
-
-			Firebase.sendPushNotification(
-			empInfo.getExVar1(), "HRMS Claim Application", " " + name + " has applied for Claim for Rs. "
-			+ claimHead.getClaimAmount() + " Duration: " + claimDate + ", Please check ",
-			21);
-			
+				
+				
+				//Sending to emp
+				
+				String claimMsg =name + " registered Claim for Rs. "
+						+ claimHead.getClaimAmount() + " Duration: " + claimDate + " Please Check";
 			 
-			
-			Info emailRes = EmailUtility.sendEmail("atsinfosoft@gmail.com", "atsinfosoft@123", empInfo.getEmpEmail(),
-					" HRMS Claim Application Status", "",claimMsg );
+				EmployeeInfo empInfo = new EmployeeInfo();
 
-			} catch (Exception e) {
-			e.printStackTrace();
+				empInfo = employeeInfoRepository.findByEmpIdAndDelStatus(empId, 1);
+	 
+				try {
+
+				Firebase.sendPushNotification(
+				empInfo.getExVar1(), "HRMS Claim Application", " " + name + " has applied for Claim for Rs. "
+				+ claimHead.getClaimAmount() + " Duration: " + claimDate + ", Please check ",
+				21);
+				
+				 
+				
+				Info emailRes1 = EmailUtility.sendEmail("atsinfosoft@gmail.com", "atsinfosoft@123", empInfo.getEmpEmail(),
+						" HRMS Claim Application Status", "",claimMsg );
+
+				} catch (Exception e) {
+				e.printStackTrace();
+				}
+ 
 			}
+			
+			else {
+				
+				//Sending to emp
+				String claimMsg =name + " registered Claim for Rs. "
+						+ claimHead.getClaimAmount() + " Duration: " + claimDate + " Please Check";
+			 
+				EmployeeInfo empInfo = new EmployeeInfo();
+
+				empInfo = employeeInfoRepository.findByEmpIdAndDelStatus(empId, 1);
+	 
+				try {
+
+				Firebase.sendPushNotification(
+				empInfo.getExVar1(), "HRMS Claim Application", " " + name + " has applied for Claim for Rs. "
+				+ claimHead.getClaimAmount() + " Duration: " + claimDate + ", Please check ",
+				21);
+				
+				 
+				
+				Info emailRes = EmailUtility.sendEmail("atsinfosoft@gmail.com", "atsinfosoft@123", empInfo.getEmpEmail(),
+						" HRMS Claim Application Status", "",claimMsg );
+
+				} catch (Exception e) {
+				e.printStackTrace();
+				}
+
+				 
+				//Sending to manager
+				
+				
+				empInfo = new EmployeeInfo();
+
+				empInfo = employeeInfoRepository.findByEmpIdAndDelStatus(managerId, 1);
+	 
+				try {
+
+				Firebase.sendPushNotification(
+				empInfo.getExVar1(), "HRMS Claim Application", " " + name + " has applied for Claim for Rs. "
+				+ claimHead.getClaimAmount() + " Duration: " + claimDate + ", Please check ",
+				21);
+				
+				 
+				
+				Info emailRes = EmailUtility.sendEmail("atsinfosoft@gmail.com", "atsinfosoft@123", empInfo.getEmpEmail(),
+						" HRMS Claim Application Status", "",claimMsg );
+
+				} catch (Exception e) {
+				e.printStackTrace();
+				}
 
 			}
 			
-			Setting setting = new Setting();
-			setting = settingRepo.findByKey("hremail");
-			String hrEmail = (setting.getValue());
-			System.out.println(hrEmail);
-			Info emailRes = EmailUtility.sendEmail("atsinfosoft@gmail.com", "atsinfosoft@123", hrEmail,"HRMS Claim Application",
-					  ""," " + name + " has applied for Claim for Rs. "
-							+ claimHead.getClaimAmount() + " Duration: " + claimDate + ", Please check ");
-
-			
+		
  
 		} catch (Exception e) {
 
