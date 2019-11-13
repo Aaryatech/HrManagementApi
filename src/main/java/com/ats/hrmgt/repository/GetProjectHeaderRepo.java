@@ -19,6 +19,16 @@ public interface GetProjectHeaderRepo extends JpaRepository<GetProjectHeader, In
 	List<GetProjectHeader> getProListByCompanyId(@Param("companyId") int companyId);
 
 	
+	
+	@Query(value = "SELECT p.*,l.loc_name,pt.project_type_title,pt.project_type_title_short ,c.cust_name ,"
+			+ "e.emp_code,e.emp_fname,e.emp_mname,e.emp_sname FROM project_header p,m_location l ,"
+			+ "project_type pt,m_customer c,emp_info e WHERE p.del_status=1 AND p.company_id=:companyId AND "
+			+ "p.loc_id=l.loc_id AND pt.project_type_id=p.project_type_id AND c.cust_id=p.cust_id AND "
+			+ "e.emp_id=p.project_manager_emp_id  AND p.project_manager_emp_id=:mangId", nativeQuery = true)
+
+	List<GetProjectHeader> getProListByCompanyIdForManager(@Param("companyId") int companyId,@Param("mangId") int mangId);
+
+	
 	@Query(value = "SELECT\n" + 
 			"        p.*,\n" + 
 			"        l.loc_name,\n" + 

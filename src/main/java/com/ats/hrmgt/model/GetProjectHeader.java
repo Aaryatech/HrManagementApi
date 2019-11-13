@@ -1,11 +1,15 @@
 package com.ats.hrmgt.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 public class GetProjectHeader {
@@ -92,6 +96,13 @@ public class GetProjectHeader {
 
 	@Column(name = "project_manager_emp_id")
 	private int projectManagerEmpId;
+	
+	@Column(name = "po_date")
+	private Date poDate;
+	
+	@Column(name = "po_number")
+	private String poNumber;
+
 
 	private String empCode;
 	private String locName;
@@ -382,6 +393,24 @@ public class GetProjectHeader {
 		this.projectTypeTitleShort = projectTypeTitleShort;
 	}
 
+	
+	@JsonFormat(locale = "Locale.ENGLISH", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+	public Date getPoDate() {
+		return poDate;
+	}
+
+	public void setPoDate(Date poDate) {
+		this.poDate = poDate;
+	}
+
+	public String getPoNumber() {
+		return poNumber;
+	}
+
+	public void setPoNumber(String poNumber) {
+		this.poNumber = poNumber;
+	}
+
 	@Override
 	public String toString() {
 		return "GetProjectHeader [projectId=" + projectId + ", companyId=" + companyId + ", locId=" + locId
@@ -393,10 +422,13 @@ public class GetProjectHeader {
 				+ delStatus + ", isActive=" + isActive + ", makerUserId=" + makerUserId + ", makerEnterDatetime="
 				+ makerEnterDatetime + ", exInt1=" + exInt1 + ", exInt2=" + exInt2 + ", exInt3=" + exInt3 + ", exVar1="
 				+ exVar1 + ", exVar2=" + exVar2 + ", exVar3=" + exVar3 + ", projectCity=" + projectCity
-				+ ", projectManagerEmpId=" + projectManagerEmpId + ", empCode=" + empCode + ", locName=" + locName
-				+ ", custName=" + custName + ", empFname=" + empFname + ", empMname=" + empMname + ", empSname="
-				+ empSname + ", projectTypeTitle=" + projectTypeTitle + ", projectTypeTitleShort="
-				+ projectTypeTitleShort + "]";
+				+ ", projectManagerEmpId=" + projectManagerEmpId + ", poDate=" + poDate + ", poNumber=" + poNumber
+				+ ", empCode=" + empCode + ", locName=" + locName + ", custName=" + custName + ", empFname=" + empFname
+				+ ", empMname=" + empMname + ", empSname=" + empSname + ", projectTypeTitle=" + projectTypeTitle
+				+ ", projectTypeTitleShort=" + projectTypeTitleShort + "]";
 	}
+
+	
+
 
 }

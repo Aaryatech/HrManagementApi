@@ -97,6 +97,13 @@ public class ProjectHeader {
 
 	@Column(name = "project_manager_emp_id")
 	private int projectManagerEmpId;
+	
+	
+	@Column(name = "po_date")
+	private Date poDate;
+	
+	@Column(name = "po_number")
+	private String poNumber;
 
 	@Transient
 	private boolean error;
@@ -326,6 +333,24 @@ public class ProjectHeader {
 	public void setProjectManagerEmpId(int projectManagerEmpId) {
 		this.projectManagerEmpId = projectManagerEmpId;
 	}
+	
+	
+	@JsonFormat(locale = "Locale.ENGLISH", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+	public Date getPoDate() {
+		return poDate;
+	}
+
+	public void setPoDate(Date poDate) {
+		this.poDate = poDate;
+	}
+
+	public String getPoNumber() {
+		return poNumber;
+	}
+
+	public void setPoNumber(String poNumber) {
+		this.poNumber = poNumber;
+	}
 
 	@Override
 	public String toString() {
@@ -338,7 +363,9 @@ public class ProjectHeader {
 				+ delStatus + ", isActive=" + isActive + ", makerUserId=" + makerUserId + ", makerEnterDatetime="
 				+ makerEnterDatetime + ", exInt1=" + exInt1 + ", exInt2=" + exInt2 + ", exInt3=" + exInt3 + ", exVar1="
 				+ exVar1 + ", exVar2=" + exVar2 + ", exVar3=" + exVar3 + ", projectCity=" + projectCity
-				+ ", projectManagerEmpId=" + projectManagerEmpId + ", error=" + error + "]";
+				+ ", projectManagerEmpId=" + projectManagerEmpId + ", poDate=" + poDate + ", poNumber=" + poNumber
+				+ ", error=" + error + "]";
 	}
+ 
 
 }

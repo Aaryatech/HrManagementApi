@@ -353,6 +353,25 @@ public class ProjectApiController {
 
 	}
 	
+	
+	@RequestMapping(value = { "/getProjectAllListByCompanyIdForManager" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetProjectHeader> getProjectAllListByCompanyIdForManager(@RequestParam("companyId") int companyId,@RequestParam("mangId") int mangId) {
+		System.out.println(companyId);
+		List<GetProjectHeader> list = new ArrayList<GetProjectHeader>();
+		try {
+
+			list = getProjectHeaderRepo.getProListByCompanyIdForManager(companyId,mangId);
+			System.out.println(list.toString());
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
+	
 	@RequestMapping(value = { "/getFullTimeFreeEmpList" }, method = RequestMethod.POST)
 	public @ResponseBody List<EmployeeInfo> getFullTimeFreeEmpList(@RequestParam("fromDate") String fromDate,@RequestParam("toDate") String toDate,
 			@RequestParam("catId") int catId,@RequestParam("locationIds") List<Integer> locationIds,@RequestParam("companyId") int companyId,
