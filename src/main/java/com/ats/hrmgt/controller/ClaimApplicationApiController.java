@@ -353,6 +353,23 @@ public class ClaimApplicationApiController {
 		return list;
 
 	}
+	
+	@RequestMapping(value = { "/getClaimApplyListForPendingForManager" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetClaimApplyAuthwise> getClaimApplyListForPendingForManager(@RequestParam("empId") int empId) {
+		List<GetClaimApplyAuthwise> list = new ArrayList<GetClaimApplyAuthwise>();
+
+		try {
+
+			list = getClaimApplyAuthwiseRepo.getClaimApplyListForPendingForManager(empId);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
 
 	@RequestMapping(value = { "/getClaimApplyListForInformation" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetClaimApplyAuthwise> getLeaveApplyListForInformation(@RequestParam("empId") int empId) {
