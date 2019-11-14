@@ -221,11 +221,17 @@ public class ClaimStructureAndAllotApiController {
 
 			for (int i = 0; i < empList.size(); i++) {
 				ClaimStructureAllotment res = new ClaimStructureAllotment();
+				
+				System.err.println("empId"+empList.get(i));
 				res = claimStructureAllotmentRepo.findByEmpIdAndDelStatus(empList.get(i), 1);
 
 				if (res != null) {
-					int a = claimStructureAllotmentRepo.updateClaimStructure(res.getClmsId(), userId, dateTime, lvsId);
+					System.err.println("empId"+res.getClmsId());
+					System.err.println("exists");
+					int a = claimStructureAllotmentRepo.updateClaimStructure(empList.get(i), userId, dateTime, lvsId);
 				} else {
+
+					System.err.println("no");
 
 					ClaimStructureAllotment save = new ClaimStructureAllotment();
 					ClaimStructureAllotment temp = new ClaimStructureAllotment();

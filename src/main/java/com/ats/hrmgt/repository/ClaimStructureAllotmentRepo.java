@@ -16,7 +16,7 @@ public interface ClaimStructureAllotmentRepo extends JpaRepository<ClaimStructur
 	 
 	@Transactional
 	@Modifying
-	@Query("update ClaimStructureAllotment set clmsId=:lvsId,makerUserId =:userId,makerEnterDatetime=:dateTime  WHERE clsa_pkey=:claimId")
+	@Query("update ClaimStructureAllotment set clmsId=:lvsId,makerUserId =:userId,makerEnterDatetime=:dateTime  WHERE emp_id=:claimId")
  	int updateClaimStructure(@Param("claimId") int claimId, @Param("userId") int userId,
 			@Param("dateTime") String dateTime, @Param("lvsId") int lvsId);
 
