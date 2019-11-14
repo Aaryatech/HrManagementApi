@@ -23,7 +23,7 @@ public interface GetEmpInfoRepo extends JpaRepository<GetEmployeeInfo, Integer> 
 			+ "		m_emp_category,m_company where emp_info.emp_dept_id=m_emp_department.emp_dept_id and emp_info.emp_cat_id= \n"
 			+ "	    m_emp_category.emp_cat_id  and emp_info.emp_type_id=m_emp_type.emp_type_id and emp_info.del_status=1 \n"
 			+ "		and emp_info.is_active=1 and emp_info.company_id=:companyId  and emp_info.loc_id IN(:locIdList) and emp_info.company_id=m_company.company_id "
-			+ "    and emp_info.company_id=m_company.company_id order by emp_info.emp_id desc ", nativeQuery = true)
+			+ "    and emp_info.company_id=m_company.company_id and emp_info.ex_int1=1 order by emp_info.emp_id desc ", nativeQuery = true)
 
 	List<GetEmployeeInfo> getEmpListByCompanyId(@Param("companyId") int companyId,
 			@Param("locIdList") List<Integer> locIdList);

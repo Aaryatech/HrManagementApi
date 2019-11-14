@@ -54,7 +54,7 @@ public interface LeaveDetailRepo extends JpaRepository<LeaveDetail, Integer>{
 			"m_emp_department d,\n" + 
 			"leave_type AS lt\n" + 
 			"WHERE \n" + 
-			"l.emp_id =:empId AND l.ex_int1 IN(:status) AND l.emp_id = e.emp_id AND l.del_status = 1 AND d.emp_dept_id = e.emp_dept_id AND lt.lv_type_id = l.lv_type_id and l.cal_yr_id=:curYrId ", nativeQuery = true)
+			"l.emp_id =:empId AND l.ex_int1 IN(:status) AND l.emp_id = e.emp_id AND l.del_status = 1 AND d.emp_dept_id = e.emp_dept_id AND lt.lv_type_id = l.lv_type_id and l.cal_yr_id=:curYrId  order by leave_id desc", nativeQuery = true)
 	List<LeaveDetail> getLeaveStatus1(@Param("empId") int empId,@Param("status") List<Integer> status,@Param("curYrId") int curYrId);
 
 	

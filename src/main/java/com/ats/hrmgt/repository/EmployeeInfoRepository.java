@@ -68,7 +68,7 @@ public interface EmployeeInfoRepository extends JpaRepository<EmployeeInfo, Inte
 			"                project_allotment \n" + 
 			"            where\n" + 
 			"                 (:fromDate BETWEEN pallot_fromdt and pallot_todt ) or  (:toDate BETWEEN pallot_fromdt and pallot_todt ) or (pallot_fromdt BETWEEN :fromDate and :toDate )\n" + 
-			"                 or (pallot_todt BETWEEN :fromDate and :toDate )) and del_status=1 and is_active=1 and emp_cat_id=:catId and loc_id in (:locationIds)", nativeQuery = true)
+			"                 or (pallot_todt BETWEEN :fromDate and :toDate )) and del_status=1 and is_active=1 and emp_cat_id=:catId and loc_id in (:locationIds) and ex_int1=1", nativeQuery = true)
 	List<EmployeeInfo> getFullTimeFreeEmpList(@Param("fromDate") String fromDate, @Param("toDate") String toDate, @Param("catId") int catId, @Param("locationIds") List<Integer> locationIds);
 
 
@@ -80,7 +80,7 @@ public interface EmployeeInfoRepository extends JpaRepository<EmployeeInfo, Inte
 			"                project_allotment \n" + 
 			"            where\n" + 
 			"                 (:fromDate BETWEEN pallot_fromdt and pallot_todt ) or  (:toDate BETWEEN pallot_fromdt and pallot_todt ) or (pallot_fromdt BETWEEN :fromDate and :toDate )\n" + 
-			"                 or (pallot_todt BETWEEN :fromDate and :toDate )) and del_status=1 and is_active=1 and emp_cat_id=:catId and company_id=:companyId", nativeQuery = true)
+			"                 or (pallot_todt BETWEEN :fromDate and :toDate )) and del_status=1 and is_active=1 and emp_cat_id=:catId and company_id=:companyId and ex_int1=1", nativeQuery = true)
 	List<EmployeeInfo> getFullTimeFreeEmpList(@Param("fromDate") String fromDate, @Param("toDate") String toDate, @Param("catId") int catId,@Param("companyId") int companyId);
 
 	@Query(value = "select * from emp_info where\n" + 
@@ -91,7 +91,7 @@ public interface EmployeeInfoRepository extends JpaRepository<EmployeeInfo, Inte
 			"                project_allotment \n" + 
 			"            where\n" + 
 			"                 ((:fromDate BETWEEN pallot_fromdt and pallot_todt ) or  (:toDate BETWEEN pallot_fromdt and pallot_todt ) or (pallot_fromdt BETWEEN :fromDate and :toDate )\n" + 
-			"                 or (pallot_todt BETWEEN :fromDate and :toDate )) and ex_int1=1 ) and del_status=1 and is_active=1 and emp_cat_id=:catId and loc_id in (:locationIds) ", nativeQuery = true)
+			"                 or (pallot_todt BETWEEN :fromDate and :toDate )) and ex_int1=1 ) and del_status=1 and is_active=1 and emp_cat_id=:catId and loc_id in (:locationIds) and ex_int1=1", nativeQuery = true)
 	List<EmployeeInfo> getPartialTimeFreeEmpList(@Param("fromDate") String fromDate, @Param("toDate") String toDate, @Param("catId") int catId, @Param("locationIds") List<Integer> locationIds);
 
 	@Query(value = "select * from emp_info where\n" + 
@@ -102,7 +102,7 @@ public interface EmployeeInfoRepository extends JpaRepository<EmployeeInfo, Inte
 			"                project_allotment \n" + 
 			"            where\n" + 
 			"                 ((:fromDate BETWEEN pallot_fromdt and pallot_todt ) or  (:toDate BETWEEN pallot_fromdt and pallot_todt ) or (pallot_fromdt BETWEEN :fromDate and :toDate )\n" + 
-			"                 or (pallot_todt BETWEEN :fromDate and :toDate )) and ex_int1=1 ) and del_status=1 and is_active=1 and emp_cat_id=:catId and company_id=:companyId ", nativeQuery = true)
+			"                 or (pallot_todt BETWEEN :fromDate and :toDate )) and ex_int1=1 ) and del_status=1 and is_active=1 and emp_cat_id=:catId and company_id=:companyId and ex_int1=1", nativeQuery = true)
 	List<EmployeeInfo> getPartialTimeFreeEmpList(@Param("fromDate") String fromDate, @Param("toDate") String toDate, @Param("catId") int catId,@Param("companyId") int companyId);
 	
 	

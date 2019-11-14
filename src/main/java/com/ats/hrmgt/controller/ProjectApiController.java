@@ -1,5 +1,6 @@
 package com.ats.hrmgt.controller;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -325,6 +326,27 @@ public class ProjectApiController {
 			 * 
 			 * }
 			 */
+		 
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
+	
+	@RequestMapping(value = { "/getProjectsListForApplyClaim" }, method = RequestMethod.POST)
+	public @ResponseBody List<ProjectHeader> getProjectsListForApplyClaim(@RequestParam("companyId") int companyId,@RequestParam("empId") int empId) {
+		 
+		List<ProjectHeader> list = new ArrayList<ProjectHeader>();
+		try {
+			
+			 Date now=new Date();
+			 SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+			 
+			list = projectHeaderRpo.getEmpListByCompanyIdAndEmpId(companyId,empId,sf.format(now));
+			 
 		 
 		} catch (Exception e) {
 

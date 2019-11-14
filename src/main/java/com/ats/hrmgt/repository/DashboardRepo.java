@@ -172,7 +172,7 @@ public interface DashboardRepo extends JpaRepository<DashboardCount, Integer> {
 
 	
 	
-	@Query(value = " SELECT\n" + 
+	/*@Query(value = " SELECT\n" + 
 			"        COALESCE(         (         SELECT\n" + 
 			"            COUNT(DISTINCT(le.leave_id))         \n" + 
 			"        FROM\n" + 
@@ -300,7 +300,78 @@ public interface DashboardRepo extends JpaRepository<DashboardCount, Integer> {
 			"            0         ) > 0     ) THEN 1 \n" + 
 			"            ELSE 0 \n" + 
 			"        END ) AS is_authorized_claim\n" + 
-			"", nativeQuery = true)
+			"", nativeQuery = true)*/
+	//12-11-2019 akshay
+	
+	
+	
+	@Query(value = " SELECT\n" + 
+			"        COALESCE(         (         SELECT\n" + 
+			"            COUNT(DISTINCT(le.leave_id))         \n" + 
+			"        FROM\n" + 
+			"            leave_authority la,\n" + 
+			"            leave_apply le         \n" + 
+			"        WHERE\n" + 
+			"             ((la.ini_auth_emp_id = :empId AND le.ex_int1 = 1) OR(la.fin_auth_emp_id = :empId  AND le.ex_int1 = 2 )) AND le.cal_yr_id = :curYrId \n" + 
+			"            AND le.emp_id = la.emp_id     ),\n" + 
+			"        0     ) AS pending_request,\n" + 
+			"        COALESCE(         (             (             SELECT\n" + 
+			"            COUNT(DISTINCT(le.leave_id))             \n" + 
+			"        FROM\n" + 
+			"            leave_authority la,\n" + 
+			"            leave_apply le             \n" + 
+			"        WHERE\n" + 
+			"             la.ini_auth_emp_id = :empId \n" + 
+			"            AND le.cal_yr_id = :curYrId \n" + 
+			"            AND le.emp_id = la.emp_id \n" + 
+			"            AND le.ex_int1 IN(2) \n" + 
+			"            AND la.fin_auth_emp_id != la.ini_auth_emp_id         ) +(SELECT\n" + 
+			"            COUNT(DISTINCT(le.leave_id))         \n" + 
+			"        FROM\n" + 
+			"            leave_authority la,\n" + 
+			"            leave_apply le         \n" + 
+			"        WHERE\n" + 
+			"            (la.fin_auth_emp_id =:empId) \n" + 
+			"            AND le.cal_yr_id = :curYrId \n" + 
+			"            AND le.emp_id = la.emp_id \n" + 
+			"            AND le.ex_int1 IN(1) \n" + 
+			"            AND la.fin_auth_emp_id != la.ini_auth_emp_id     )+(SELECT\n" + 
+			"            COUNT(DISTINCT(le.leave_id))         \n" + 
+			"        FROM\n" + 
+			"            leave_authority la,\n" + 
+			"            leave_apply le         \n" + 
+			"        WHERE\n" + 
+			"            la.emp_id=:empId \n" + 
+			"            AND le.ex_int1 in (2,1)\n" + 
+			"            AND le.cal_yr_id = :curYrId \n" + 
+			"            AND le.emp_id = la.emp_id  \n" + 
+			"             )         ),\n" + 
+			"        0     ) AS info,\n" + 
+			"        COALESCE(         (         SELECT\n" + 
+			"            COUNT(DISTINCT(le.leave_id))         \n" + 
+			"        FROM\n" + 
+			"            leave_authority la,\n" + 
+			"            leave_apply le         \n" + 
+			"        WHERE\n" + 
+			"            la.emp_id = :empId  \n" + 
+			"            AND le.cal_yr_id = :curYrId  \n" + 
+			"            AND le.emp_id = la.emp_id \n" + 
+			"            AND le.ex_int1 IN(1, 2)     ),\n" + 
+			"        0     ) AS my_leave,\n" + 
+			"        (         CASE \n" + 
+			"            WHEN(             COALESCE(                 (                 SELECT\n" + 
+			"                COUNT(DISTINCT(la.emp_id))                 \n" + 
+			"            FROM\n" + 
+			"                leave_authority la                 \n" + 
+			"            WHERE\n" + 
+			"                (                         la.ini_auth_emp_id = :empId\n" + 
+			"                OR la.fin_auth_emp_id = :empId                    )             ),\n" + 
+			"            0             ) > 0         ) THEN 1 \n" + 
+			"            ELSE 0     \n" + 
+			"        END ) AS is_authorized, 0 AS pending_claim,\n" + 
+			"        0 AS info_claim,\n" + 
+			"        0 AS my_claim,\n" + 
+			"        0 AS is_authorized_claim", nativeQuery = true)
 	DashboardCount getDashboardCount(@Param("empId") int empId, @Param("curYrId") int curYrId);
 	
 	

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.hrmgt.claim.repo.ClaimStructureDetailRepo;
 import com.ats.hrmgt.claim.repo.ClaimTrailRepo;
 import com.ats.hrmgt.claim.repo.GetClaimApplyAuthwiseRepo;
 import com.ats.hrmgt.claim.repo.GetEmployeeClaimStrudtRepo;
@@ -43,6 +44,8 @@ import com.ats.hrmgt.leave.repo.GetLeaveStatusRepo;
 import com.ats.hrmgt.leave.repo.LeaveDetailRepo;
 import com.ats.hrmgt.model.ClaimApply;
 import com.ats.hrmgt.model.ClaimApplyHeader;
+import com.ats.hrmgt.model.ClaimStructureDetail;
+import com.ats.hrmgt.model.ClaimStructureHeader;
 import com.ats.hrmgt.model.ClaimTrail;
 import com.ats.hrmgt.model.EmployeeInfo;
 import com.ats.hrmgt.model.GetClaimApplyAuthwise;
@@ -86,6 +89,9 @@ public class ClaimApplicationApiController {
 
 	@Autowired
 	ClaimHeaderRepo claimHeaderRepo;
+	
+	@Autowired
+	ClaimStructureDetailRepo claimStructureDetailRepo;
 	/*
 	 * @RequestMapping(value = { "/getClaimListByEmpId" }, method =
 	 * RequestMethod.POST) public @ResponseBody List<ClaimDetail>
@@ -148,6 +154,25 @@ public class ClaimApplicationApiController {
 		}
 
 		return list;
+
+	}
+	
+	@RequestMapping(value = { "/getClaimStructureDetailByEmpId" }, method = RequestMethod.POST)
+	public @ResponseBody List<ClaimStructureDetail> getClaimStructureDetailByEmpId(@RequestParam("empId") int empId) {
+
+		List<ClaimStructureDetail> detailList = new ArrayList<>();
+		try {
+
+			  
+			 detailList = claimStructureDetailRepo.getClaimStructureDetailByEmpId(empId);
+			 
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return detailList;
 
 	}
 

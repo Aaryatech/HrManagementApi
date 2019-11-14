@@ -39,4 +39,21 @@ public interface ProjectHeaderRpo extends JpaRepository<ProjectHeader, Integer> 
 		 );
 
 	ProjectHeader findByProjectId(int projId);
+
+	
+	@Query(value = "select\n" + 
+			"        project_header.* " + 
+			"    from\n" + 
+			"        project_header,\n" + 
+			"        project_allotment \n" + 
+			"    where\n" + 
+			"        project_allotment.project_id=project_header.project_id \n" + 
+			"        AND project_header.del_status=1  \n" + 
+			"        AND project_allotment.del_status=1 \n" + 
+			"        AND project_allotment.emp_id=:empId \n" + 
+			"        AND project_header.is_active=1 \n" + 
+			"        AND project_allotment.is_active=1 \n" + 
+			"        AND  project_header.company_id=:companyId\n" + 
+			"        and (select DATEDIFF(:toDay,MAX(pallot_todt)) from project_allotment where project_allotment.emp_id=1  )<30", nativeQuery = true)
+	List<ProjectHeader> getEmpListByCompanyIdAndEmpId(@Param("companyId") int companyId,@Param("empId") int empId,@Param("toDay") String toDay);
 }
