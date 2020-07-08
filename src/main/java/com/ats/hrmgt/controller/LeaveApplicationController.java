@@ -736,5 +736,28 @@ public class LeaveApplicationController {
 		return list;
 
 	}
+	
+	@RequestMapping(value = { "/getLeaveHistoryReportForPdf" }, method = RequestMethod.POST)
+	public @ResponseBody List<EmpLeaveHistoryRep> getLeaveHistoryReportForPdf(@RequestParam("empId") int empId,
+			@RequestParam("calYrId") int calYrId) {
+		List<EmpLeaveHistoryRep> list = new ArrayList<EmpLeaveHistoryRep>();
+
+		
+		System.out.println("in new web");
+		try {
+			if (empId == -1) {
+				list = empLeaveHistoryRepRepo.getLeaveHistoryReportForPdf(calYrId);
+			} else {
+				list = empLeaveHistoryRepRepo.getLeaveHistoryReportForPdf(empId, calYrId);
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}
 
 }

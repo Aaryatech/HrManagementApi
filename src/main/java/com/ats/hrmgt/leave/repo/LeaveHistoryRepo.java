@@ -93,7 +93,7 @@ public interface LeaveHistoryRepo  extends JpaRepository<LeaveHistory, Integer>{
 			"        AND leave_structure_header.lvs_id = leave_structure_details.lvs_id \n" + 
 			"        AND leave_structure_details.lv_type_id = leave_type.lv_type_id \n" + 
 			"        AND emp_info.emp_id =:empId \n" + 
-			"        and leave_structure_allotment.cal_yr_id=(select max(cal_yr_id) as cal_yr_id from dm_cal_year  where is_current=0)", nativeQuery = true)
+			"        and leave_structure_allotment.cal_yr_id=(select max(cal_yr_id) as cal_yr_id from dm_cal_year  where is_current=0) and leave_type.del_status=1", nativeQuery = true)
 	List<LeaveHistory> getPreviousleaveHistory(@Param("empId") int empId);
 		
 

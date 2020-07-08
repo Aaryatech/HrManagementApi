@@ -55,8 +55,6 @@ public class MasterAppController {
 
 	@Autowired
 	ClaimDetailRepo claimDetailRepo;
-	
-
 
 	@Autowired
 	GetClaimTrailStatusRepo getClaimTrailStatusRepo;
@@ -65,8 +63,8 @@ public class MasterAppController {
 	CalculateYearRepository calculateYearRepository;
 
 	@RequestMapping(value = { "/updateClaimStatusApp" }, method = RequestMethod.POST)
-	public @ResponseBody Info updateClaimStatusApp(@RequestParam("empId") int empId, @RequestParam("claimId") int claimId,
-			@RequestParam("status") int status,
+	public @ResponseBody Info updateClaimStatusApp(@RequestParam("empId") int empId,
+			@RequestParam("claimId") int claimId, @RequestParam("status") int status,
 
 			@RequestParam("remark") String remark) {
 
@@ -117,7 +115,7 @@ public class MasterAppController {
 			@RequestParam("status") List<Integer> status) {
 
 		List<LeaveDetail> resList = new ArrayList<LeaveDetail>();
-		
+
 		try {
 
 			CalenderYear calendearYear = new CalenderYear();
@@ -127,7 +125,8 @@ public class MasterAppController {
 			if (calendearYear != null) {
 				curYrId = calendearYear.getCalYrId();
 			}
-			//System.err.println("list "+leaveDetailRepo.getLeaveStatus1(empId, status, curYrId));
+			// System.err.println("list "+leaveDetailRepo.getLeaveStatus1(empId, status,
+			// curYrId));
 
 			resList = leaveDetailRepo.getLeaveStatus1(empId, status, curYrId);
 			if (resList != null) {
@@ -253,44 +252,43 @@ public class MasterAppController {
 		}
 
 		return list;
-  
+
 	}
 
-	/*
-	 * After claim changes
-	 * @RequestMapping(value = { "/getClaimStatusList" }, method =
-	 * RequestMethod.POST) public @ResponseBody List<ClaimDetail>
-	 * getClaimStatusList(@RequestParam("empId") int empId,
-	 * 
-	 * @RequestParam("status") List<Integer> status) {
-	 * 
-	 * List<ClaimDetail> list = new ArrayList<ClaimDetail>();
-	 * 
-	 * try {
-	 * 
-	 * list = claimDetailRepo.getClaimStatus(empId, status); if (list != null) { for
-	 * (int i = 0; i < list.size(); i++) { List<GetClaimTrailStatus> leaveStatus =
-	 * new ArrayList<GetClaimTrailStatus>(); leaveStatus =
-	 * getClaimTrailStatusRepo.getClaimTrailByClaimId(list.get(i).getClaimId());
-	 * list.get(i).setGetClaimTrailStatus(leaveStatus); } }
-	 * 
-	 * } catch (Exception e) {
-	 * 
-	 * e.printStackTrace(); }
-	 * 
-	 * return list;
-	 * 
-	 * }
-	 */
-	
-	
+	// After claim changes
+	/*@RequestMapping(value = { "/getClaimStatusList" }, method = RequestMethod.POST)
+	public @ResponseBody List<ClaimDetail> getClaimStatusList(@RequestParam("empId") int empId, 
+			@RequestParam("status") List<Integer> status) {
+
+		List<ClaimDetail> list = new ArrayList<ClaimDetail>();
+
+		try {
+
+			list = claimDetailRepo.getClaimStatus(empId, status);
+			if (list != null) {
+				for (int i = 0; i < list.size(); i++) {
+					List<GetClaimTrailStatus> leaveStatus = new ArrayList<GetClaimTrailStatus>();
+					leaveStatus = getClaimTrailStatusRepo.getClaimTrailByClaimId(list.get(i).getClaimId());
+					list.get(i).setGetClaimTrailStatus(leaveStatus);
+				}
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return list;
+
+	}*/
+
 	@RequestMapping(value = { "/getClaimTrailList" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetClaimTrailStatus> getClaimTrailList(@RequestParam("claimId") int claimId) {
 
 		List<GetClaimTrailStatus> trailList = new ArrayList<GetClaimTrailStatus>();
 		try {
 			trailList = getClaimTrailStatusRepo.getClaimTrailByClaimId(claimId);
- 
+
 		} catch (Exception e) {
 
 			e.printStackTrace();
@@ -299,7 +297,6 @@ public class MasterAppController {
 		return trailList;
 
 	}
-	
 
 	@RequestMapping(value = { "getEmpInfoByLocId" }, method = RequestMethod.POST)
 	public @ResponseBody List<EmployeeInfo> getEmpInfoByLocId(@RequestParam("locationId") List<Integer> locationId) {
@@ -318,9 +315,10 @@ public class MasterAppController {
 		return employeeInfo;
 
 	}
-	
+
 	@RequestMapping(value = { "getemplistwhichisnotyearend" }, method = RequestMethod.POST)
-	public @ResponseBody List<EmployeeInfo> getemplistwhichisnotyearend(@RequestParam("locationId") List<Integer> locationId) {
+	public @ResponseBody List<EmployeeInfo> getemplistwhichisnotyearend(
+			@RequestParam("locationId") List<Integer> locationId) {
 
 		List<EmployeeInfo> employeeInfo = new ArrayList<EmployeeInfo>();
 
@@ -336,7 +334,7 @@ public class MasterAppController {
 		return employeeInfo;
 
 	}
- 
+
 	@RequestMapping(value = { "getLeaveListByLocIdAndEmp" }, method = RequestMethod.POST)
 	public @ResponseBody List<LeaveDetail> getLeaveListByLocIdAndEmp(@RequestParam("empId") int empId,
 			@RequestParam("calYrId") int calYrId) {
@@ -346,23 +344,23 @@ public class MasterAppController {
 		try {
 
 			employeeInfo = leaveDetailRepo.getLeaveListByLocIdAndEmp(empId, calYrId, 1);
-			 for (int i = 0; i < employeeInfo.size(); i++) {
-				  employeeInfo.get(i).setLeaveFromdt(DateConvertor.convertToDMY(employeeInfo.get(i).getLeaveFromdt()));
-				  employeeInfo.get(i).setLeaveTodt(DateConvertor.convertToDMY(employeeInfo.get(i).getLeaveTodt()));
-						  }
+			for (int i = 0; i < employeeInfo.size(); i++) {
+				employeeInfo.get(i).setLeaveFromdt(DateConvertor.convertToDMY(employeeInfo.get(i).getLeaveFromdt()));
+				employeeInfo.get(i).setLeaveTodt(DateConvertor.convertToDMY(employeeInfo.get(i).getLeaveTodt()));
+			}
 		} catch (Exception e) {
 
 			e.printStackTrace();
-		} 
+		}
 
-		return employeeInfo; 
+		return employeeInfo;
 
 	}
-	
+
 	@Autowired
 	EmployeeLeaveDetailRepo employeeLeaveDetailRepo;
-	
-	//new code akshay 20-08-2019
+
+	// new code akshay 20-08-2019
 	@RequestMapping(value = { "getLeaveListByLocIdAndEmpId" }, method = RequestMethod.POST)
 	public @ResponseBody List<EmployeeLeaveDetail> getLeaveListByLocIdAndEmpId(@RequestParam("empId") int empId,
 			@RequestParam("calYrId") int calYrId) {
@@ -370,25 +368,25 @@ public class MasterAppController {
 		List<EmployeeLeaveDetail> employeeInfo = new ArrayList<EmployeeLeaveDetail>();
 
 		try {
- 
+
 			employeeInfo = employeeLeaveDetailRepo.getLeaveListByLocIdAndEmp(empId, calYrId, 1);
-			
+
 		} catch (Exception e) {
 
 			e.printStackTrace();
-		} 
+		}
 
-		return employeeInfo; 
+		return employeeInfo;
 
 	}
-	 
+
 	@RequestMapping(value = { "/getEmpInfoListByTrailEmpId" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetLeaveStatus> getEmpInfoListByTrailEmpId(@RequestParam("leaveId") int leaveId) {
 
 		List<GetLeaveStatus> leaveStatus = new ArrayList<GetLeaveStatus>();
 		try {
 			leaveStatus = getLeaveStatusRepo.getEmpInfoByLeaveId(leaveId);
-			} catch (Exception e) { 
+		} catch (Exception e) {
 
 			e.printStackTrace();
 		}
@@ -396,7 +394,5 @@ public class MasterAppController {
 		return leaveStatus;
 
 	}
-	
-	
 
 }
